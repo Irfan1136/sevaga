@@ -214,9 +214,11 @@ export default function Signup() {
 
               <Input
                 placeholder="Pincode (6 digits)"
+                inputMode="numeric"
+                maxLength={6}
                 value={pincode}
                 onChange={(e) =>
-                  setPincode(e.target.value.replace(/[^0-9]/g, ""))
+                  setPincode(e.target.value.replace(/[^0-9]/g, "").slice(0,6))
                 }
               />
               {errors.pincode && (
@@ -248,9 +250,11 @@ export default function Signup() {
                 </Select>
                 <Input
                   placeholder="Pincode (6 digits)"
+                  inputMode="numeric"
+                  maxLength={6}
                   value={pincode}
                   onChange={(e) =>
-                    setPincode(e.target.value.replace(/[^0-9]/g, ""))
+                    setPincode(e.target.value.replace(/[^0-9]/g, "").slice(0,6))
                   }
                 />
               </div>
