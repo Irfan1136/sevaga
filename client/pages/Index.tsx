@@ -125,24 +125,24 @@ export default function Index() {
             {isAuth ? (
               <>
                 <a href="/profile">
-                  <Button size="lg" className="bg-primary text-primary-foreground">Go to Profile</Button>
+                  <Button size="lg" className="bg-primary text-primary-foreground btn-raise">Go to Profile</Button>
                 </a>
                 <a href="#quick-search">
-                  <Button variant="outline" size="lg">Quick Search</Button>
+                  <Button variant="outline" size="lg" className="btn-raise">Quick Search</Button>
                 </a>
               </>
             ) : (
               <>
                 <a href="/signup">
-                  <Button size="lg" className="bg-primary text-primary-foreground">Sign Up</Button>
+                  <Button size="lg" className="bg-primary text-primary-foreground btn-raise">Sign Up</Button>
                 </a>
                 <a href="/login" className="flex items-center">
-                  <Button variant="outline" size="lg">Login</Button>
+                  <Button variant="outline" size="lg" className="btn-raise">Login</Button>
                 </a>
               </>
             )}
             <a href="/register">
-              <Button variant="ghost" size="lg">Become a Donor</Button>
+              <Button variant="ghost" size="lg" className="btn-raise">Become a Donor</Button>
             </a>
           </div>
         </div>
