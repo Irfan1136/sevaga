@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useEffect, useState } from "react";
 import { Api } from "@/lib/api";
 
 import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
