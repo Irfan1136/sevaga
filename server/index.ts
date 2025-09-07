@@ -222,5 +222,15 @@ export function createServer() {
     res.json({ account: acc, donor: donor || null });
   });
 
+  // client-side JS error logging (for debugging in preview)
+  app.post("/api/client-log", (req, res) => {
+    try {
+      console.error("[CLIENT ERROR LOG]", JSON.stringify(req.body));
+    } catch (e) {
+      console.error("[CLIENT ERROR LOG] failed to stringify", e);
+    }
+    res.json({ ok: true });
+  });
+
   return app;
 }
