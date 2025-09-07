@@ -99,12 +99,12 @@ export default function Signup() {
           pincode,
         }),
       );
-      toast.success(
-        "Verification requested. Please enter OTP to complete signup.",
-      );
+      toast.success("Verification requested. Please enter OTP to complete signup.");
       // if dev code returned, show it in console (the server also logs it)
-      // the OTP will be printed in server logs and saved as CSV on the server side
-      // actual delivery via SMS/Email is not configured in dev mode
+      if ((resp as any)?.devCode) {
+        console.log("DEV OTP:", (resp as any).devCode);
+        toast.success(`Dev OTP: ${(resp as any).devCode}`);
+      }
     } catch (e) {
       console.error(e);
       toast.error("Failed to request verification");
