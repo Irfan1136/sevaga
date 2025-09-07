@@ -264,6 +264,36 @@ export function createServer() {
     res.json({ account: acc, donor: donor || null });
   });
 
+  // update profile (dev-only)
+  app.post("/api/me", (req, res) => {
+    const auth = (req.headers["authorization"] || req.headers["Authorization"]) as string | undefined;
+    if (!auth) return res.status(401).json({ error: "Not Authorized" });
+    const token = auth.replace(/^Bearer\s+/i, "");
+    const id = token.replace(/^dev-token-/, "");
+    const acc = accounts.find((a) => a.id === id);
+    if (!acc) return res.status(401).json({ error: "Not Authorized" });
+
+    const { name, mobile, email, avatarBase64 } = req.body as any;
+    if (name) acc.name = name;
+    if (mobile) acc.mobile = mobile;
+    if (email) acc.email = email;
+    if (avatarBase64) acc.avatarBase64 = avatarBase64;
+    // sync donor records that belong to this account
+    donors.forEach((d) => {
+      if (d.accountId === acc.id) {
+        if (mobile) d.mobile = mobile;
+        if (email) d.email = email;
+      }
+      // also try to match by previous mobile/email
+      if (acc.mobile && (d.mobile === acc.mobile || d.email === acc.email)) {
+        if (mobile) d.mobile = mobile;
+        if (email) d.email = email;
+      }
+    });
+
+    res.json({ ok: true, account: acc });
+  });
+
   // client-side JS error logging (for debugging in preview)
   app.post("/api/client-log", (req, res) => {
     try {
