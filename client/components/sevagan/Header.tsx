@@ -15,7 +15,8 @@ export default function Header() {
     setDarkState(!dark);
   };
 
-  const linkBase = "px-3 py-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground";
+  const linkBase =
+    "px-3 py-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground";
   const active = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${linkBase} bg-accent` : linkBase;
 
@@ -47,7 +48,12 @@ export default function Header() {
           </NavLink>
         </nav>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" aria-label="Toggle dark mode" onClick={toggleDark}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Toggle dark mode"
+            onClick={toggleDark}
+          >
             {dark ? <Sun /> : <Moon />}
           </Button>
           <NavLink to="/login">

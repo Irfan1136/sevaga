@@ -38,8 +38,7 @@ export interface Donor {
   accountId?: string; // optional link to account
 }
 
-export interface DonorCreateInput
-  extends Omit<Donor, "id" | "createdAt"> {}
+export interface DonorCreateInput extends Omit<Donor, "id" | "createdAt"> {}
 
 export interface DonorSearchQuery {
   bloodGroup?: BloodGroup;

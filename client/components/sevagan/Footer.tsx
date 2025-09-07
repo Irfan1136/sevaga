@@ -5,20 +5,35 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-2">About SEVAGAN</h3>
           <p className="text-muted-foreground">
-            A web-based blood donor management system connecting voluntary donors with people in urgent need. Fast, reliable, and free.
+            A web-based blood donor management system connecting voluntary
+            donors with people in urgent need. Fast, reliable, and free.
           </p>
         </div>
         <div>
           <h3 className="font-semibold mb-2">Resources</h3>
           <ul className="space-y-1 text-muted-foreground">
-            <li><a className="hover:text-foreground" href="/search">Find Donors</a></li>
-            <li><a className="hover:text-foreground" href="/register">Become a Donor</a></li>
-            <li><a className="hover:text-foreground" href="/request">Request Blood</a></li>
+            <li>
+              <a className="hover:text-foreground" href="/search">
+                Find Donors
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-foreground" href="/register">
+                Become a Donor
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-foreground" href="/request">
+                Request Blood
+              </a>
+            </li>
           </ul>
         </div>
         <div>
           <h3 className="font-semibold mb-2">Contact</h3>
-          <p className="text-muted-foreground">For NGOs/Hospitals: verify via email during signup.</p>
+          <p className="text-muted-foreground">
+            For NGOs/Hospitals: verify via email during signup.
+          </p>
         </div>
       </div>
       <div className="py-4 text-center text-xs text-muted-foreground">

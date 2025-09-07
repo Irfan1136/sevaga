@@ -16,6 +16,10 @@ export function initTheme() {
     const stored = localStorage.getItem("sevagan-theme");
     if (stored === "dark") setDark(true);
     else if (stored === "light") setDark(false);
-    else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) setDark(true);
+    else if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    )
+      setDark(true);
   } catch {}
 }
