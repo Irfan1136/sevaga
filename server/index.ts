@@ -27,7 +27,11 @@ export function createServer() {
   // donors
   app.post("/api/donors", (req, res) => {
     const body = req.body;
-    const donor = { id: String(Date.now()) + Math.random().toString(36).slice(2, 8), createdAt: Date.now(), ...body };
+    const donor = {
+      id: String(Date.now()) + Math.random().toString(36).slice(2, 8),
+      createdAt: Date.now(),
+      ...body,
+    };
     donors.push(donor);
     res.json(donor);
   });
@@ -35,7 +39,8 @@ export function createServer() {
   app.get("/api/donors", (req, res) => {
     const { bloodGroup, city, pincode } = req.query as Record<string, string>;
     let results = donors.slice().reverse();
-    if (bloodGroup) results = results.filter((d) => d.bloodGroup === bloodGroup);
+    if (bloodGroup)
+      results = results.filter((d) => d.bloodGroup === bloodGroup);
     if (city) results = results.filter((d) => d.city === city);
     if (pincode) results = results.filter((d) => d.pincode === pincode);
     res.json({ results, total: results.length });
@@ -44,7 +49,11 @@ export function createServer() {
   // needs
   app.post("/api/needs", (req, res) => {
     const body = req.body;
-    const need = { id: String(Date.now()) + Math.random().toString(36).slice(2, 8), createdAt: Date.now(), ...body };
+    const need = {
+      id: String(Date.now()) + Math.random().toString(36).slice(2, 8),
+      createdAt: Date.now(),
+      ...body,
+    };
     needs.push(need);
     // notify via SSE clients
     sseClients.forEach((s) => s.sendEvent(JSON.stringify(need)));
@@ -81,10 +90,19 @@ export function createServer() {
     const key = mobile || email || accountType;
     const rec = otps[key];
     if (!rec) return res.status(400).json({ error: "No OTP requested" });
-    if (rec.expiresAt < Date.now()) return res.status(400).json({ error: "OTP expired" });
+    if (rec.expiresAt < Date.now())
+      return res.status(400).json({ error: "OTP expired" });
     if (rec.code !== otp) return res.status(400).json({ error: "Invalid OTP" });
     // create fake account
-    const account = { id: String(Date.now()), type: accountType, name: mobile || email, mobile: mobile || undefined, email: email || undefined, createdAt: Date.now(), verifiedAt: Date.now() };
+    const account = {
+      id: String(Date.now()),
+      type: accountType,
+      name: mobile || email,
+      mobile: mobile || undefined,
+      email: email || undefined,
+      createdAt: Date.now(),
+      verifiedAt: Date.now(),
+    };
     res.json({ token: "dev-token-" + account.id, account });
   });
 

@@ -58,7 +58,12 @@ export default function Header() {
           </Button>
           <Button
             variant="outline"
-            onClick={() => window.open("https://08aa4c455b65408fba27df2df5bfc015-d518e86ad4d947819c91e138c.projects.builder.codes/","_blank")}
+            onClick={() =>
+              window.open(
+                "https://08aa4c455b65408fba27df2df5bfc015-d518e86ad4d947819c91e138c.projects.builder.codes/",
+                "_blank",
+              )
+            }
             className="hidden sm:inline-flex"
           >
             Open Preview
