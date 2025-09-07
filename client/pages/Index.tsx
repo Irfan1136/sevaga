@@ -57,15 +57,19 @@ export default function Index() {
 
   const notifyDonor = async (d: any) => {
     try {
-      await fetch('/api/notify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobile: d.mobile, donorId: d.id, message: `There is a blood request matching your profile. Please check SEVAGAN.` }),
+      await fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mobile: d.mobile,
+          donorId: d.id,
+          message: `There is a blood request matching your profile. Please check SEVAGAN.`,
+        }),
       });
-      toast.success('Notification sent (dev)');
+      toast.success("Notification sent (dev)");
     } catch (err) {
       console.error(err);
-      toast.error('Failed to send notification');
+      toast.error("Failed to send notification");
     }
   };
 
@@ -73,11 +77,11 @@ export default function Index() {
     // preload about and stats
     (async () => {
       try {
-        const ab = await fetch('/api/about').then((r) => r.json());
+        const ab = await fetch("/api/about").then((r) => r.json());
         setAbout(ab);
       } catch (e) {}
       try {
-        const s = await fetch('/api/stats').then((r) => r.json());
+        const s = await fetch("/api/stats").then((r) => r.json());
         if (s?.accounts !== undefined) setRegisteredCount(s.accounts);
         else if (s?.donors !== undefined) setRegisteredCount(s.donors);
         else {
@@ -141,7 +145,12 @@ export default function Index() {
 
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-semibold">Quick Donor Search</h3>
-            <div className="text-sm text-muted-foreground">Registered donors: <span className="text-primary font-bold">{registeredCount ?? '—'}</span></div>
+            <div className="text-sm text-muted-foreground">
+              Registered donors:{" "}
+              <span className="text-primary font-bold">
+                {registeredCount ?? "—"}
+              </span>
+            </div>
           </div>
 
           <div className="grid gap-3 md:grid-cols-5">
@@ -174,7 +183,9 @@ export default function Index() {
               value={pincode}
               inputMode="numeric"
               maxLength={6}
-              onChange={(e) => setPincode(e.target.value.replace(/[^0-9]/g, "").slice(0, 6))}
+              onChange={(e) =>
+                setPincode(e.target.value.replace(/[^0-9]/g, "").slice(0, 6))
+              }
               className="md:col-span-1"
             />
             <Button
@@ -207,8 +218,18 @@ export default function Index() {
                     Mobile: <span className="font-medium">{d.mobile}</span>
                   </div>
                   <div className="mt-3 flex gap-2">
-                    <button className="px-3 py-1 rounded bg-primary text-white text-sm" onClick={() => notifyDonor(d)}>Notify</button>
-                    <a className="px-3 py-1 rounded border text-sm" href={`/profile?token=dev-token-${d.accountId}`}>View</a>
+                    <button
+                      className="px-3 py-1 rounded bg-primary text-white text-sm"
+                      onClick={() => notifyDonor(d)}
+                    >
+                      Notify
+                    </button>
+                    <a
+                      className="px-3 py-1 rounded border text-sm"
+                      href={`/profile?token=dev-token-${d.accountId}`}
+                    >
+                      View
+                    </a>
                   </div>
                 </div>
               ))}

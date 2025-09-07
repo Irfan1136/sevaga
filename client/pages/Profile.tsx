@@ -55,7 +55,9 @@ export default function Profile() {
 
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(account.name || "");
-  const [avatar, setAvatar] = useState<string | null>(account.avatarBase64 || null);
+  const [avatar, setAvatar] = useState<string | null>(
+    account.avatarBase64 || null,
+  );
   const [saving, setSaving] = useState(false);
   const [editMobile, setEditMobile] = useState(false);
   const [mobileInput, setMobileInput] = useState(account.mobile || "");
@@ -68,7 +70,10 @@ export default function Profile() {
       const token = localStorage.getItem("sevagan_token");
       const res = await fetch("/api/me", {
         method: "POST",
-        headers: Object.assign({ "Content-Type": "application/json" }, token ? { Authorization: `Bearer ${token}` } : {}),
+        headers: Object.assign(
+          { "Content-Type": "application/json" },
+          token ? { Authorization: `Bearer ${token}` } : {},
+        ),
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(await res.text());
@@ -103,7 +108,11 @@ export default function Profile() {
       <div className="rounded-lg border bg-card p-6 flex items-center gap-6">
         <div className="flex-shrink-0">
           {avatar ? (
-            <img src={avatar} alt="avatar" className="w-20 h-20 rounded-full object-cover" />
+            <img
+              src={avatar}
+              alt="avatar"
+              className="w-20 h-20 rounded-full object-cover"
+            />
           ) : (
             <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold">
               {account.name ? account.name.trim().charAt(0).toUpperCase() : "U"}
@@ -114,33 +123,81 @@ export default function Profile() {
           <div className="flex items-center gap-3">
             {editingName ? (
               <>
-                <input className="border rounded px-2 py-1" value={nameInput} onChange={(e) => setNameInput(e.target.value)} />
-                <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => saveProfile({ name: nameInput })} disabled={saving}>Save</button>
-                <button className="px-3 py-1 border rounded" onClick={() => { setEditingName(false); setNameInput(account.name); }}>Cancel</button>
+                <input
+                  className="border rounded px-2 py-1"
+                  value={nameInput}
+                  onChange={(e) => setNameInput(e.target.value)}
+                />
+                <button
+                  className="px-3 py-1 bg-primary text-white rounded"
+                  onClick={() => saveProfile({ name: nameInput })}
+                  disabled={saving}
+                >
+                  Save
+                </button>
+                <button
+                  className="px-3 py-1 border rounded"
+                  onClick={() => {
+                    setEditingName(false);
+                    setNameInput(account.name);
+                  }}
+                >
+                  Cancel
+                </button>
               </>
             ) : (
               <>
                 <div className="text-lg font-semibold">{account.name}</div>
-                <button className="text-sm text-muted-foreground ml-2" onClick={() => setEditingName(true)}>✎ Edit</button>
+                <button
+                  className="text-sm text-muted-foreground ml-2"
+                  onClick={() => setEditingName(true)}
+                >
+                  ✎ Edit
+                </button>
               </>
             )}
           </div>
 
-          <div className="mt-2 text-sm text-muted-foreground">Account: {account.type}</div>
+          <div className="mt-2 text-sm text-muted-foreground">
+            Account: {account.type}
+          </div>
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <div className="text-xs text-muted-foreground">Email</div>
               {editEmail ? (
                 <div className="flex gap-2 mt-1">
-                  <input className="border rounded px-2 py-1 w-full" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} />
-                  <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => saveProfile({ email: emailInput })} disabled={saving}>Save</button>
-                  <button className="px-3 py-1 border rounded" onClick={() => { setEditEmail(false); setEmailInput(account.email || ""); }}>Cancel</button>
+                  <input
+                    className="border rounded px-2 py-1 w-full"
+                    value={emailInput}
+                    onChange={(e) => setEmailInput(e.target.value)}
+                  />
+                  <button
+                    className="px-3 py-1 bg-primary text-white rounded"
+                    onClick={() => saveProfile({ email: emailInput })}
+                    disabled={saving}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="px-3 py-1 border rounded"
+                    onClick={() => {
+                      setEditEmail(false);
+                      setEmailInput(account.email || "");
+                    }}
+                  >
+                    Cancel
+                  </button>
                 </div>
               ) : (
                 <div className="flex items-center justify-between mt-1">
                   <div>{account.email || "—"}</div>
-                  <button className="text-sm text-muted-foreground" onClick={() => setEditEmail(true)}>Edit</button>
+                  <button
+                    className="text-sm text-muted-foreground"
+                    onClick={() => setEditEmail(true)}
+                  >
+                    Edit
+                  </button>
                 </div>
               )}
             </div>
@@ -149,14 +206,41 @@ export default function Profile() {
               <div className="text-xs text-muted-foreground">Mobile</div>
               {editMobile ? (
                 <div className="flex gap-2 mt-1">
-                  <input className="border rounded px-2 py-1 w-full" value={mobileInput} onChange={(e) => setMobileInput(e.target.value.replace(/[^0-9]/g, '').slice(0,10))} />
-                  <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => saveProfile({ mobile: mobileInput })} disabled={saving}>Save</button>
-                  <button className="px-3 py-1 border rounded" onClick={() => { setEditMobile(false); setMobileInput(account.mobile || ""); }}>Cancel</button>
+                  <input
+                    className="border rounded px-2 py-1 w-full"
+                    value={mobileInput}
+                    onChange={(e) =>
+                      setMobileInput(
+                        e.target.value.replace(/[^0-9]/g, "").slice(0, 10),
+                      )
+                    }
+                  />
+                  <button
+                    className="px-3 py-1 bg-primary text-white rounded"
+                    onClick={() => saveProfile({ mobile: mobileInput })}
+                    disabled={saving}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="px-3 py-1 border rounded"
+                    onClick={() => {
+                      setEditMobile(false);
+                      setMobileInput(account.mobile || "");
+                    }}
+                  >
+                    Cancel
+                  </button>
                 </div>
               ) : (
                 <div className="flex items-center justify-between mt-1">
                   <div>{account.mobile || "—"}</div>
-                  <button className="text-sm text-muted-foreground" onClick={() => setEditMobile(true)}>Edit</button>
+                  <button
+                    className="text-sm text-muted-foreground"
+                    onClick={() => setEditMobile(true)}
+                  >
+                    Edit
+                  </button>
                 </div>
               )}
             </div>
@@ -164,8 +248,16 @@ export default function Profile() {
 
           <div className="mt-4">
             <label className="inline-flex items-center gap-2">
-              <input type="file" accept="image/*" onChange={(e) => onAvatarChange(e.target.files ? e.target.files[0] : null)} />
-              <span className="text-sm text-muted-foreground">Upload/Change photo (optional)</span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  onAvatarChange(e.target.files ? e.target.files[0] : null)
+                }
+              />
+              <span className="text-sm text-muted-foreground">
+                Upload/Change photo (optional)
+              </span>
             </label>
           </div>
         </div>

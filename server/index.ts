@@ -65,7 +65,10 @@ export function createServer() {
     try {
       const outDir = path.join(process.cwd(), "data");
       if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-      fs.appendFileSync(path.join(outDir, "notifications.log"), JSON.stringify(note) + "\n");
+      fs.appendFileSync(
+        path.join(outDir, "notifications.log"),
+        JSON.stringify(note) + "\n",
+      );
     } catch (err) {
       console.error("Failed to persist notification:", err);
     }
@@ -88,7 +91,11 @@ export function createServer() {
 
   // stats
   app.get("/api/stats", (_req, res) => {
-    res.json({ donors: donors.length, requests: needs.length, accounts: accounts.length });
+    res.json({
+      donors: donors.length,
+      requests: needs.length,
+      accounts: accounts.length,
+    });
   });
 
   // needs
@@ -266,7 +273,8 @@ export function createServer() {
 
   // update profile (dev-only)
   app.post("/api/me", (req, res) => {
-    const auth = (req.headers["authorization"] || req.headers["Authorization"]) as string | undefined;
+    const auth = (req.headers["authorization"] ||
+      req.headers["Authorization"]) as string | undefined;
     if (!auth) return res.status(401).json({ error: "Not Authorized" });
     const token = auth.replace(/^Bearer\s+/i, "");
     const id = token.replace(/^dev-token-/, "");
