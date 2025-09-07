@@ -21,6 +21,8 @@ export default function Verify() {
         email: profile.email,
         otp,
       });
+      // save token for session
+      localStorage.setItem("sevagan_token", resp.token);
       // on success, create donor record for individuals
       if (profile.type === "individual") {
         await Api.donors.create({
@@ -33,6 +35,7 @@ export default function Verify() {
           city: profile.city,
           pincode: profile.pincode,
           mobile: profile.mobile,
+          accountId: resp.account?.id,
         });
       }
       localStorage.removeItem("sevagan_signup_pending");
