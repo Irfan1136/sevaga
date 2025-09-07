@@ -92,9 +92,28 @@ export default function Index() {
     })();
   }, []);
 
+  const [isAuth, setIsAuth] = useState<boolean>(() => !!localStorage.getItem('sevagan_token'));
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'sevagan_token') setIsAuth(!!e.newValue);
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
+
   return (
-    <div className="bg-gradient-to-b from-secondary to-background">
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 md:grid-cols-2 items-center">
+    <div className="bg-gradient-to-b from-secondary to-background relative overflow-hidden">
+      <svg className="absolute right-0 top-0 opacity-10 w-96 h-96 transform translate-x-20 -translate-y-24 text-primary" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="g1" x1="0%" x2="100%">
+            <stop offset="0%" stopColor="#ff6b6b" />
+            <stop offset="100%" stopColor="#b21a1a" />
+          </linearGradient>
+        </defs>
+        <path fill="url(#g1)" d="M47.6,-37.9C60.1,-24.7,67.3,-3.3,63.9,15.1C60.5,33.5,46.5,49.7,28.4,57.8C10.3,66,-11.9,66,-30.4,58.5C-48.9,50.9,-63.6,35.9,-67,17.3C-70.3,-1.3,-62.3,-23.3,-47.6,-36.4C-32.9,-49.6,-16.5,-53.8,1.1,-54.9C18.7,-56.1,37.3,-54,47.6,-37.9Z" transform="translate(100 100)" />
+      </svg>
+
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 md:grid-cols-2 items-center relative z-10">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs text-secondary-foreground mb-4">
             <HeartPulse className="text-primary" size={16} />
@@ -108,15 +127,27 @@ export default function Index() {
             instantly. Free, secure, and built for the community.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#quick-search">
-              <Button size="lg">
-                <Search className="mr-2" /> Quick Search
-              </Button>
-            </a>
+            {isAuth ? (
+              <>
+                <a href="/profile">
+                  <Button size="lg" className="bg-primary text-primary-foreground">Go to Profile</Button>
+                </a>
+                <a href="#quick-search">
+                  <Button variant="outline" size="lg">Quick Search</Button>
+                </a>
+              </>
+            ) : (
+              <>
+                <a href="/signup">
+                  <Button size="lg" className="bg-primary text-primary-foreground">Sign Up</Button>
+                </a>
+                <a href="/login" className="flex items-center">
+                  <Button variant="outline" size="lg">Login</Button>
+                </a>
+              </>
+            )}
             <a href="/register">
-              <Button variant="outline" size="lg">
-                Become a Donor
-              </Button>
+              <Button variant="ghost" size="lg">Become a Donor</Button>
             </a>
           </div>
         </div>
