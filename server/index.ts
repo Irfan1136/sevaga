@@ -184,7 +184,7 @@ export function createServer() {
     if (rec.expiresAt < Date.now())
       return res.status(400).json({ error: "OTP expired" });
     if (rec.code !== otp) return res.status(400).json({ error: "Invalid OTP" });
-    // create fake account
+    // create fake account and persist
     const account = {
       id: String(Date.now()),
       type: accountType,
@@ -194,7 +194,21 @@ export function createServer() {
       createdAt: Date.now(),
       verifiedAt: Date.now(),
     };
-    res.json({ token: "dev-token-" + account.id, account });
+    accounts.push(account);
+    const token = "dev-token-" + account.id;
+    res.json({ token, account });
+  });
+
+  app.get("/api/me", (req, res) => {
+    const auth = (req.headers["authorization"] || req.headers["Authorization"]) as string | undefined;
+    if (!auth) return res.status(401).json({ error: "Not Authorized" });
+    const token = auth.replace(/^Bearer\s+/i, "");
+    const id = token.replace(/^dev-token-/, "");
+    const acc = accounts.find((a) => a.id === id);
+    if (!acc) return res.status(401).json({ error: "Not Authorized" });
+    // also return donor info if present
+    const donor = donors.find((d) => d.mobile === acc.mobile || d.email === acc.email);
+    res.json({ account: acc, donor: donor || null });
   });
 
   return app;
