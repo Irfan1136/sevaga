@@ -115,7 +115,10 @@ export function createServer() {
       console.error("Failed to save signup CSV:", err);
     }
 
-    res.json({ requestId: key, channel: mobile ? "sms" : "email" });
+    const resp: any = { requestId: key, channel: mobile ? "sms" : "email" };
+    // expose OTP code in dev for easier testing
+    if (process.env.NODE_ENV !== "production") resp.devCode = code;
+    res.json(resp);
   });
 
   app.post("/api/auth/verify-otp", (req, res) => {
