@@ -55,13 +55,16 @@
       // helper: if ?clear_token=1 present, clear localStorage auth keys and reload without the param
       try {
         const _p = new URLSearchParams(window.location.search);
-        if (_p.get('clear_token') === '1') {
-          try { localStorage.removeItem('sevagan_token'); localStorage.removeItem('sevagan_signup_pending'); } catch(e){}
+        if (_p.get("clear_token") === "1") {
+          try {
+            localStorage.removeItem("sevagan_token");
+            localStorage.removeItem("sevagan_signup_pending");
+          } catch (e) {}
           const clean = window.location.pathname + window.location.hash;
           history.replaceState({}, document.title, clean);
-          console.log('Cleared sevagan_token via clear_token param');
+          console.log("Cleared sevagan_token via clear_token param");
         }
-      } catch(e){}
+      } catch (e) {}
 
       function showError(errMsg, stack) {
         try {
