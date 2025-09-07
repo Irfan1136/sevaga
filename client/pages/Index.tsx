@@ -12,7 +12,6 @@ import { HeartPulse, Search } from "lucide-react";
 import { Api } from "@/lib/api";
 import { BloodGroup, TAMIL_NADU_CITIES } from "@shared/api";
 import { toast } from "sonner";
-import { useEffect, useMemo, useState } from "react";
 import HeroIllustration from "@/components/sevagan/HeroIllustration";
 import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
 
