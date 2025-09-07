@@ -25,6 +25,7 @@ export function createServer() {
   const donors: any[] = [];
   const needs: any[] = [];
   const otps: Record<string, { code: string; expiresAt: number }> = {};
+  const accounts: any[] = []; // persisted in-memory accounts for dev
 
   // donors
   app.post("/api/donors", (req, res) => {
