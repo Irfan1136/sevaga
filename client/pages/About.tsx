@@ -20,6 +20,17 @@ export default function About() {
         </div>
       </header>
 
+      <section className="rounded-lg p-6 bg-card border">
+        <h2 className="text-2xl font-bold mb-3">Why SEVAGAN?</h2>
+        <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
+          <li>OTP-secured login: mobile for individuals, email for NGOs/Hospitals</li>
+          <li>Structured database replaces spreadsheets</li>
+          <li>Filter donors by blood group, city, and pincode</li>
+          <li>Request blood with exact need time; notify in real-time</li>
+          <li>Works on mobile, tablet, and desktop</li>
+        </ul>
+      </section>
+
       <section className="grid gap-6 md:grid-cols-3">
         <div className="rounded-lg border bg-card p-6">
           <h3 className="font-semibold text-lg">Our Mission</h3>

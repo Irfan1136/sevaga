@@ -6,8 +6,15 @@ import { useEffect, useState } from "react";
 
 export default function Header() {
   const [dark, setDarkState] = useState(false);
+  const [isAuth, setIsAuth] = useState<boolean>(() => !!localStorage.getItem("sevagan_token"));
   useEffect(() => {
     setDarkState(isDark());
+    setIsAuth(!!localStorage.getItem("sevagan_token"));
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "sevagan_token") setIsAuth(!!e.newValue);
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   const toggleDark = () => {
@@ -56,14 +63,22 @@ export default function Header() {
           >
             {dark ? <Sun /> : <Moon />}
           </Button>
-          <NavLink to="/signup">
-            <Button className="bg-primary text-primary-foreground hover:opacity-95">
-              Sign Up
-            </Button>
-          </NavLink>
-          <NavLink to="/login">
-            <Button>Login</Button>
-          </NavLink>
+          {isAuth ? (
+            <NavLink to="/profile">
+              <Button variant="ghost">Profile</Button>
+            </NavLink>
+          ) : (
+            <>
+              <NavLink to="/signup">
+                <Button className="bg-primary text-primary-foreground hover:opacity-95">
+                  Sign Up
+                </Button>
+              </NavLink>
+              <NavLink to="/login">
+                <Button>Login</Button>
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </header>

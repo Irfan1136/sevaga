@@ -84,19 +84,6 @@ export default function Index() {
             </a>
           </div>
         </div>
-        <div className="rounded-2xl border bg-card p-6 shadow-sm">
-          <h2 className="font-semibold mb-4">Why SEVAGAN?</h2>
-          <ul className="space-y-3 text-sm text-muted-foreground">
-            <li>
-              • OTP-secured login: mobile for individuals, email for
-              NGOs/Hospitals
-            </li>
-            <li>• Structured database replaces spreadsheets</li>
-            <li>• Filter donors by blood group, city, and pincode</li>
-            <li>• Request blood with exact need time; notify in real-time</li>
-            <li>• Works on mobile, tablet, and desktop</li>
-          </ul>
-        </div>
       </section>
 
       <section id="quick-search" className="border-t bg-background">

@@ -68,7 +68,7 @@ export default function Login() {
           <Button type="submit" disabled={loading}>
             {loading ? "Sending..." : "Send OTP"}
           </Button>
-          <a href="/signup" className="text-sm text-muted-foreground">
+          <a href="/signup" className="text-sm text-red-600 font-semibold">
             New user? Sign up
           </a>
         </div>
