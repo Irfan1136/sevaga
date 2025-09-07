@@ -138,7 +138,9 @@ export default function Signup() {
       if (profile.type === "individual") {
         await Api.donors.create({
           name: profile.name,
-          age: profile.dob ? new Date().getFullYear() - new Date(profile.dob).getFullYear() : 0,
+          age: profile.dob
+            ? new Date().getFullYear() - new Date(profile.dob).getFullYear()
+            : 0,
           gender: profile.gender,
           bloodGroup: profile.bloodGroup,
           city: profile.city,
@@ -338,19 +340,41 @@ export default function Signup() {
       {showOtpModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="w-full max-w-sm bg-card border rounded-2xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-center mb-2">Enter OTP</h3>
-            <p className="text-xs text-muted-foreground text-center mb-4">Enter the 6-digit OTP sent to your mobile/email.</p>
+            <h3 className="text-lg font-semibold text-center mb-2">
+              Enter OTP
+            </h3>
+            <p className="text-xs text-muted-foreground text-center mb-4">
+              Enter the 6-digit OTP sent to your mobile/email.
+            </p>
             <div className="space-y-3">
-              <Input inputMode="numeric" maxLength={6} value={otpInput} onChange={(e)=>setOtpInput(e.target.value.replace(/[^0-9]/g,'').slice(0,6))} />
+              <Input
+                inputMode="numeric"
+                maxLength={6}
+                value={otpInput}
+                onChange={(e) =>
+                  setOtpInput(e.target.value.replace(/[^0-9]/g, "").slice(0, 6))
+                }
+              />
               <div className="flex gap-2">
-                <Button className="flex-1" onClick={verifyOtpInline} disabled={otpLoading}>{otpLoading?"Verifying...":"Verify OTP"}</Button>
-                <Button variant="outline" className="flex-1" onClick={()=>setShowOtpModal(false)}>Cancel</Button>
+                <Button
+                  className="flex-1"
+                  onClick={verifyOtpInline}
+                  disabled={otpLoading}
+                >
+                  {otpLoading ? "Verifying..." : "Verify OTP"}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setShowOtpModal(false)}
+                >
+                  Cancel
+                </Button>
               </div>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 }

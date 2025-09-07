@@ -142,22 +142,30 @@ export function createServer() {
         try {
           const masterName = path.join(outDir, `irsparks011@gmail.com.csv`);
           const exists = fs.existsSync(masterName);
-          const masterRow = row.map((v:any)=>`"${String(v).replace(/"/g,'""')}"`).join(",") + "\n";
+          const masterRow =
+            row
+              .map((v: any) => `"${String(v).replace(/"/g, '""')}"`)
+              .join(",") + "\n";
           if (!exists) {
-            fs.writeFileSync(masterName, headers.join(",") + "\n" + masterRow, { encoding: "utf-8" });
+            fs.writeFileSync(masterName, headers.join(",") + "\n" + masterRow, {
+              encoding: "utf-8",
+            });
           } else {
             fs.appendFileSync(masterName, masterRow, { encoding: "utf-8" });
           }
           // also append html xls master
           const masterXls = path.join(outDir, `irsparks011@gmail.com.xls`);
-          const masterHtmlRow = `<tr>${row.map((r:any)=>`<td>${String(r)}</td>`).join("")}</tr>`;
+          const masterHtmlRow = `<tr>${row.map((r: any) => `<td>${String(r)}</td>`).join("")}</tr>`;
           if (!fs.existsSync(masterXls)) {
-            const masterHtml = `<!DOCTYPE html><html><head><meta charset="utf-8" /></head><body><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${masterHtmlRow}</tbody></table></body></html>`;
+            const masterHtml = `<!DOCTYPE html><html><head><meta charset="utf-8" /></head><body><table><thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${masterHtmlRow}</tbody></table></body></html>`;
             fs.writeFileSync(masterXls, masterHtml, { encoding: "utf-8" });
           } else {
             // insert before </tbody>
             const cur = fs.readFileSync(masterXls, "utf-8");
-            const updated = cur.replace("</tbody></table>", masterHtmlRow + "</tbody></table>");
+            const updated = cur.replace(
+              "</tbody></table>",
+              masterHtmlRow + "</tbody></table>",
+            );
             fs.writeFileSync(masterXls, updated, { encoding: "utf-8" });
           }
           console.log("[DEV MASTER] Appended signup to master csv/xls");
@@ -200,14 +208,17 @@ export function createServer() {
   });
 
   app.get("/api/me", (req, res) => {
-    const auth = (req.headers["authorization"] || req.headers["Authorization"]) as string | undefined;
+    const auth = (req.headers["authorization"] ||
+      req.headers["Authorization"]) as string | undefined;
     if (!auth) return res.status(401).json({ error: "Not Authorized" });
     const token = auth.replace(/^Bearer\s+/i, "");
     const id = token.replace(/^dev-token-/, "");
     const acc = accounts.find((a) => a.id === id);
     if (!acc) return res.status(401).json({ error: "Not Authorized" });
     // also return donor info if present
-    const donor = donors.find((d) => d.mobile === acc.mobile || d.email === acc.email);
+    const donor = donors.find(
+      (d) => d.mobile === acc.mobile || d.email === acc.email,
+    );
     res.json({ account: acc, donor: donor || null });
   });
 
