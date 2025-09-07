@@ -73,7 +73,16 @@ export default function Signup() {
         accountType: type,
         mobile: type === "individual" ? mobile : undefined,
         email: type !== "individual" ? email : undefined,
-        profile: { name, mobile, email, bloodGroup, gender, dob, city, pincode },
+        profile: {
+          name,
+          mobile,
+          email,
+          bloodGroup,
+          gender,
+          dob,
+          city,
+          pincode,
+        },
       });
       // store pending signup locally so we can complete after OTP verification
       localStorage.setItem(
@@ -90,7 +99,9 @@ export default function Signup() {
           pincode,
         }),
       );
-      toast.success("Verification requested. Please enter OTP to complete signup.");
+      toast.success(
+        "Verification requested. Please enter OTP to complete signup.",
+      );
       // if dev code returned, show it in console (the server also logs it)
       // the OTP will be printed in server logs and saved as CSV on the server side
       // actual delivery via SMS/Email is not configured in dev mode

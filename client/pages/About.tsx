@@ -2,9 +2,13 @@ export default function About() {
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 space-y-8">
       <header className="text-center">
-        <h1 className="text-3xl font-extrabold text-primary">About Irfan's Sparks</h1>
+        <h1 className="text-3xl font-extrabold text-primary">
+          About Irfan's Sparks
+        </h1>
         <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-          Irfan's Sparks connects voluntary blood donors to people in urgent need — faster, safer, and completely free. Built mobile-first for quick response and easy use on phones.
+          Irfan's Sparks connects voluntary blood donors to people in urgent
+          need — faster, safer, and completely free. Built mobile-first for
+          quick response and easy use on phones.
         </p>
       </header>
 

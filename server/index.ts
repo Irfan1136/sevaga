@@ -94,7 +94,18 @@ export function createServer() {
         // sanitize filename
         const safe = identifier.replace(/[^a-z0-9@.\-\_]/gi, "_");
         const filename = path.join(outDir, `${safe}.csv`);
-        const headers = ["name","type","email","mobile","bloodGroup","gender","dob","city","pincode","createdAt"];
+        const headers = [
+          "name",
+          "type",
+          "email",
+          "mobile",
+          "bloodGroup",
+          "gender",
+          "dob",
+          "city",
+          "pincode",
+          "createdAt",
+        ];
         const row = [
           profile.name || "",
           accountType || "",
@@ -107,7 +118,11 @@ export function createServer() {
           profile.pincode || "",
           new Date().toISOString(),
         ];
-        const csv = headers.join(",") + "\n" + row.map((v:any)=>`"${String(v).replace(/"/g,'""')}"`).join(",") + "\n";
+        const csv =
+          headers.join(",") +
+          "\n" +
+          row.map((v: any) => `"${String(v).replace(/"/g, '""')}"`).join(",") +
+          "\n";
         fs.writeFileSync(filename, csv, { encoding: "utf-8" });
         console.log("[DEV CSV] Saved signup profile to", filename);
       }
