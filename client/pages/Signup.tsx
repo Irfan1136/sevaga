@@ -120,6 +120,44 @@ export default function Signup() {
     }
   };
 
+  const verifyOtpInline = async () => {
+    const pending = localStorage.getItem("sevagan_signup_pending");
+    if (!pending) return toast.error("No pending signup found");
+    const profile = JSON.parse(pending);
+    setOtpLoading(true);
+    try {
+      const res = await Api.auth.verifyOtp({
+        accountType: profile.type,
+        mobile: profile.mobile,
+        email: profile.email,
+        otp: otpInput,
+      });
+      // save token
+      localStorage.setItem("sevagan_token", res.token);
+      // create donor for individual
+      if (profile.type === "individual") {
+        await Api.donors.create({
+          name: profile.name,
+          age: profile.dob ? new Date().getFullYear() - new Date(profile.dob).getFullYear() : 0,
+          gender: profile.gender,
+          bloodGroup: profile.bloodGroup,
+          city: profile.city,
+          pincode: profile.pincode,
+          mobile: profile.mobile,
+          accountId: res.account?.id,
+        });
+      }
+      localStorage.removeItem("sevagan_signup_pending");
+      toast.success("Account verified and created");
+      setShowOtpModal(false);
+      window.location.href = "/profile";
+    } catch (err: any) {
+      toast.error(err?.message || "OTP verification failed");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-start justify-center bg-background py-8 px-4">
       <div className="w-full max-w-md bg-card border rounded-2xl p-6 shadow-md">
