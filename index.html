@@ -3,11 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello world project</title>
+    <title>SEVAGAN</title>
+    <style>
+      /* simple styles for error overlay */
+      #__err_overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); color:#fff; z-index:9999; display:none; padding:20px; overflow:auto; }
+      #__err_overlay pre { white-space:pre-wrap; color:#ffcccc }
+    </style>
   </head>
 
   <body>
-    <div id="root"></div>
+    <noscript><div style="padding:20px;background:#fee2e2;color:#991b1b">JavaScript is required to run this app.</div></noscript>
+    <div id="root">
+      <div style="padding:40px;text-align:center;color:#ef4444">Loading SEVAGAN…</div>
+    </div>
+
+    <div id="__err_overlay" role="alert">
+      <h2 style="margin-top:0;">Application Error</h2>
+      <div id="__err_msg"></div>
+      <pre id="__err_stack"></pre>
+      <div style="margin-top:12px;"><button onclick="document.getElementById('__err_overlay').style.display='none'" style="padding:8px 12px;border-radius:6px;border:none;background:#ef4444;color:#fff">Close</button></div>
+    </div>
+
+    <script>
+      function showError(errMsg, stack) {
+        try {
+          var o = document.getElementById('__err_overlay');
+          document.getElementById('__err_msg').textContent = errMsg || 'Error';
+          document.getElementById('__err_stack').textContent = stack || '';
+          o.style.display = 'block';
+          console.error('App error:', errMsg, stack);
+        } catch (e) { console.error(e); }
+      }
+      window.addEventListener('error', function(e){
+        showError(e.message, (e.error && e.error.stack) || e.filename+':'+e.lineno+':'+e.colno);
+      });
+      window.addEventListener('unhandledrejection', function(e){
+        showError((e.reason && e.reason.message) || 'Unhandled rejection', (e.reason && e.reason.stack) || '');
+      });
+    </script>
 
     <script type="module" src="/client/App.tsx"></script>
   </body>
