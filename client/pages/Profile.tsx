@@ -54,15 +54,22 @@ export default function Profile() {
     );
 
   const [editingName, setEditingName] = useState(false);
-  const [nameInput, setNameInput] = useState(account.name || "");
-  const [avatar, setAvatar] = useState<string | null>(
-    account.avatarBase64 || null,
-  );
+  const [nameInput, setNameInput] = useState<string>("");
+  const [avatar, setAvatar] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [editMobile, setEditMobile] = useState(false);
-  const [mobileInput, setMobileInput] = useState(account.mobile || "");
+  const [mobileInput, setMobileInput] = useState<string>("");
   const [editEmail, setEditEmail] = useState(false);
-  const [emailInput, setEmailInput] = useState(account.email || "");
+  const [emailInput, setEmailInput] = useState<string>("");
+
+  useEffect(() => {
+    if (account) {
+      setNameInput(account.name || "");
+      setAvatar(account.avatarBase64 || null);
+      setMobileInput(account.mobile || "");
+      setEmailInput(account.email || "");
+    }
+  }, [account]);
 
   const saveProfile = async (payload: any) => {
     setSaving(true);
