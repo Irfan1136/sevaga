@@ -11,6 +11,7 @@ import {
 import { HeartPulse, Search } from "lucide-react";
 import { Api } from "@/lib/api";
 import { BloodGroup, TAMIL_NADU_CITIES } from "@shared/api";
+import { toast } from "sonner";
 
 const BLOOD_GROUPS: BloodGroup[] = [
   "A+",
@@ -51,6 +52,20 @@ export default function Index() {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const notifyDonor = async (d: any) => {
+    try {
+      await fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile: d.mobile, donorId: d.id, message: `There is a blood request matching your profile. Please check SEVAGAN.` }),
+      });
+      toast.success('Notification sent (dev)');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to send notification');
     }
   };
 
@@ -189,6 +204,10 @@ export default function Index() {
                   </div>
                   <div className="mt-2 text-sm">
                     Mobile: <span className="font-medium">{d.mobile}</span>
+                  </div>
+                  <div className="mt-3 flex gap-2">
+                    <button className="px-3 py-1 rounded bg-primary text-white text-sm" onClick={() => notifyDonor(d)}>Notify</button>
+                    <a className="px-3 py-1 rounded border text-sm" href={`/profile?token=dev-token-${d.accountId}`}>View</a>
                   </div>
                 </div>
               ))}
