@@ -223,20 +223,29 @@ export default function Index() {
         <div className="rounded-xl border bg-card p-8 shadow-lg">
           <h2 className="text-2xl font-extrabold">About SEVAGAN</h2>
           <p className="mt-3 text-muted-foreground max-w-3xl">
-            SEVAGAN is a community-driven platform that connects voluntary blood donors to people in urgent need — faster, safer, and free for everyone. Built mobile-first for quick response and ease of use.
+            SEVAGAN is a community-driven platform that connects voluntary blood
+            donors to people in urgent need — faster, safer, and free for
+            everyone. Built mobile-first for quick response and ease of use.
           </p>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             <div className="rounded-lg border p-4 bg-background/50">
               <h4 className="font-semibold">OTP-secured</h4>
-              <p className="mt-1 text-sm text-muted-foreground">Mobile OTP for individuals, email verification for organizations.</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Mobile OTP for individuals, email verification for
+                organizations.
+              </p>
             </div>
             <div className="rounded-lg border p-4 bg-background/50">
               <h4 className="font-semibold">Search & Filter</h4>
-              <p className="mt-1 text-sm text-muted-foreground">Find donors by blood group, city, and pincode instantly.</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Find donors by blood group, city, and pincode instantly.
+              </p>
             </div>
             <div className="rounded-lg border p-4 bg-background/50">
               <h4 className="font-semibold">Realtime Requests</h4>
-              <p className="mt-1 text-sm text-muted-foreground">Live request feed for responders and donors.</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Live request feed for responders and donors.
+              </p>
             </div>
           </div>
         </div>
@@ -244,7 +253,10 @@ export default function Index() {
 
       <section className="bg-secondary/50 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-6 md:grid-cols-3">
-          <Stat label="Registered Donors" value={registeredCount ? String(registeredCount) : "—"} />
+          <Stat
+            label="Registered Donors"
+            value={registeredCount ? String(registeredCount) : "—"}
+          />
           <Stat label="Requests Today" value={"—"} />
           <Stat
             label="Cities Covered"
