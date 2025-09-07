@@ -95,13 +95,15 @@ export default function Index() {
     })();
   }, []);
 
-  const [isAuth, setIsAuth] = useState<boolean>(() => !!localStorage.getItem('sevagan_token'));
+  const [isAuth, setIsAuth] = useState<boolean>(
+    () => !!localStorage.getItem("sevagan_token"),
+  );
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
-      if (e.key === 'sevagan_token') setIsAuth(!!e.newValue);
+      if (e.key === "sevagan_token") setIsAuth(!!e.newValue);
     };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   return (
@@ -125,24 +127,40 @@ export default function Index() {
             {isAuth ? (
               <>
                 <a href="/profile">
-                  <Button size="lg" className="bg-primary text-primary-foreground btn-raise">Go to Profile</Button>
+                  <Button
+                    size="lg"
+                    className="bg-primary text-primary-foreground btn-raise"
+                  >
+                    Go to Profile
+                  </Button>
                 </a>
                 <a href="#quick-search">
-                  <Button variant="outline" size="lg" className="btn-raise">Quick Search</Button>
+                  <Button variant="outline" size="lg" className="btn-raise">
+                    Quick Search
+                  </Button>
                 </a>
               </>
             ) : (
               <>
                 <a href="/signup">
-                  <Button size="lg" className="bg-primary text-primary-foreground btn-raise">Sign Up</Button>
+                  <Button
+                    size="lg"
+                    className="bg-primary text-primary-foreground btn-raise"
+                  >
+                    Sign Up
+                  </Button>
                 </a>
                 <a href="/login" className="flex items-center">
-                  <Button variant="outline" size="lg" className="btn-raise">Login</Button>
+                  <Button variant="outline" size="lg" className="btn-raise">
+                    Login
+                  </Button>
                 </a>
               </>
             )}
             <a href="/register">
-              <Button variant="ghost" size="lg" className="btn-raise">Become a Donor</Button>
+              <Button variant="ghost" size="lg" className="btn-raise">
+                Become a Donor
+              </Button>
             </a>
           </div>
         </div>

@@ -103,25 +103,60 @@
 
   /* Micro animations and decorative helpers */
   @keyframes pulse {
-    0% { transform: translateY(0) scale(1); opacity: 0.95 }
-    50% { transform: translateY(-6px) scale(1.02); opacity: 1 }
-    100% { transform: translateY(0) scale(1); opacity: 0.95 }
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0.95;
+    }
+    50% {
+      transform: translateY(-6px) scale(1.02);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 0.95;
+    }
   }
   @keyframes float {
-    0% { transform: translateY(0) }
-    50% { transform: translateY(-8px) }
-    100% { transform: translateY(0) }
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+    100% {
+      transform: translateY(0);
+    }
   }
   @keyframes glow {
-    0% { filter: blur(0px) }
-    50% { filter: blur(6px) }
-    100% { filter: blur(0px) }
+    0% {
+      filter: blur(0px);
+    }
+    50% {
+      filter: blur(6px);
+    }
+    100% {
+      filter: blur(0px);
+    }
   }
 
-  .pulse-anim { animation: pulse 6s ease-in-out infinite; transform-origin: center; }
-  .float-anim { animation: float 8s ease-in-out infinite; }
-  .glow-anim { animation: glow 5s ease-in-out infinite; }
+  .pulse-anim {
+    animation: pulse 6s ease-in-out infinite;
+    transform-origin: center;
+  }
+  .float-anim {
+    animation: float 8s ease-in-out infinite;
+  }
+  .glow-anim {
+    animation: glow 5s ease-in-out infinite;
+  }
 
-  .btn-raise { transition: transform 180ms ease, box-shadow 180ms ease; }
-  .btn-raise:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(178,26,26,0.12); }
+  .btn-raise {
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease;
+  }
+  .btn-raise:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(178, 26, 26, 0.12);
+  }
 }
