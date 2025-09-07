@@ -69,7 +69,7 @@ export default function Signup() {
     if (!validate()) return;
     setLoading(true);
     try {
-      await Api.auth.requestOtp({
+      const resp = await Api.auth.requestOtp({
         accountType: type,
         mobile: type === "individual" ? mobile : undefined,
         email: type !== "individual" ? email : undefined,
