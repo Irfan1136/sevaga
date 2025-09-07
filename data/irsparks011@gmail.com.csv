@@ -1,3 +1,4 @@
 name,type,email,mobile,bloodGroup,gender,dob,city,pincode,createdAt
 "Irfans","individual","irsparks011@gmail.com","","O+","male","1990-01-01","Chennai","600001","2025-09-07T09:11:06.693Z"
 "Test User","individual","","9998887776","A+","male","1995-01-01","Chennai","600001","2025-09-07T09:31:29.482Z"
+"Diag User","individual","","9009009001","O+","male","1992-01-01","Chennai","600001","2025-09-07T09:39:40.202Z"
