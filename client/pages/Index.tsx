@@ -30,7 +30,6 @@ export default function Index() {
   const [bg, setBg] = useState<BloodGroup | undefined>();
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [about, setAbout] = useState<any | null>(null);
   const [registeredCount, setRegisteredCount] = useState<number | null>(null);
 
   const canSearch = useMemo(() => {
@@ -74,12 +73,8 @@ export default function Index() {
   };
 
   useEffect(() => {
-    // preload about and stats
+    // preload stats
     (async () => {
-      try {
-        const ab = await fetch("/api/about").then((r) => r.json());
-        setAbout(ab);
-      } catch (e) {}
       try {
         const s = await fetch("/api/stats").then((r) => r.json());
         if (s?.accounts !== undefined) setRegisteredCount(s.accounts);
@@ -129,20 +124,6 @@ export default function Index() {
 
       <section id="quick-search" className="border-t bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-          {about && (
-            <div className="rounded-lg border bg-card p-6 mb-6">
-              <h3 className="text-lg font-semibold">{about.title}</h3>
-              <p className="mt-2 text-muted-foreground">{about.hero}</p>
-              {about.features && (
-                <ul className="mt-3 list-disc pl-5 text-sm text-muted-foreground space-y-1">
-                  {about.features.map((f: string, i: number) => (
-                    <li key={i}>{f}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
-
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-semibold">Quick Donor Search</h3>
             <div className="text-sm text-muted-foreground">
@@ -238,9 +219,32 @@ export default function Index() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-10">
+        <div className="rounded-xl border bg-card p-8 shadow-lg">
+          <h2 className="text-2xl font-extrabold">About SEVAGAN</h2>
+          <p className="mt-3 text-muted-foreground max-w-3xl">
+            SEVAGAN is a community-driven platform that connects voluntary blood donors to people in urgent need — faster, safer, and free for everyone. Built mobile-first for quick response and ease of use.
+          </p>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="rounded-lg border p-4 bg-background/50">
+              <h4 className="font-semibold">OTP-secured</h4>
+              <p className="mt-1 text-sm text-muted-foreground">Mobile OTP for individuals, email verification for organizations.</p>
+            </div>
+            <div className="rounded-lg border p-4 bg-background/50">
+              <h4 className="font-semibold">Search & Filter</h4>
+              <p className="mt-1 text-sm text-muted-foreground">Find donors by blood group, city, and pincode instantly.</p>
+            </div>
+            <div className="rounded-lg border p-4 bg-background/50">
+              <h4 className="font-semibold">Realtime Requests</h4>
+              <p className="mt-1 text-sm text-muted-foreground">Live request feed for responders and donors.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-secondary/50 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-6 md:grid-cols-3">
-          <Stat label="Registered Donors" value={"—"} />
+          <Stat label="Registered Donors" value={registeredCount ? String(registeredCount) : "—"} />
           <Stat label="Requests Today" value={"—"} />
           <Stat
             label="Cities Covered"
