@@ -102,7 +102,7 @@ export default function About() {
           For NGO/Hospital verification or partnership, email:{" "}
           <a
             className="text-primary underline"
-            href="mailto:contact@sevagan.org"
+            href="mailto:irsparks011@gmail.com"
           >
             contact@sevagan.org
           </a>
