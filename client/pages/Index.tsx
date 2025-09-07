@@ -78,7 +78,8 @@ export default function Index() {
       } catch (e) {}
       try {
         const s = await fetch('/api/stats').then((r) => r.json());
-        if (s?.donors !== undefined) setRegisteredCount(s.donors);
+        if (s?.accounts !== undefined) setRegisteredCount(s.accounts);
+        else if (s?.donors !== undefined) setRegisteredCount(s.donors);
         else {
           const d = await Api.donors.search({});
           setRegisteredCount(d.total || d.results?.length || 0);
