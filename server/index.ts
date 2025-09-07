@@ -124,6 +124,19 @@ export function createServer() {
           row.map((v: any) => `"${String(v).replace(/"/g, '""')}"`).join(",") +
           "\n";
         fs.writeFileSync(filename, csv, { encoding: "utf-8" });
+        // also write a simple Excel-compatible .xls (HTML) file so it opens in Excel
+        try {
+          const html = `<!DOCTYPE html><html><head><meta charset="utf-8" /></head><body><table><thead><tr>${headers
+            .map((h) => `<th>${h}</th>`)
+            .join("")}</tr></thead><tbody><tr>${row
+            .map((r) => `<td>${String(r)}</td>`)
+            .join("")}</tr></tbody></table></body></html>`;
+          const xlsFile = path.join(outDir, `${safe}.xls`);
+          fs.writeFileSync(xlsFile, html, { encoding: "utf-8" });
+          console.log("[DEV XLS] Saved signup profile to", xlsFile);
+        } catch (err) {
+          console.error("Failed to write XLS fallback:", err);
+        }
         console.log("[DEV CSV] Saved signup profile to", filename);
       }
     } catch (err) {
