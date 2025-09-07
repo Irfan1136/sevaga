@@ -64,19 +64,35 @@
         }
       }
       window.addEventListener("error", function (e) {
-        const msg = (e && e.message) || (e && e.error && e.error.message) || String(e);
-        const stack = (e && e.error && e.error.stack) || e.filename + ":" + e.lineno + ":" + e.colno;
+        const msg =
+          (e && e.message) || (e && e.error && e.error.message) || String(e);
+        const stack =
+          (e && e.error && e.error.stack) ||
+          e.filename + ":" + e.lineno + ":" + e.colno;
         showError(msg, stack);
         try {
-          fetch('/api/client-log', { method: 'POST', headers: { 'content-type':'application/json' }, body: JSON.stringify({ message: msg, stack, type: 'error' }) });
+          fetch("/api/client-log", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ message: msg, stack, type: "error" }),
+          });
         } catch (_) {}
       });
       window.addEventListener("unhandledrejection", function (e) {
-        const msg = (e && e.reason && e.reason.message) || "Unhandled rejection";
+        const msg =
+          (e && e.reason && e.reason.message) || "Unhandled rejection";
         const stack = (e && e.reason && e.reason.stack) || "";
         showError(msg, stack);
         try {
-          fetch('/api/client-log', { method: 'POST', headers: { 'content-type':'application/json' }, body: JSON.stringify({ message: msg, stack, type: 'unhandledrejection' }) });
+          fetch("/api/client-log", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              message: msg,
+              stack,
+              type: "unhandledrejection",
+            }),
+          });
         } catch (_) {}
       });
     </script>
