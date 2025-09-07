@@ -26,6 +26,7 @@ export function createServer() {
   const needs: any[] = [];
   const otps: Record<string, { code: string; expiresAt: number }> = {};
   const accounts: any[] = []; // persisted in-memory accounts for dev
+  const notifications: any[] = [];
 
   // donors
   app.post("/api/donors", (req, res) => {
@@ -47,6 +48,47 @@ export function createServer() {
     if (city) results = results.filter((d) => d.city === city);
     if (pincode) results = results.filter((d) => d.pincode === pincode);
     res.json({ results, total: results.length });
+  });
+
+  // Notify (dev-only) - simulate SMS/notification to donor
+  app.post("/api/notify", (req, res) => {
+    const { mobile, message, donorId } = req.body as any;
+    const note = {
+      id: String(Date.now()),
+      mobile,
+      donorId,
+      message,
+      createdAt: Date.now(),
+    };
+    notifications.push(note);
+    // write to a log file for dev inspection
+    try {
+      const outDir = path.join(process.cwd(), "data");
+      if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+      fs.appendFileSync(path.join(outDir, "notifications.log"), JSON.stringify(note) + "\n");
+    } catch (err) {
+      console.error("Failed to persist notification:", err);
+    }
+    console.log("[NOTIFY SMS]", mobile, message);
+    res.json({ ok: true });
+  });
+
+  // simple about endpoint for dynamic content
+  app.get("/api/about", (_req, res) => {
+    res.json({
+      title: "About SEVAGAN",
+      hero: "SEVAGAN connects voluntary blood donors to people in urgent need — faster, safer, and completely free.",
+      features: [
+        "OTP-secured login: mobile for individuals, email for orgs",
+        "Search donors by blood group, city, and pincode",
+        "Realtime requests and notifications",
+      ],
+    });
+  });
+
+  // stats
+  app.get("/api/stats", (_req, res) => {
+    res.json({ donors: donors.length, requests: needs.length, accounts: accounts.length });
   });
 
   // needs
