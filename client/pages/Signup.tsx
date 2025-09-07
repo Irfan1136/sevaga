@@ -45,6 +45,9 @@ export default function Signup() {
   const [pincode, setPincode] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otpInput, setOtpInput] = useState("");
+  const [otpLoading, setOtpLoading] = useState(false);
 
   const validate = () => {
     const err: Record<string, string> = {};
