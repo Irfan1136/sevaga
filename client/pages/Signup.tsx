@@ -164,9 +164,11 @@ export default function Signup() {
                 />
                 <Input
                   placeholder="Mobile (10 digits)"
+                  inputMode="numeric"
+                  maxLength={10}
                   value={mobile}
                   onChange={(e) =>
-                    setMobile(e.target.value.replace(/[^0-9]/g, ""))
+                    setMobile(e.target.value.replace(/[^0-9]/g, "").slice(0,10))
                   }
                 />
               </div>
