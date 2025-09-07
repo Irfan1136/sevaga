@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Api } from "@/lib/api";
 
+import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
+
 export default function Profile() {
   const [account, setAccount] = useState<any | null>(null);
   const [donor, setDonor] = useState<any | null>(null);
