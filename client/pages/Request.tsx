@@ -25,6 +25,12 @@ const BLOOD_GROUPS: BloodGroup[] = [
 ];
 
 export default function RequestPage() {
+  // require login
+  useEffect(()=>{
+    const token = localStorage.getItem('sevagan_token');
+    if(!token) window.location.href = '/login';
+  },[]);
+
   const [form, setForm] = useState({
     bloodGroup: undefined as BloodGroup | undefined,
     city: "",
