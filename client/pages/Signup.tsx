@@ -73,6 +73,7 @@ export default function Signup() {
         accountType: type,
         mobile: type === "individual" ? mobile : undefined,
         email: type !== "individual" ? email : undefined,
+        profile: { name, mobile, email, bloodGroup, gender, dob, city, pincode },
       });
       // store pending signup locally so we can complete after OTP verification
       localStorage.setItem(
