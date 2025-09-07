@@ -334,6 +334,23 @@ export default function Signup() {
           </Button>
         </form>
       </div>
+
+      {showOtpModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="w-full max-w-sm bg-card border rounded-2xl p-6 shadow-lg">
+            <h3 className="text-lg font-semibold text-center mb-2">Enter OTP</h3>
+            <p className="text-xs text-muted-foreground text-center mb-4">Enter the 6-digit OTP sent to your mobile/email.</p>
+            <div className="space-y-3">
+              <Input inputMode="numeric" maxLength={6} value={otpInput} onChange={(e)=>setOtpInput(e.target.value.replace(/[^0-9]/g,'').slice(0,6))} />
+              <div className="flex gap-2">
+                <Button className="flex-1" onClick={verifyOtpInline} disabled={otpLoading}>{otpLoading?"Verifying...":"Verify OTP"}</Button>
+                <Button variant="outline" className="flex-1" onClick={()=>setShowOtpModal(false)}>Cancel</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
