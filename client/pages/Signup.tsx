@@ -168,7 +168,9 @@ export default function Signup() {
                   maxLength={10}
                   value={mobile}
                   onChange={(e) =>
-                    setMobile(e.target.value.replace(/[^0-9]/g, "").slice(0,10))
+                    setMobile(
+                      e.target.value.replace(/[^0-9]/g, "").slice(0, 10),
+                    )
                   }
                 />
               </div>
@@ -218,7 +220,7 @@ export default function Signup() {
                 maxLength={6}
                 value={pincode}
                 onChange={(e) =>
-                  setPincode(e.target.value.replace(/[^0-9]/g, "").slice(0,6))
+                  setPincode(e.target.value.replace(/[^0-9]/g, "").slice(0, 6))
                 }
               />
               {errors.pincode && (
@@ -254,7 +256,9 @@ export default function Signup() {
                   maxLength={6}
                   value={pincode}
                   onChange={(e) =>
-                    setPincode(e.target.value.replace(/[^0-9]/g, "").slice(0,6))
+                    setPincode(
+                      e.target.value.replace(/[^0-9]/g, "").slice(0, 6),
+                    )
                   }
                 />
               </div>
