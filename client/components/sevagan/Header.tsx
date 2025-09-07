@@ -57,7 +57,9 @@ export default function Header() {
             {dark ? <Sun /> : <Moon />}
           </Button>
           <NavLink to="/signup">
-            <Button className="bg-primary text-primary-foreground hover:opacity-95">Sign Up</Button>
+            <Button className="bg-primary text-primary-foreground hover:opacity-95">
+              Sign Up
+            </Button>
           </NavLink>
           <NavLink to="/login">
             <Button>Login</Button>

@@ -4,11 +4,18 @@ export default function About() {
       <header className="rounded-xl overflow-hidden">
         <div className="bg-gradient-to-r from-primary to-[#b21a1a] text-white py-12 px-6">
           <h1 className="text-3xl font-extrabold">About Irfan's Sparks</h1>
-          <p className="mt-2 max-w-2xl">Irfan's Sparks connects voluntary blood donors to people in urgent need — faster, safer, and completely free. Built mobile-first for quick response and easy use on phones.</p>
+          <p className="mt-2 max-w-2xl">
+            Irfan's Sparks connects voluntary blood donors to people in urgent
+            need — faster, safer, and completely free. Built mobile-first for
+            quick response and easy use on phones.
+          </p>
         </div>
         <div className="-mt-6 px-4">
           <div className="mx-auto max-w-4xl bg-card border rounded-xl p-6 shadow-lg">
-            <p className="text-sm text-muted-foreground">We focus on speed, reliability, and zero-cost access. Join our community to make a difference.</p>
+            <p className="text-sm text-muted-foreground">
+              We focus on speed, reliability, and zero-cost access. Join our
+              community to make a difference.
+            </p>
           </div>
         </div>
       </header>

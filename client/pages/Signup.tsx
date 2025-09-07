@@ -99,7 +99,9 @@ export default function Signup() {
           pincode,
         }),
       );
-      toast.success("Verification requested. Please enter OTP to complete signup.");
+      toast.success(
+        "Verification requested. Please enter OTP to complete signup.",
+      );
       // if dev code returned, show it in console (the server also logs it)
       if ((resp as any)?.devCode) {
         console.log("DEV OTP:", (resp as any).devCode);
