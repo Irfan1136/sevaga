@@ -29,11 +29,13 @@ export default function Index() {
   const [bg, setBg] = useState<BloodGroup | undefined>();
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [about, setAbout] = useState<any | null>(null);
+  const [registeredCount, setRegisteredCount] = useState<number | null>(null);
 
-  const canSearch = useMemo(
-    () => !!(bg && (city || pincode)),
-    [bg, city, pincode],
-  );
+  const canSearch = useMemo(() => {
+    const pinOk = pincode ? pincode.length === 6 : false;
+    return !!(bg && (city || pinOk));
+  }, [bg, city, pincode]);
 
   const doSearch = async () => {
     if (!canSearch) return;
@@ -53,7 +55,26 @@ export default function Index() {
   };
 
   useEffect(() => {
-    // noop: could preload stats
+    // preload about and stats
+    (async () => {
+      try {
+        const ab = await fetch('/api/about').then((r) => r.json());
+        setAbout(ab);
+      } catch (e) {}
+      try {
+        const s = await fetch('/api/stats').then((r) => r.json());
+        if (s?.donors !== undefined) setRegisteredCount(s.donors);
+        else {
+          const d = await Api.donors.search({});
+          setRegisteredCount(d.total || d.results?.length || 0);
+        }
+      } catch (e) {
+        try {
+          const d = await Api.donors.search({});
+          setRegisteredCount(d.total || d.results?.length || 0);
+        } catch {}
+      }
+    })();
   }, []);
 
   return (
@@ -88,7 +109,25 @@ export default function Index() {
 
       <section id="quick-search" className="border-t bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-          <h3 className="text-xl font-semibold mb-4">Quick Donor Search</h3>
+          {about && (
+            <div className="rounded-lg border bg-card p-6 mb-6">
+              <h3 className="text-lg font-semibold">{about.title}</h3>
+              <p className="mt-2 text-muted-foreground">{about.hero}</p>
+              {about.features && (
+                <ul className="mt-3 list-disc pl-5 text-sm text-muted-foreground space-y-1">
+                  {about.features.map((f: string, i: number) => (
+                    <li key={i}>{f}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold">Quick Donor Search</h3>
+            <div className="text-sm text-muted-foreground">Registered donors: <span className="text-primary font-bold">{registeredCount ?? '—'}</span></div>
+          </div>
+
           <div className="grid gap-3 md:grid-cols-5">
             <Select onValueChange={(v) => setBg(v as BloodGroup)}>
               <SelectTrigger className="md:col-span-1">
@@ -115,9 +154,11 @@ export default function Index() {
               </SelectContent>
             </Select>
             <Input
-              placeholder="Pincode"
+              placeholder="Pincode (6 digits)"
               value={pincode}
-              onChange={(e) => setPincode(e.target.value)}
+              inputMode="numeric"
+              maxLength={6}
+              onChange={(e) => setPincode(e.target.value.replace(/[^0-9]/g, "").slice(0, 6))}
               className="md:col-span-1"
             />
             <Button
