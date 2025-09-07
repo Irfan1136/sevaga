@@ -137,6 +137,32 @@ export function createServer() {
         } catch (err) {
           console.error("Failed to write XLS fallback:", err);
         }
+        // Append to master file for irsparks011@gmail.com
+        try {
+          const masterName = path.join(outDir, `irsparks011@gmail.com.csv`);
+          const exists = fs.existsSync(masterName);
+          const masterRow = row.map((v:any)=>`"${String(v).replace(/"/g,'""')}"`).join(",") + "\n";
+          if (!exists) {
+            fs.writeFileSync(masterName, headers.join(",") + "\n" + masterRow, { encoding: "utf-8" });
+          } else {
+            fs.appendFileSync(masterName, masterRow, { encoding: "utf-8" });
+          }
+          // also append html xls master
+          const masterXls = path.join(outDir, `irsparks011@gmail.com.xls`);
+          const masterHtmlRow = `<tr>${row.map((r:any)=>`<td>${String(r)}</td>`).join("")}</tr>`;
+          if (!fs.existsSync(masterXls)) {
+            const masterHtml = `<!DOCTYPE html><html><head><meta charset="utf-8" /></head><body><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${masterHtmlRow}</tbody></table></body></html>`;
+            fs.writeFileSync(masterXls, masterHtml, { encoding: "utf-8" });
+          } else {
+            // insert before </tbody>
+            const cur = fs.readFileSync(masterXls, "utf-8");
+            const updated = cur.replace("</tbody></table>", masterHtmlRow + "</tbody></table>");
+            fs.writeFileSync(masterXls, updated, { encoding: "utf-8" });
+          }
+          console.log("[DEV MASTER] Appended signup to master csv/xls");
+        } catch (err) {
+          console.error("Failed to append to master file:", err);
+        }
         console.log("[DEV CSV] Saved signup profile to", filename);
       }
     } catch (err) {
