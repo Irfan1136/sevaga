@@ -35,21 +35,18 @@ export default function Profile() {
     fetchMe();
   }, []);
 
+  useEffect(() => {
+    if (!loading && !account) {
+      // redirect to login if not authenticated
+      window.location.href = "/login";
+    }
+  }, [loading, account]);
+
   if (loading)
     return (
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10">
         <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
         <p className="text-muted-foreground">Loading profile…</p>
-      </div>
-    );
-
-  if (!account)
-    return (
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
-        <p className="text-muted-foreground">
-          Please login to view your profile.
-        </p>
       </div>
     );
 
