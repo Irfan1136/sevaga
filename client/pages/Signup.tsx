@@ -111,6 +111,7 @@ export default function Signup() {
         console.log("DEV OTP:", (resp as any).devCode);
         toast.success(`Dev OTP: ${(resp as any).devCode}`);
       }
+      setShowOtpModal(true);
     } catch (e) {
       console.error(e);
       toast.error("Failed to request verification");
