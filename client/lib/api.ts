@@ -25,10 +25,7 @@ async function http<T>(url: string, init?: RequestInit): Promise<T> {
 export const Api = {
   donors: {
     create: (input: DonorCreateInput) =>
-      http<Donor>("/api/donors", {
-        method: "POST",
-        body: JSON.stringify(input),
-      }),
+      http<Donor>("/api/donors", { method: "POST", body: JSON.stringify(input) }),
     search: (q: DonorSearchQuery) =>
       http<DonorSearchResponse>(
         `/api/donors?${new URLSearchParams(q as Record<string, string>).toString()}`,
@@ -36,10 +33,7 @@ export const Api = {
   },
   needs: {
     create: (input: BloodNeedCreateInput) =>
-      http<BloodNeedRequest>("/api/needs", {
-        method: "POST",
-        body: JSON.stringify(input),
-      }),
+      http<BloodNeedRequest>("/api/needs", { method: "POST", body: JSON.stringify(input) }),
     streamUrl: "/api/needs/stream",
   },
   auth: {
@@ -53,6 +47,7 @@ export const Api = {
         method: "POST",
         body: JSON.stringify(body),
       }),
+    me: () => http<{ account: any; donor?: any }>("/api/me"),
   },
 };
 
