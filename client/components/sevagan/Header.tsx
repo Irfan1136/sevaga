@@ -26,8 +26,8 @@ export default function Header() {
         <Link to="/" className="flex items-center gap-2">
           <Droplets className="text-primary" />
           <span className="font-extrabold tracking-wide text-lg">
-            <span className="text-primary">SEVA</span>
-            <span className="text-foreground">GAN</span>
+            <span className="text-primary">Irfan's</span>
+            <span className="text-foreground"> Sparks</span>
           </span>
         </Link>
         <nav className="hidden md:flex items-center gap-1">
