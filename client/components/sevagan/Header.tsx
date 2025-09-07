@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 
 export default function Header() {
   const [dark, setDarkState] = useState(false);
-  const [isAuth, setIsAuth] = useState<boolean>(() => !!localStorage.getItem("sevagan_token"));
+  const [isAuth, setIsAuth] = useState<boolean>(
+    () => !!localStorage.getItem("sevagan_token"),
+  );
   useEffect(() => {
     setDarkState(isDark());
     setIsAuth(!!localStorage.getItem("sevagan_token"));
