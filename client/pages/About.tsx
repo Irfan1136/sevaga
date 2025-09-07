@@ -104,7 +104,7 @@ export default function About() {
             className="text-primary underline"
             href="mailto:irsparks011@gmail.com"
           >
-            contact@sevagan.org
+            irsparks011@gmail.com
           </a>
         </p>
       </section>
