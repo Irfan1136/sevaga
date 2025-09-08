@@ -337,7 +337,7 @@ export default function Index() {
             label="Registered Donors"
             value={registeredCount ? String(registeredCount) : "—"}
           />
-          <Stat label="Requests Today" value={"—"} />
+          <Stat label="Requests Today" value={String((window as any).__requestsToday || "—")} />
           <Stat
             label="Districts Covered"
             value={"38"}
