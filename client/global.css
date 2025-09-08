@@ -94,6 +94,16 @@
     --sidebar-border: 0 0% 18%;
     --sidebar-ring: 0 72% 55%;
   }
+
+  /* Blood theme: warmer background and stronger primary */
+  .blood {
+    --background: 358 90% 96%;
+    --primary: 354 85% 40%;
+    --primary-foreground: 0 0% 100%;
+    --extra-red: 354 85% 36%;
+    --secondary: 358 95% 94%;
+    --secondary-foreground: 0 30% 20%;
+  }
 }
 
 @layer base {
