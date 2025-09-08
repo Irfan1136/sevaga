@@ -109,6 +109,8 @@ export default function Signup() {
       if ((resp as any)?.devCode) {
         console.log("DEV OTP:", (resp as any).devCode);
         toast.success(`Dev OTP: ${(resp as any).devCode}`);
+        // Prefill OTP input for dev convenience on this device
+        setOtpInput((resp as any).devCode);
       }
       setShowOtpModal(true);
     } catch (e) {
