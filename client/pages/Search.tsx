@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/select";
 import { Api } from "@/lib/api";
 import { BloodGroup, TAMIL_NADU_CITIES } from "@shared/api";
-import { useState } from "react";
 import { Search } from "lucide-react";
 
 const BLOOD_GROUPS: BloodGroup[] = [
