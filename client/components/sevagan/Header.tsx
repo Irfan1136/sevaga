@@ -101,13 +101,13 @@ export default function Header() {
             <>
               <div className="hidden md:flex">
                 <NavLink to="/signup">
-                  <Button className="bg-primary text-primary-foreground hover:opacity-95">
-                    Sign Up
-                  </Button>
-                </NavLink>
-                <NavLink to="/login">
-                  <Button>Login</Button>
-                </NavLink>
+                <Button className="bg-primary text-primary-foreground hover:opacity-95">
+                  Sign Up
+                </Button>
+              </NavLink>
+              <NavLink to="/login">
+                <Button className="bg-primary text-primary-foreground">Login</Button>
+              </NavLink>
               </div>
               <div className="md:hidden">
                 {/* On mobile, show quick access buttons inside the menu */}
