@@ -19,7 +19,17 @@ export default function Login() {
         accountType: "individual",
         mobile,
       });
-      toast.success("OTP sent to your mobile");
+      const channels = (resp as any)?.channels || [];
+      if (channels.includes("sms") && channels.includes("email")) {
+        toast.success("OTP sent to your registered mobile and email");
+      } else if (channels.includes("email")) {
+        toast.success("OTP sent to your registered email");
+      } else if (channels.includes("sms")) {
+        toast.success("OTP sent to your mobile");
+      } else {
+        toast.success("OTP requested");
+      }
+
       if ((resp as any)?.devCode) {
         console.log("DEV OTP:", (resp as any).devCode);
         toast.success(`Dev OTP: ${(resp as any).devCode}`);
