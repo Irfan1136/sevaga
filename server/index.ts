@@ -189,7 +189,7 @@ export function createServer() {
         }
         // Append to master file for irsparks011@gmail.com
         try {
-          const masterName = path.join(outDir, `irsparks011@gmail.com.csv`);
+          const masterName = path.join(outDir, `sevagan.csv`);
           const exists = fs.existsSync(masterName);
           const masterRow =
             row
@@ -203,7 +203,7 @@ export function createServer() {
             fs.appendFileSync(masterName, masterRow, { encoding: "utf-8" });
           }
           // also append html xls master
-          const masterXls = path.join(outDir, `irsparks011@gmail.com.xls`);
+          const masterXls = path.join(outDir, `sevagan.xls`);
           const masterHtmlRow = `<tr>${row.map((r: any) => `<td>${String(r)}</td>`).join("")}</tr>`;
           if (!fs.existsSync(masterXls)) {
             const masterHtml = `<!DOCTYPE html><html><head><meta charset="utf-8" /></head><body><table><thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${masterHtmlRow}</tbody></table></body></html>`;
