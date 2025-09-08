@@ -186,7 +186,8 @@ export default function Signup() {
           <Input
             placeholder="Full name / Organization"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            className="uppercase-input"
+            onChange={(e) => setName(e.target.value.toUpperCase())}
           />
           {errors.name && (
             <div className="text-red-600 text-sm">{errors.name}</div>
