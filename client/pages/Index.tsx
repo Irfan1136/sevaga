@@ -133,6 +133,15 @@ export default function Index() {
         <HeroIllustration />
       </Suspense>
 
+      <div className="hero-hearts" aria-hidden>
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
+          <g fill="hsl(var(--primary))">
+            <path d="M100 170s-10-6-18-12c-18-12-46-36-46-66 0-14 10-24 22-24 9 0 17 6 22 12 5-6 13-12 22-12 12 0 22 10 22 24 0 30-28 54-46 66-8 6-18 12-18 12z" opacity="0.08"/>
+            <path d="M160 40c0 12-10 22-22 22s-22-10-22-22 10-22 22-22 22 10 22 22z" opacity="0.06"/>
+          </g>
+        </svg>
+      </div>
+
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 md:grid-cols-2 items-center relative z-10">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs text-secondary-foreground mb-4">
