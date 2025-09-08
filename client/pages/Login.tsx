@@ -33,6 +33,8 @@ export default function Login() {
       if ((resp as any)?.devCode) {
         console.log("DEV OTP:", (resp as any).devCode);
         toast.success(`Dev OTP: ${(resp as any).devCode}`);
+        // Prefill OTP in dev to ease verification on the same device
+        setOtp((resp as any).devCode);
       }
       setShowOtp(true);
     } catch (e) {
