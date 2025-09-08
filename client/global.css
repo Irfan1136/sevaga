@@ -27,7 +27,7 @@
     /* Extra red accent for bright mode */
     --extra-red: 358 75% 45%;
 
-    --secondary: 0 100% 96%;
+    --secondary: 358 100% 96%;
     --secondary-foreground: 0 72% 25%;
 
     --muted: 0 15% 94%;
