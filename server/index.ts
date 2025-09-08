@@ -366,7 +366,7 @@ export function createServer() {
       const a1 = {
         id: "1",
         type: "individual",
-        name: "Alice",
+        name: "ALICE",
         mobile: "9990001111",
         email: undefined,
         createdAt: Date.now(),
@@ -375,7 +375,7 @@ export function createServer() {
       const a2 = {
         id: "2",
         type: "hospital",
-        name: "City Hospital",
+        name: "CITY HOSPITAL",
         mobile: undefined,
         email: "hospital@example.com",
         createdAt: Date.now(),
@@ -385,29 +385,16 @@ export function createServer() {
     }
     if (donors.length === 0) {
       donors.push(
-        {
-          id: "d1",
-          name: "Alice",
-          age: 30,
-          gender: "female",
-          bloodGroup: "A+",
-          city: "Chennai",
-          pincode: "600001",
-          mobile: "9990001111",
-          createdAt: Date.now(),
-          accountId: "1",
-        },
-        {
-          id: "d2",
-          name: "Bob",
-          age: 40,
-          gender: "male",
-          bloodGroup: "O+",
-          city: "Coimbatore",
-          pincode: "641001",
-          mobile: "8880002222",
-          createdAt: Date.now(),
-        },
+        { id: "D1", name: "ALICE", age: 30, gender: "female", bloodGroup: "A+", city: "CHENNAI", pincode: "600001", mobile: "9990001111", createdAt: Date.now(), accountId: "1" },
+        { id: "D2", name: "BOB", age: 40, gender: "male", bloodGroup: "O+", city: "COIMBATORE", pincode: "641001", mobile: "8880002222", createdAt: Date.now() },
+        { id: "D3", name: "CHARLIE", age: 28, gender: "male", bloodGroup: "B+", city: "MADURAI", pincode: "625001", mobile: "7770003333", createdAt: Date.now() },
+        { id: "D4", name: "DIVYA", age: 35, gender: "female", bloodGroup: "AB+", city: "TIRUCHIRAPPALLI", pincode: "620001", mobile: "6660004444", createdAt: Date.now() },
+        { id: "D5", name: "EVELYN", age: 22, gender: "female", bloodGroup: "O-", city: "SALEM", pincode: "636001", mobile: "5550005555", createdAt: Date.now() },
+        { id: "D6", name: "FARHAN", age: 31, gender: "male", bloodGroup: "A-", city: "TIRUNELVELI", pincode: "627001", mobile: "4440006666", createdAt: Date.now() },
+        { id: "D7", name: "GOPI", age: 45, gender: "male", bloodGroup: "AB-", city: "TIRUPPUR", pincode: "641601", mobile: "3330007777", createdAt: Date.now() },
+        { id: "D8", name: "HARI", age: 29, gender: "male", bloodGroup: "B-", city: "ERODE", pincode: "638001", mobile: "2220008888", createdAt: Date.now() },
+        { id: "D9", name: "INDIRA", age: 38, gender: "female", bloodGroup: "A+", city: "VELLORE", pincode: "632001", mobile: "1110009999", createdAt: Date.now() },
+        { id: "D10", name: "JAYA", age: 33, gender: "female", bloodGroup: "O+", city: "THOOTHUKUDI", pincode: "628001", mobile: "0001112223", createdAt: Date.now() }
       );
     }
     res.json({ ok: true });
