@@ -128,9 +128,9 @@ export default function About() {
           For NGO/Hospital verification or partnership, email:{" "}
           <a
             className="text-primary underline"
-            href="mailto:irsparks011@gmail.com"
+            href="mailto:sevagan@example.com"
           >
-            irsparks011@gmail.com
+            sevagan@example.com
           </a>
         </p>
       </section>
