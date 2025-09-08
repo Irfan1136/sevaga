@@ -167,7 +167,7 @@ export default function Index() {
                   </Button>
                 </a>
                 <a href="#quick-search">
-                  <Button variant="outline" size="lg" className="btn-raise">
+                  <Button size="lg" className="bg-primary text-primary-foreground btn-raise">
                     Quick Search
                   </Button>
                 </a>
@@ -190,11 +190,21 @@ export default function Index() {
               </>
             )}
             <a href="/register">
-              <Button variant="ghost" size="lg" className="btn-raise">
+              <Button variant="ghost" size="lg" className="bg-primary text-primary-foreground btn-raise">
                 Become a Donor
               </Button>
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* About SEVAGAN */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-10">
+        <div className="rounded-xl border bg-card p-8 shadow-lg">
+          <h2 className="text-2xl font-extrabold">About SEVAGAN</h2>
+          <p className="mt-3 text-muted-foreground max-w-3xl">
+            SEVAGAN connects voluntary blood donors to people in urgent need — faster, safer, and free for everyone. Built mobile-first for quick response and ease of use.
+          </p>
         </div>
       </section>
 
