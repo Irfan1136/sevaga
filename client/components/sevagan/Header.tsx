@@ -25,9 +25,9 @@ export default function Header() {
   };
 
   const linkBase =
-    "px-3 py-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground";
+    "px-3 py-2 rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground";
   const active = ({ isActive }: { isActive: boolean }) =>
-    isActive ? `${linkBase} bg-accent` : linkBase;
+    isActive ? `${linkBase} bg-primary/10` : linkBase;
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
