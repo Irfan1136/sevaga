@@ -326,8 +326,8 @@ export default function Index() {
           />
           <Stat label="Requests Today" value={"—"} />
           <Stat
-            label="Cities Covered"
-            value={TAMIL_NADU_CITIES.length.toString()}
+            label="Districts Covered"
+            value={"38"}
           />
         </div>
         {featuredDonors.length > 0 && (
