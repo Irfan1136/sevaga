@@ -124,6 +124,35 @@
     border-radius: 50%;
     pointer-events: none;
   }
+
+  /* Uppercase input helper */
+  .uppercase-input {
+    text-transform: uppercase;
+  }
+
+  /* Hero hearts graphic */
+  .hero-hearts {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    mix-blend-mode: normal;
+  }
+  .hero-hearts svg {
+    position: absolute;
+    right: -40px;
+    top: -20px;
+    width: 420px;
+    height: 420px;
+    opacity: 0.08;
+  }
+
+  /* Make primary buttons more prominent */
+  .btn-raise, .bg-primary {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
   .blood #quick-search .heart-deco {
     position: absolute;
     left: 18px;
