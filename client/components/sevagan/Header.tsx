@@ -155,6 +155,13 @@ export default function Header() {
             >
               Request Blood
             </NavLink>
+            <NavLink
+              to="/about"
+              className={active}
+              onClick={() => setMobileOpen(false)}
+            >
+              About
+            </NavLink>
             <div className="pt-2 border-t mt-2 flex gap-2">
               <NavLink to="/signup" onClick={() => setMobileOpen(false)}>
                 <Button className="bg-primary text-primary-foreground w-full">
