@@ -102,7 +102,7 @@ export default function Header() {
             </NavLink>
           ) : (
             <>
-              <div className="hidden md:flex">
+              <div className="hidden md:flex items-center gap-3">
                 <NavLink to="/signup">
                   <Button className="bg-primary text-primary-foreground hover:opacity-95">
                     Sign Up
