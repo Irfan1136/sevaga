@@ -302,13 +302,19 @@ export default function Index() {
         </div>
         {featuredDonors.length > 0 && (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
-            <h3 className="text-xl font-semibold mb-4">Recent Registered Donors</h3>
+            <h3 className="text-xl font-semibold mb-4">
+              Recent Registered Donors
+            </h3>
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
               {featuredDonors.map((d: any) => (
                 <div key={d.id} className="rounded-lg border p-4 bg-card">
                   <div className="font-semibold">{d.name}</div>
-                  <div className="text-sm text-muted-foreground">{d.city} • {d.pincode}</div>
-                  <div className="mt-2 text-sm">Mobile: <span className="font-medium">{d.mobile}</span></div>
+                  <div className="text-sm text-muted-foreground">
+                    {d.city} • {d.pincode}
+                  </div>
+                  <div className="mt-2 text-sm">
+                    Mobile: <span className="font-medium">{d.mobile}</span>
+                  </div>
                 </div>
               ))}
             </div>
