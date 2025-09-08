@@ -91,6 +91,10 @@ export default function Index() {
           const d = await Api.donors.search({});
           setRegisteredCount(d.total || d.results?.length || 0);
         }
+        // capture requestsToday for immediate display
+        try {
+          (window as any).__requestsToday = s?.requestsToday ?? 0;
+        } catch (e) {}
 
         // fetch featured donors
         const donorsResp = await Api.donors.search({});
