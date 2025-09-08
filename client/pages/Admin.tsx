@@ -63,11 +63,15 @@ export default function AdminPage() {
       <section className="space-y-6">
         <div className="rounded-lg border p-4 bg-card">
           <h2 className="font-semibold mb-2">Stats</h2>
-          <pre className="text-sm">{JSON.stringify(data?.stats || {}, null, 2)}</pre>
+          <pre className="text-sm">
+            {JSON.stringify(data?.stats || {}, null, 2)}
+          </pre>
         </div>
 
         <div className="rounded-lg border p-4 bg-card overflow-auto">
-          <h2 className="font-semibold mb-2">Accounts ({data?.accounts?.length ?? 0})</h2>
+          <h2 className="font-semibold mb-2">
+            Accounts ({data?.accounts?.length ?? 0})
+          </h2>
           <table className="w-full text-left text-sm">
             <thead>
               <tr>
@@ -87,7 +91,9 @@ export default function AdminPage() {
                   <td className="p-2 align-top">{a.name}</td>
                   <td className="p-2 align-top">{a.mobile ?? "—"}</td>
                   <td className="p-2 align-top">{a.email ?? "—"}</td>
-                  <td className="p-2 align-top">{new Date(a.createdAt).toLocaleString()}</td>
+                  <td className="p-2 align-top">
+                    {new Date(a.createdAt).toLocaleString()}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -95,7 +101,9 @@ export default function AdminPage() {
         </div>
 
         <div className="rounded-lg border p-4 bg-card overflow-auto">
-          <h2 className="font-semibold mb-2">Donors ({data?.donors?.length ?? 0})</h2>
+          <h2 className="font-semibold mb-2">
+            Donors ({data?.donors?.length ?? 0})
+          </h2>
           <table className="w-full text-left text-sm">
             <thead>
               <tr>
@@ -123,13 +131,21 @@ export default function AdminPage() {
         </div>
 
         <div className="rounded-lg border p-4 bg-card overflow-auto">
-          <h2 className="font-semibold mb-2">Notifications ({data?.notifications?.length ?? 0})</h2>
-          <pre className="text-sm">{JSON.stringify(data?.notifications || [], null, 2)}</pre>
+          <h2 className="font-semibold mb-2">
+            Notifications ({data?.notifications?.length ?? 0})
+          </h2>
+          <pre className="text-sm">
+            {JSON.stringify(data?.notifications || [], null, 2)}
+          </pre>
         </div>
 
         <div className="rounded-lg border p-4 bg-card overflow-auto">
-          <h2 className="font-semibold mb-2">Needs / Requests ({data?.needs?.length ?? 0})</h2>
-          <pre className="text-sm">{JSON.stringify(data?.needs || [], null, 2)}</pre>
+          <h2 className="font-semibold mb-2">
+            Needs / Requests ({data?.needs?.length ?? 0})
+          </h2>
+          <pre className="text-sm">
+            {JSON.stringify(data?.needs || [], null, 2)}
+          </pre>
         </div>
       </section>
     </div>

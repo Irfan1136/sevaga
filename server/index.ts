@@ -347,20 +347,67 @@ export function createServer() {
 
   // Admin/dev helpers
   app.get("/api/admin/data", (_req, res) => {
-    res.json({ accounts, donors, needs, notifications, stats: { donors: donors.length, requests: needs.length, accounts: accounts.length } });
+    res.json({
+      accounts,
+      donors,
+      needs,
+      notifications,
+      stats: {
+        donors: donors.length,
+        requests: needs.length,
+        accounts: accounts.length,
+      },
+    });
   });
 
   app.get("/api/admin/seed", (_req, res) => {
     // seed some sample accounts and donors if empty
     if (accounts.length === 0) {
-      const a1 = { id: "1", type: "individual", name: "Alice", mobile: "9990001111", email: undefined, createdAt: Date.now(), verifiedAt: Date.now() };
-      const a2 = { id: "2", type: "hospital", name: "City Hospital", mobile: undefined, email: "hospital@example.com", createdAt: Date.now(), verifiedAt: Date.now() };
+      const a1 = {
+        id: "1",
+        type: "individual",
+        name: "Alice",
+        mobile: "9990001111",
+        email: undefined,
+        createdAt: Date.now(),
+        verifiedAt: Date.now(),
+      };
+      const a2 = {
+        id: "2",
+        type: "hospital",
+        name: "City Hospital",
+        mobile: undefined,
+        email: "hospital@example.com",
+        createdAt: Date.now(),
+        verifiedAt: Date.now(),
+      };
       accounts.push(a1, a2);
     }
     if (donors.length === 0) {
       donors.push(
-        { id: "d1", name: "Alice", age: 30, gender: "female", bloodGroup: "A+", city: "Chennai", pincode: "600001", mobile: "9990001111", createdAt: Date.now(), accountId: "1" },
-        { id: "d2", name: "Bob", age: 40, gender: "male", bloodGroup: "O+", city: "Coimbatore", pincode: "641001", mobile: "8880002222", createdAt: Date.now() },
+        {
+          id: "d1",
+          name: "Alice",
+          age: 30,
+          gender: "female",
+          bloodGroup: "A+",
+          city: "Chennai",
+          pincode: "600001",
+          mobile: "9990001111",
+          createdAt: Date.now(),
+          accountId: "1",
+        },
+        {
+          id: "d2",
+          name: "Bob",
+          age: 40,
+          gender: "male",
+          bloodGroup: "O+",
+          city: "Coimbatore",
+          pincode: "641001",
+          mobile: "8880002222",
+          createdAt: Date.now(),
+        },
       );
     }
     res.json({ ok: true });
