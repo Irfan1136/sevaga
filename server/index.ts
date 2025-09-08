@@ -227,11 +227,42 @@ export function createServer() {
       console.error("Failed to save signup CSV:", err);
     }
 
-    const resp: any = { requestId: key, channel: mobile ? "sms" : "email" };
-    // expose OTP code in dev for easier testing
-    if (process.env.NODE_ENV !== "production") resp.devCode = code;
-    res.json(resp);
+    // Find if an account exists for the provided mobile/email and collect recipients
+  const recipients: string[] = [];
+  if (mobile || email) {
+    // find account by mobile or email
+    const acc = accounts.find((a) => a.mobile === mobile || a.email === email);
+    if (acc) {
+      if (acc.mobile) recipients.push(acc.mobile);
+      if (acc.email) recipients.push(acc.email);
+    } else {
+      if (mobile) recipients.push(mobile);
+      if (email) recipients.push(email);
+    }
+  } else {
+    // fallback to accountType key
+    recipients.push(accountType);
+  }
+
+  // de-dupe recipients
+  const uniq = Array.from(new Set(recipients));
+
+  // store OTP under each recipient so verification can use any of them
+  uniq.forEach((r) => {
+    otps[r] = { code, expiresAt: Date.now() + 1000 * 60 * 5 };
   });
+
+  const resp: any = { requestId: key, channels: [] as string[] };
+  uniq.forEach((r) => {
+    if (/^\d{10}$/.test(r)) resp.channels.push("sms");
+    else if (/@/.test(r)) resp.channels.push("email");
+    else resp.channels.push("other");
+  });
+
+  // expose OTP code in dev for easier testing
+  if (process.env.NODE_ENV !== "production") resp.devCode = code;
+  res.json(resp);
+});
 
   app.post("/api/auth/verify-otp", (req, res) => {
     const { accountType, mobile, email, otp } = req.body as any;
