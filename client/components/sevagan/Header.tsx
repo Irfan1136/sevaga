@@ -101,13 +101,15 @@ export default function Header() {
             <>
               <div className="hidden md:flex">
                 <NavLink to="/signup">
-                <Button className="bg-primary text-primary-foreground hover:opacity-95">
-                  Sign Up
-                </Button>
-              </NavLink>
-              <NavLink to="/login">
-                <Button className="bg-primary text-primary-foreground">Login</Button>
-              </NavLink>
+                  <Button className="bg-primary text-primary-foreground hover:opacity-95">
+                    Sign Up
+                  </Button>
+                </NavLink>
+                <NavLink to="/login">
+                  <Button className="bg-primary text-primary-foreground">
+                    Login
+                  </Button>
+                </NavLink>
               </div>
               <div className="md:hidden">
                 {/* On mobile, show quick access buttons inside the menu */}
@@ -121,21 +123,40 @@ export default function Header() {
       {mobileOpen && (
         <div className="md:hidden bg-background border-t">
           <div className="px-4 pt-4 pb-6 space-y-2">
-            <NavLink to="/" className={active} end onClick={() => setMobileOpen(false)}>
+            <NavLink
+              to="/"
+              className={active}
+              end
+              onClick={() => setMobileOpen(false)}
+            >
               Home
             </NavLink>
-            <NavLink to="/search" className={active} onClick={() => setMobileOpen(false)}>
+            <NavLink
+              to="/search"
+              className={active}
+              onClick={() => setMobileOpen(false)}
+            >
               Find Donors
             </NavLink>
-            <NavLink to="/register" className={active} onClick={() => setMobileOpen(false)}>
+            <NavLink
+              to="/register"
+              className={active}
+              onClick={() => setMobileOpen(false)}
+            >
               Become a Donor
             </NavLink>
-            <NavLink to="/request" className={active} onClick={() => setMobileOpen(false)}>
+            <NavLink
+              to="/request"
+              className={active}
+              onClick={() => setMobileOpen(false)}
+            >
               Request Blood
             </NavLink>
             <div className="pt-2 border-t mt-2 flex gap-2">
               <NavLink to="/signup" onClick={() => setMobileOpen(false)}>
-                <Button className="bg-primary text-primary-foreground w-full">Sign Up</Button>
+                <Button className="bg-primary text-primary-foreground w-full">
+                  Sign Up
+                </Button>
               </NavLink>
               <NavLink to="/login" onClick={() => setMobileOpen(false)}>
                 <Button className="w-full">Login</Button>

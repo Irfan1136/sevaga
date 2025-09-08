@@ -134,10 +134,20 @@ export default function Index() {
       </Suspense>
 
       <div className="hero-hearts" aria-hidden>
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
+        <svg
+          viewBox="0 0 200 200"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMinYMin meet"
+        >
           <g fill="hsl(var(--primary))">
-            <path d="M100 170s-10-6-18-12c-18-12-46-36-46-66 0-14 10-24 22-24 9 0 17 6 22 12 5-6 13-12 22-12 12 0 22 10 22 24 0 30-28 54-46 66-8 6-18 12-18 12z" opacity="0.08"/>
-            <path d="M160 40c0 12-10 22-22 22s-22-10-22-22 10-22 22-22 22 10 22 22z" opacity="0.06"/>
+            <path
+              d="M100 170s-10-6-18-12c-18-12-46-36-46-66 0-14 10-24 22-24 9 0 17 6 22 12 5-6 13-12 22-12 12 0 22 10 22 24 0 30-28 54-46 66-8 6-18 12-18 12z"
+              opacity="0.08"
+            />
+            <path
+              d="M160 40c0 12-10 22-22 22s-22-10-22-22 10-22 22-22 22 10 22 22z"
+              opacity="0.06"
+            />
           </g>
         </svg>
       </div>
@@ -167,7 +177,10 @@ export default function Index() {
                   </Button>
                 </a>
                 <a href="#quick-search">
-                  <Button size="lg" className="bg-primary text-primary-foreground btn-raise">
+                  <Button
+                    size="lg"
+                    className="bg-primary text-primary-foreground btn-raise"
+                  >
                     Quick Search
                   </Button>
                 </a>
@@ -183,14 +196,21 @@ export default function Index() {
                   </Button>
                 </a>
                 <a href="/login" className="flex items-center">
-                  <Button size="lg" className="bg-primary text-primary-foreground btn-raise">
+                  <Button
+                    size="lg"
+                    className="bg-primary text-primary-foreground btn-raise"
+                  >
                     Login
                   </Button>
                 </a>
               </>
             )}
             <a href="/register">
-              <Button variant="ghost" size="lg" className="bg-primary text-primary-foreground btn-raise">
+              <Button
+                variant="ghost"
+                size="lg"
+                className="bg-primary text-primary-foreground btn-raise"
+              >
                 Become a Donor
               </Button>
             </a>
@@ -203,7 +223,9 @@ export default function Index() {
         <div className="rounded-xl border bg-card p-8 shadow-lg">
           <h2 className="text-2xl font-extrabold">About SEVAGAN</h2>
           <p className="mt-3 text-muted-foreground max-w-3xl">
-            SEVAGAN connects voluntary blood donors to people in urgent need — faster, safer, and free for everyone. Built mobile-first for quick response and ease of use.
+            SEVAGAN connects voluntary blood donors to people in urgent need —
+            faster, safer, and free for everyone. Built mobile-first for quick
+            response and ease of use.
           </p>
         </div>
       </section>

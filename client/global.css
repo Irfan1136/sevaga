@@ -107,7 +107,11 @@
 
   /* Blood-themed quick search background */
   .blood #quick-search {
-    background: linear-gradient(180deg, hsl(var(--primary) / 0.06), hsl(var(--primary) / 0.03));
+    background: linear-gradient(
+      180deg,
+      hsl(var(--primary) / 0.06),
+      hsl(var(--primary) / 0.03)
+    );
     position: relative;
     overflow: hidden;
   }
@@ -118,7 +122,17 @@
     top: -40px;
     width: 220px;
     height: 220px;
-    background: radial-gradient(circle at 30% 30%, hsl(var(--primary) / 0.18), transparent 40%), radial-gradient(circle at 70% 70%, hsl(var(--primary) / 0.12), transparent 30%);
+    background:
+      radial-gradient(
+        circle at 30% 30%,
+        hsl(var(--primary) / 0.18),
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 70% 70%,
+        hsl(var(--primary) / 0.12),
+        transparent 30%
+      );
     transform: rotate(15deg);
     opacity: 0.85;
     border-radius: 50%;
@@ -149,7 +163,8 @@
   }
 
   /* Make primary buttons more prominent */
-  .btn-raise, .bg-primary {
+  .btn-raise,
+  .bg-primary {
     background-color: hsl(var(--primary));
     color: hsl(var(--primary-foreground));
   }
