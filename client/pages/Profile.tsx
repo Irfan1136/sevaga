@@ -53,6 +53,14 @@ export default function Profile() {
       </div>
     );
 
+  // If not loading and no account, navigate away and avoid rendering to prevent runtime errors
+  if (!loading && !account) {
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+    return null;
+  }
+
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState<string>("");
   const [avatar, setAvatar] = useState<string | null>(null);
