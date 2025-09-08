@@ -52,6 +52,10 @@ export default function Register() {
         mobile: form.mobile,
       });
       toast.success("Thanks for registering as a donor!");
+      // notify other tabs/pages to refresh stats
+      try {
+        localStorage.setItem("sevagan_refresh", String(Date.now()));
+      } catch (e) {}
       setForm({
         name: "",
         age: "",
