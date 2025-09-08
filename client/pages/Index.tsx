@@ -77,8 +77,10 @@ export default function Index() {
     }
   };
 
+  const [featuredDonors, setFeaturedDonors] = useState<any[]>([]);
+
   useEffect(() => {
-    // preload stats
+    // preload stats and featured donors
     (async () => {
       try {
         const s = await fetch("/api/stats").then((r) => r.json());
@@ -88,10 +90,27 @@ export default function Index() {
           const d = await Api.donors.search({});
           setRegisteredCount(d.total || d.results?.length || 0);
         }
+
+        // fetch featured donors
+        const donorsResp = await Api.donors.search({});
+        setFeaturedDonors(donorsResp.results.slice(0, 6));
+
+        // auto-seed sample data in dev if none
+        if (import.meta.env.MODE === "development") {
+          const total = s?.donors ?? s?.accounts ?? 0;
+          if (!total) {
+            await fetch("/api/admin/seed");
+            const s2 = await fetch("/api/stats").then((r) => r.json());
+            setRegisteredCount(s2.accounts ?? s2.donors ?? 0);
+            const donorsResp2 = await Api.donors.search({});
+            setFeaturedDonors(donorsResp2.results.slice(0, 6));
+          }
+        }
       } catch (e) {
         try {
           const d = await Api.donors.search({});
           setRegisteredCount(d.total || d.results?.length || 0);
+          setFeaturedDonors(d.results.slice(0, 6));
         } catch {}
       }
     })();
@@ -267,37 +286,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-10">
-        <div className="rounded-xl border bg-card p-8 shadow-lg">
-          <h2 className="text-2xl font-extrabold">About SEVAGAN</h2>
-          <p className="mt-3 text-muted-foreground max-w-3xl">
-            SEVAGAN is a community-driven platform that connects voluntary blood
-            donors to people in urgent need — faster, safer, and free for
-            everyone. Built mobile-first for quick response and ease of use.
-          </p>
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            <div className="rounded-lg border p-4 bg-background/50">
-              <h4 className="font-semibold">OTP-secured</h4>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Mobile OTP for individuals, email verification for
-                organizations.
-              </p>
-            </div>
-            <div className="rounded-lg border p-4 bg-background/50">
-              <h4 className="font-semibold">Search & Filter</h4>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Find donors by blood group, city, and pincode instantly.
-              </p>
-            </div>
-            <div className="rounded-lg border p-4 bg-background/50">
-              <h4 className="font-semibold">Realtime Requests</h4>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Live request feed for responders and donors.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Removed About SEVAGAN section as requested */}
 
       <section className="bg-secondary/50 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-6 md:grid-cols-3">
@@ -311,6 +300,20 @@ export default function Index() {
             value={TAMIL_NADU_CITIES.length.toString()}
           />
         </div>
+        {featuredDonors.length > 0 && (
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
+            <h3 className="text-xl font-semibold mb-4">Recent Registered Donors</h3>
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+              {featuredDonors.map((d: any) => (
+                <div key={d.id} className="rounded-lg border p-4 bg-card">
+                  <div className="font-semibold">{d.name}</div>
+                  <div className="text-sm text-muted-foreground">{d.city} • {d.pincode}</div>
+                  <div className="mt-2 text-sm">Mobile: <span className="font-medium">{d.mobile}</span></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
     </div>
   );
