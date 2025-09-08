@@ -76,7 +76,8 @@ export default function Register() {
           <Input
             placeholder="Full Name"
             value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            className="uppercase-input"
+            onChange={(e) => setForm({ ...form, name: e.target.value.toUpperCase() })}
             required
           />
           <Input
