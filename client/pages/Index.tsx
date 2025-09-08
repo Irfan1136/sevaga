@@ -174,7 +174,7 @@ export default function Index() {
                   </Button>
                 </a>
                 <a href="/login" className="flex items-center">
-                  <Button variant="outline" size="lg" className="btn-raise">
+                  <Button size="lg" className="bg-primary text-primary-foreground btn-raise">
                     Login
                   </Button>
                 </a>
