@@ -91,9 +91,14 @@ export function createServer() {
 
   // stats
   app.get("/api/stats", (_req, res) => {
+    const now = Date.now();
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+    const requestsToday = needs.filter((n) => n.createdAt >= startOfDay.getTime()).length;
     res.json({
       donors: donors.length,
       requests: needs.length,
+      requestsToday,
       accounts: accounts.length,
     });
   });
