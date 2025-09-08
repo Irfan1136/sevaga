@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Droplets, Heart } from "lucide-react";
+import { Moon, Sun, Droplets, Heart, Menu, X } from "lucide-react";
 import { isDark, setDark, isBlood, setBlood } from "@/lib/theme";
 import { useEffect, useState } from "react";
 
