@@ -108,7 +108,9 @@ export default function Index() {
 
   return (
     <div className="bg-gradient-to-b from-secondary to-background relative overflow-hidden">
-      <HeroIllustration />
+      <Suspense fallback={null}>
+        <HeroIllustration />
+      </Suspense>
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 md:grid-cols-2 items-center relative z-10">
         <div>
