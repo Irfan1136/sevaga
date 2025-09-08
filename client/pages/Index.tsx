@@ -218,17 +218,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* About SEVAGAN */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-10">
-        <div className="rounded-xl border bg-card p-8 shadow-lg">
-          <h2 className="text-2xl font-extrabold">About SEVAGAN</h2>
-          <p className="mt-3 text-muted-foreground max-w-3xl">
-            SEVAGAN connects voluntary blood donors to people in urgent need —
-            faster, safer, and free for everyone. Built mobile-first for quick
-            response and ease of use.
-          </p>
-        </div>
-      </section>
 
       <section id="quick-search" className="border-t bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
