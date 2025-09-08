@@ -12,7 +12,8 @@ import { HeartPulse, Search } from "lucide-react";
 import { Api } from "@/lib/api";
 import { BloodGroup, TAMIL_NADU_CITIES } from "@shared/api";
 import { toast } from "sonner";
-import HeroIllustration from "@/components/sevagan/HeroIllustration";
+import { Suspense, lazy } from "react";
+const HeroIllustration = lazy(() => import("@/components/sevagan/HeroIllustration"));
 import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
 
 const BLOOD_GROUPS: BloodGroup[] = [
