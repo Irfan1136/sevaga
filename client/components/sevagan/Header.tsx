@@ -29,6 +29,8 @@ export default function Header() {
   const active = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${linkBase} bg-accent` : linkBase;
 
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -39,6 +41,8 @@ export default function Header() {
             <span className="text-foreground">GAN</span>
           </span>
         </Link>
+
+        {/* desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
           <NavLink to="/" className={active} end>
             Home
@@ -53,7 +57,20 @@ export default function Header() {
             Request Blood
           </NavLink>
         </nav>
+
+        {/* mobile controls */}
         <div className="flex items-center gap-2">
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Open menu"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X /> : <Menu />}
+            </Button>
+          </div>
+
           <Button
             variant="ghost"
             size="icon"
@@ -75,24 +92,58 @@ export default function Header() {
           >
             {dark ? <Sun /> : <Moon />}
           </Button>
+
           {isAuth ? (
             <NavLink to="/profile">
               <Button variant="ghost">Profile</Button>
             </NavLink>
           ) : (
             <>
-              <NavLink to="/signup">
-                <Button className="bg-primary text-primary-foreground hover:opacity-95">
-                  Sign Up
-                </Button>
-              </NavLink>
-              <NavLink to="/login">
-                <Button>Login</Button>
-              </NavLink>
+              <div className="hidden md:flex">
+                <NavLink to="/signup">
+                  <Button className="bg-primary text-primary-foreground hover:opacity-95">
+                    Sign Up
+                  </Button>
+                </NavLink>
+                <NavLink to="/login">
+                  <Button>Login</Button>
+                </NavLink>
+              </div>
+              <div className="md:hidden">
+                {/* On mobile, show quick access buttons inside the menu */}
+              </div>
             </>
           )}
         </div>
       </div>
+
+      {/* Mobile menu panel */}
+      {mobileOpen && (
+        <div className="md:hidden bg-background border-t">
+          <div className="px-4 pt-4 pb-6 space-y-2">
+            <NavLink to="/" className={active} end onClick={() => setMobileOpen(false)}>
+              Home
+            </NavLink>
+            <NavLink to="/search" className={active} onClick={() => setMobileOpen(false)}>
+              Find Donors
+            </NavLink>
+            <NavLink to="/register" className={active} onClick={() => setMobileOpen(false)}>
+              Become a Donor
+            </NavLink>
+            <NavLink to="/request" className={active} onClick={() => setMobileOpen(false)}>
+              Request Blood
+            </NavLink>
+            <div className="pt-2 border-t mt-2 flex gap-2">
+              <NavLink to="/signup" onClick={() => setMobileOpen(false)}>
+                <Button className="bg-primary text-primary-foreground w-full">Sign Up</Button>
+              </NavLink>
+              <NavLink to="/login" onClick={() => setMobileOpen(false)}>
+                <Button className="w-full">Login</Button>
+              </NavLink>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
