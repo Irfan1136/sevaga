@@ -52,11 +52,21 @@ export default function Header() {
           <NavLink to="/request" className={active}>
             Request Blood
           </NavLink>
-          <NavLink to="/about" className={active}>
-            About
-          </NavLink>
         </nav>
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Toggle blood theme"
+            onClick={() => {
+              const next = !isBlood();
+              setBlood(next);
+              if (next) setDark(false);
+            }}
+          >
+            <Heart />
+          </Button>
+
           <Button
             variant="ghost"
             size="icon"
