@@ -123,10 +123,23 @@ export default function Index() {
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
       if (e.key === "sevagan_token") setIsAuth(!!e.newValue);
+      if (e.key === "sevagan_refresh") {
+        // refresh stats and featured donors
+        (async () => {
+          try {
+            const s = await fetch("/api/stats").then((r) => r.json());
+            setRegisteredCount(s?.donors ?? s?.accounts ?? registeredCount);
+            const donorsResp = await Api.donors.search({});
+            setFeaturedDonors(donorsResp.results.slice(0, 6));
+          } catch (err) {
+            console.error(err);
+          }
+        })();
+      }
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
-  }, []);
+  }, [registeredCount]);
 
   return (
     <div className="bg-gradient-to-b from-secondary to-background relative overflow-hidden">
