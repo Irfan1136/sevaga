@@ -104,6 +104,38 @@
     --secondary: 358 95% 94%;
     --secondary-foreground: 0 30% 20%;
   }
+
+  /* Blood-themed quick search background */
+  .blood #quick-search {
+    background: linear-gradient(180deg, hsl(var(--primary) / 0.06), hsl(var(--primary) / 0.03));
+    position: relative;
+    overflow: hidden;
+  }
+  .blood #quick-search::after {
+    content: "";
+    position: absolute;
+    right: -60px;
+    top: -40px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle at 30% 30%, hsl(var(--primary) / 0.18), transparent 40%), radial-gradient(circle at 70% 70%, hsl(var(--primary) / 0.12), transparent 30%);
+    transform: rotate(15deg);
+    opacity: 0.85;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .blood #quick-search .heart-deco {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+  .blood .btn-raise {
+    box-shadow: 0 8px 24px hsl(var(--extra-red) / 0.16);
+  }
 }
 
 @layer base {
