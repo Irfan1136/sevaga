@@ -13,7 +13,9 @@ import { Api } from "@/lib/api";
 import { BloodGroup, TAMIL_NADU_CITIES } from "@shared/api";
 import { toast } from "sonner";
 import { Suspense, lazy } from "react";
-const HeroIllustration = lazy(() => import("@/components/sevagan/HeroIllustration"));
+const HeroIllustration = lazy(
+  () => import("@/components/sevagan/HeroIllustration"),
+);
 import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
 
 const BLOOD_GROUPS: BloodGroup[] = [
