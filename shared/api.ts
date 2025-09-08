@@ -69,6 +69,16 @@ export interface AuthOTPRequestBody {
   accountType: AccountType;
   mobile?: string; // for individuals
   email?: string; // for hospital/ngo
+  profile?: {
+    name?: string;
+    mobile?: string;
+    email?: string;
+    bloodGroup?: BloodGroup;
+    gender?: Gender;
+    dob?: string;
+    city?: string;
+    pincode?: string;
+  };
 }
 
 export interface AuthOTPVerifyBody {
