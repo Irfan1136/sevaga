@@ -160,6 +160,7 @@
   }
   .btn-raise:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(178, 26, 26, 0.12);
+    /* Use extra-red variable for a stronger red glow in light (bright) mode */
+    box-shadow: 0 10px 30px hsl(var(--extra-red) / 0.12);
   }
 }
