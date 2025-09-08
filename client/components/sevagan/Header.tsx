@@ -56,6 +56,9 @@ export default function Header() {
           <NavLink to="/request" className={active}>
             Request Blood
           </NavLink>
+          <NavLink to="/about" className={active}>
+            About
+          </NavLink>
         </nav>
 
         {/* mobile controls */}
