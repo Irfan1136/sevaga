@@ -6,11 +6,9 @@ export default function About() {
       <DecorativeSVG className="absolute right-8 top-6 opacity-40" />
       <header className="rounded-xl overflow-hidden">
         <div className="bg-gradient-to-r from-primary to-[#b21a1a] text-white py-12 px-6">
-          <h1 className="text-3xl font-extrabold">About Irfan's Sparks</h1>
+          <h1 className="text-3xl font-extrabold">About SEVAGAN</h1>
           <p className="mt-2 max-w-2xl">
-            Irfan's Sparks connects voluntary blood donors to people in urgent
-            need — faster, safer, and completely free. Built mobile-first for
-            quick response and easy use on phones.
+            SEVAGAN connects voluntary blood donors to people in urgent need — faster, safer, and completely free. We currently cover 38 districts and focus on rapid, local response.
           </p>
         </div>
         <div className="-mt-6 px-4">
