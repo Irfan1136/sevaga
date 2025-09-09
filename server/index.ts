@@ -50,7 +50,9 @@ export function createServer() {
         (d) => (d.city || "").toLowerCase() === String(city).toLowerCase(),
       );
     if (pincode)
-      results = results.filter((d) => String(d.pincode || "").trim() === String(pincode).trim());
+      results = results.filter(
+        (d) => String(d.pincode || "").trim() === String(pincode).trim(),
+      );
     res.json({ results, total: results.length });
   });
 

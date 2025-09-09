@@ -68,14 +68,22 @@ export default function RequestPage() {
         baseTime = new Date();
       } else {
         // set to 9 AM of selected date
-        baseTime = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 9, 0, 0);
+        baseTime = new Date(
+          selectedDate.getFullYear(),
+          selectedDate.getMonth(),
+          selectedDate.getDate(),
+          9,
+          0,
+          0,
+        );
       }
       const opt = form.timeOption;
       let offsetMs = 0;
-      if (opt === 'emergency') offsetMs = 15 * 60 * 1000; // 15 min
-      else if (opt === 'within_1_hour') offsetMs = 60 * 60 * 1000;
-      else if (opt === 'within_5_hours') offsetMs = 5 * 60 * 60 * 1000;
-      else if (opt === 'today') offsetMs = 12 * 60 * 60 * 1000; // midday
+      if (opt === "emergency")
+        offsetMs = 15 * 60 * 1000; // 15 min
+      else if (opt === "within_1_hour") offsetMs = 60 * 60 * 1000;
+      else if (opt === "within_5_hours") offsetMs = 5 * 60 * 60 * 1000;
+      else if (opt === "today") offsetMs = 12 * 60 * 60 * 1000; // midday
 
       const neededAtISO = new Date(baseTime.getTime() + offsetMs).toISOString();
 
@@ -103,7 +111,7 @@ export default function RequestPage() {
         city: "",
         pincode: "",
         date: "",
-        timeOption: 'within_1_hour',
+        timeOption: "within_1_hour",
         notes: "",
       });
     } catch (e: any) {
