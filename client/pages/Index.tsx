@@ -301,7 +301,7 @@ export default function Index() {
             <div className="text-sm text-muted-foreground">
               Registered donors:{" "}
               <span className="text-primary font-bold">
-                {registeredCount ?? "���"}
+                {registeredCount ?? "—"}
               </span>
             </div>
           </div>
