@@ -365,7 +365,7 @@ export default function Index() {
                   <div className="mt-3 flex gap-2">
                     <button
                       className="px-3 py-1 rounded bg-primary text-white text-sm"
-                      onClick={() => notifyDonor(d)}
+                      onClick={() => void notifyDonor(d)}
                     >
                       Notify
                     </button>
