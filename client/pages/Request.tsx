@@ -160,22 +160,23 @@ export default function RequestPage() {
                 <div className="flex items-center space-x-2">
                   <button
                     className="text-sm px-3 py-1 rounded bg-red-600 text-white"
-                    onClick={() => {
+                    onClick={async () => {
                       const url = `${location.origin}/requests/${r.id}`;
                       if ((navigator as any).share) {
                         try {
-                          (navigator as any).share({ title: 'Blood request', text: `${r.bloodGroup} needed in ${r.city}`, url });
+                          await (navigator as any).share({ title: 'Blood request', text: `${r.bloodGroup} needed in ${r.city}`, url });
+                          toast.success('Request shared');
                           return;
-                        } catch (e) {}
+                        } catch (e) {
+                          // fallthrough to copy
+                        }
                       }
-                      navigator.clipboard
-                        .writeText(url)
-                        .then(() => {
-                          // eslint-disable-next-line no-void
-                          void Promise.resolve();
-                          // show toast via sonner
-                        })
-                        .catch(() => {});
+                      try {
+                        await navigator.clipboard.writeText(url);
+                        toast.success('Request link copied');
+                      } catch (e) {
+                        toast.error('Failed to copy link');
+                      }
                     }}
                   >
                     Share
