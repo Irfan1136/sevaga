@@ -132,6 +132,61 @@ export function createServer() {
     });
   });
 
+  // list needs
+  app.get('/api/needs', (_req, res) => {
+    res.json(needs.slice().reverse());
+  });
+
+  // get single need by id
+  app.get('/api/needs/:id', (req, res) => {
+    const id = req.params.id;
+    const n = needs.find((m) => m.id === id);
+    if (!n) return res.status(404).json({ error: 'Not found' });
+    res.json(n);
+  });
+
+  // respond to a need - donor expresses intent to donate
+  app.post('/api/needs/respond', (req, res) => {
+    const { needId, contact, message, donorName } = req.body as any;
+    const need = needs.find((n) => n.id === needId);
+    if (!need) return res.status(404).json({ error: 'Need not found' });
+    const resp = {
+      id: String(Date.now()) + Math.random().toString(36).slice(2, 8),
+      needId,
+      contact,
+      donorName,
+      message: message || 'I can donate',
+      createdAt: Date.now(),
+    };
+    // persist to notifications for admin inspection
+    notifications.push(resp);
+    // also write to log for dev
+    try {
+      const outDir = path.join(process.cwd(), 'data');
+      if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+      fs.appendFileSync(path.join(outDir, 'responses.log'), JSON.stringify(resp) + '\n');
+    } catch (err) {
+      console.error('Failed to persist response:', err);
+    }
+    // If the need requester has contact (requesterAccountId matches an account with mobile/email), notify them
+    let recipients: string[] = [];
+    if (need.requesterAccountId) {
+      const acc = accounts.find((a) => a.id === need.requesterAccountId);
+      if (acc) {
+        if (acc.mobile) recipients.push(acc.mobile);
+        if (acc.email) recipients.push(acc.email);
+      }
+    }
+    // fallback: if need has pincode/city we won't notify automatically
+    // add donor contact to recipients so admin can see
+    if (contact) recipients.push(contact);
+
+    // dedupe and log
+    recipients = Array.from(new Set(recipients));
+    console.log('[NEED RESPONSE]', resp, 'notify:', recipients);
+    res.json({ ok: true, resp, notifyTo: recipients });
+  });
+
   // auth otp (dev-only) - generate and verify
   app.post("/api/auth/request-otp", (req, res) => {
     const { accountType, mobile, email, profile } = req.body as any;

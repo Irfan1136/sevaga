@@ -135,13 +135,62 @@ export default function RequestPage() {
         <h2 className="text-xl font-semibold mb-4">Live Requests</h2>
         <div className="space-y-3 max-h-[600px] overflow-auto pr-2">
           {feed.map((r, i) => (
-            <div key={i} className="rounded-lg border p-4 bg-card">
-              <div className="font-semibold">
-                <span className="text-primary">{r.bloodGroup}</span> needed in{" "}
-                {r.city} ({r.pincode || "—"})
-              </div>
-              <div className="text-xs text-muted-foreground">
-                Need time: {new Date(r.neededAtISO).toLocaleString()}
+            <div key={r.id || i} className="rounded-lg border p-4 bg-card">
+              <div className="flex justify-between items-start">
+                <div>
+                  <div className="font-semibold">
+                    <span className="text-primary">{r.bloodGroup}</span> needed in {r.city} ({r.pincode || "—"})
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Need time: {new Date(r.neededAtISO).toLocaleString()}
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button
+                    className="text-sm px-3 py-1 rounded bg-red-600 text-white"
+                    onClick={() => {
+                      const url = `${location.origin}/requests/${r.id}`;
+                      if ((navigator as any).share) {
+                        try {
+                          (navigator as any).share({ title: 'Blood request', text: `${r.bloodGroup} needed in ${r.city}`, url });
+                          return;
+                        } catch (e) {}
+                      }
+                      navigator.clipboard
+                        .writeText(url)
+                        .then(() => {
+                          // eslint-disable-next-line no-void
+                          void Promise.resolve();
+                          // show toast via sonner
+                        })
+                        .catch(() => {});
+                    }}
+                  >
+                    Share
+                  </button>
+                  <button
+                    className="text-sm px-3 py-1 rounded border"
+                    onClick={async () => {
+                      // ask user for a contact number or email to share with requester
+                      const contact = window.prompt('Enter your mobile number or email to share with requester so they can contact you');
+                      if (!contact) {
+                        // eslint-disable-next-line no-void
+                        void Promise.resolve();
+                        return;
+                      }
+                      try {
+                        await Api.needs.respond({ needId: r.id, contact, message: 'I can donate' });
+                        // eslint-disable-next-line no-void
+                        void Promise.resolve();
+                      } catch (err) {
+                        // eslint-disable-next-line no-void
+                        void Promise.resolve();
+                      }
+                    }}
+                  >
+                    Donate
+                  </button>
+                </div>
               </div>
               {r.notes && <div className="mt-2 text-sm">{r.notes}</div>}
             </div>
