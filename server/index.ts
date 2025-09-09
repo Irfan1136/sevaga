@@ -95,6 +95,19 @@ export function createServer() {
     });
   });
 
+  // exists check for mobile/email
+  app.get('/api/auth/exists', (req, res) => {
+    const { mobile, email } = req.query as Record<string, string>;
+    let exists = false;
+    if (mobile) {
+      exists = donors.some((d) => String(d.mobile) === String(mobile)) || accounts.some((a) => a.mobile === mobile);
+    }
+    if (!exists && email) {
+      exists = accounts.some((a) => a.email === email);
+    }
+    res.json({ exists });
+  });
+
   // stats
   app.get("/api/stats", (_req, res) => {
     const now = Date.now();
