@@ -1,6 +1,7 @@
 import React from "react";
 
 import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
+import { toast } from "sonner";
 
 type State = {
   account: any | null;
