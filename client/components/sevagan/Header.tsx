@@ -77,19 +77,6 @@ export default function Header() {
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Toggle blood theme"
-            onClick={() => {
-              const next = !isBlood();
-              setBlood(next);
-              if (next) setDark(false);
-            }}
-          >
-            <Heart />
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
             aria-label="Toggle dark mode"
             onClick={toggleDark}
           >
