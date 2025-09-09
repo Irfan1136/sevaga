@@ -84,15 +84,6 @@ export default function Profile() {
     return null;
   }
 
-  const [editingName, setEditingName] = useState(false);
-  const [nameInput, setNameInput] = useState<string>("");
-  const [avatar, setAvatar] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [editMobile, setEditMobile] = useState(false);
-  const [mobileInput, setMobileInput] = useState<string>("");
-  const [editEmail, setEditEmail] = useState(false);
-  const [emailInput, setEmailInput] = useState<string>("");
-
   useEffect(() => {
     if (account) {
       setNameInput(account.name || "");
