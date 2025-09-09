@@ -15,6 +15,19 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
+      // Check if mobile exists (registered)
+      try {
+        const existsResp = await Api.auth.checkExists({ mobile });
+        if (!existsResp.exists) {
+          toast.error('Mobile not registered. Please sign up first.');
+          setLoading(false);
+          return;
+        }
+      } catch (err) {
+        // if check fails, allow request but warn
+        console.warn('Exists check failed', err);
+      }
+
       const resp = await Api.auth.requestOtp({
         accountType: "individual",
         mobile,
