@@ -94,7 +94,9 @@ export function createServer() {
     const now = Date.now();
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
-    const requestsToday = needs.filter((n) => n.createdAt >= startOfDay.getTime()).length;
+    const requestsToday = needs.filter(
+      (n) => n.createdAt >= startOfDay.getTime(),
+    ).length;
     res.json({
       donors: donors.length,
       requests: needs.length,
@@ -138,40 +140,43 @@ export function createServer() {
   });
 
   // list needs
-  app.get('/api/needs', (_req, res) => {
+  app.get("/api/needs", (_req, res) => {
     res.json(needs.slice().reverse());
   });
 
   // get single need by id
-  app.get('/api/needs/:id', (req, res) => {
+  app.get("/api/needs/:id", (req, res) => {
     const id = req.params.id;
     const n = needs.find((m) => m.id === id);
-    if (!n) return res.status(404).json({ error: 'Not found' });
+    if (!n) return res.status(404).json({ error: "Not found" });
     res.json(n);
   });
 
   // respond to a need - donor expresses intent to donate
-  app.post('/api/needs/respond', (req, res) => {
+  app.post("/api/needs/respond", (req, res) => {
     const { needId, contact, message, donorName } = req.body as any;
     const need = needs.find((n) => n.id === needId);
-    if (!need) return res.status(404).json({ error: 'Need not found' });
+    if (!need) return res.status(404).json({ error: "Need not found" });
     const resp = {
       id: String(Date.now()) + Math.random().toString(36).slice(2, 8),
       needId,
       contact,
       donorName,
-      message: message || 'I can donate',
+      message: message || "I can donate",
       createdAt: Date.now(),
     };
     // persist to notifications for admin inspection
     notifications.push(resp);
     // also write to log for dev
     try {
-      const outDir = path.join(process.cwd(), 'data');
+      const outDir = path.join(process.cwd(), "data");
       if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-      fs.appendFileSync(path.join(outDir, 'responses.log'), JSON.stringify(resp) + '\n');
+      fs.appendFileSync(
+        path.join(outDir, "responses.log"),
+        JSON.stringify(resp) + "\n",
+      );
     } catch (err) {
-      console.error('Failed to persist response:', err);
+      console.error("Failed to persist response:", err);
     }
     // If the need requester has contact (requesterAccountId matches an account with mobile/email), notify them
     let recipients: string[] = [];
@@ -188,7 +193,7 @@ export function createServer() {
 
     // dedupe and log
     recipients = Array.from(new Set(recipients));
-    console.log('[NEED RESPONSE]', resp, 'notify:', recipients);
+    console.log("[NEED RESPONSE]", resp, "notify:", recipients);
     res.json({ ok: true, resp, notifyTo: recipients });
   });
 
@@ -450,16 +455,117 @@ export function createServer() {
     }
     if (donors.length === 0) {
       donors.push(
-        { id: "D1", name: "ALICE", age: 30, gender: "female", bloodGroup: "A+", city: "CHENNAI", pincode: "600001", mobile: "9990001111", createdAt: Date.now(), accountId: "1" },
-        { id: "D2", name: "BOB", age: 40, gender: "male", bloodGroup: "O+", city: "COIMBATORE", pincode: "641001", mobile: "8880002222", createdAt: Date.now() },
-        { id: "D3", name: "CHARLIE", age: 28, gender: "male", bloodGroup: "B+", city: "MADURAI", pincode: "625001", mobile: "7770003333", createdAt: Date.now() },
-        { id: "D4", name: "DIVYA", age: 35, gender: "female", bloodGroup: "AB+", city: "TIRUCHIRAPPALLI", pincode: "620001", mobile: "6660004444", createdAt: Date.now() },
-        { id: "D5", name: "EVELYN", age: 22, gender: "female", bloodGroup: "O-", city: "SALEM", pincode: "636001", mobile: "5550005555", createdAt: Date.now() },
-        { id: "D6", name: "FARHAN", age: 31, gender: "male", bloodGroup: "A-", city: "TIRUNELVELI", pincode: "627001", mobile: "4440006666", createdAt: Date.now() },
-        { id: "D7", name: "GOPI", age: 45, gender: "male", bloodGroup: "AB-", city: "TIRUPPUR", pincode: "641601", mobile: "3330007777", createdAt: Date.now() },
-        { id: "D8", name: "HARI", age: 29, gender: "male", bloodGroup: "B-", city: "ERODE", pincode: "638001", mobile: "2220008888", createdAt: Date.now() },
-        { id: "D9", name: "INDIRA", age: 38, gender: "female", bloodGroup: "A+", city: "VELLORE", pincode: "632001", mobile: "1110009999", createdAt: Date.now() },
-        { id: "D10", name: "JAYA", age: 33, gender: "female", bloodGroup: "O+", city: "THOOTHUKUDI", pincode: "628001", mobile: "0001112223", createdAt: Date.now() }
+        {
+          id: "D1",
+          name: "ALICE",
+          age: 30,
+          gender: "female",
+          bloodGroup: "A+",
+          city: "CHENNAI",
+          pincode: "600001",
+          mobile: "9990001111",
+          createdAt: Date.now(),
+          accountId: "1",
+        },
+        {
+          id: "D2",
+          name: "BOB",
+          age: 40,
+          gender: "male",
+          bloodGroup: "O+",
+          city: "COIMBATORE",
+          pincode: "641001",
+          mobile: "8880002222",
+          createdAt: Date.now(),
+        },
+        {
+          id: "D3",
+          name: "CHARLIE",
+          age: 28,
+          gender: "male",
+          bloodGroup: "B+",
+          city: "MADURAI",
+          pincode: "625001",
+          mobile: "7770003333",
+          createdAt: Date.now(),
+        },
+        {
+          id: "D4",
+          name: "DIVYA",
+          age: 35,
+          gender: "female",
+          bloodGroup: "AB+",
+          city: "TIRUCHIRAPPALLI",
+          pincode: "620001",
+          mobile: "6660004444",
+          createdAt: Date.now(),
+        },
+        {
+          id: "D5",
+          name: "EVELYN",
+          age: 22,
+          gender: "female",
+          bloodGroup: "O-",
+          city: "SALEM",
+          pincode: "636001",
+          mobile: "5550005555",
+          createdAt: Date.now(),
+        },
+        {
+          id: "D6",
+          name: "FARHAN",
+          age: 31,
+          gender: "male",
+          bloodGroup: "A-",
+          city: "TIRUNELVELI",
+          pincode: "627001",
+          mobile: "4440006666",
+          createdAt: Date.now(),
+        },
+        {
+          id: "D7",
+          name: "GOPI",
+          age: 45,
+          gender: "male",
+          bloodGroup: "AB-",
+          city: "TIRUPPUR",
+          pincode: "641601",
+          mobile: "3330007777",
+          createdAt: Date.now(),
+        },
+        {
+          id: "D8",
+          name: "HARI",
+          age: 29,
+          gender: "male",
+          bloodGroup: "B-",
+          city: "ERODE",
+          pincode: "638001",
+          mobile: "2220008888",
+          createdAt: Date.now(),
+        },
+        {
+          id: "D9",
+          name: "INDIRA",
+          age: 38,
+          gender: "female",
+          bloodGroup: "A+",
+          city: "VELLORE",
+          pincode: "632001",
+          mobile: "1110009999",
+          createdAt: Date.now(),
+        },
+        {
+          id: "D10",
+          name: "JAYA",
+          age: 33,
+          gender: "female",
+          bloodGroup: "O+",
+          city: "THOOTHUKUDI",
+          pincode: "628001",
+          mobile: "0001112223",
+          createdAt: Date.now(),
+        },
       );
     }
 
@@ -468,49 +574,49 @@ export function createServer() {
       const now = Date.now();
       needs.push(
         {
-          id: 'N1',
-          bloodGroup: 'B+',
-          city: 'ERODE',
-          pincode: '638001',
+          id: "N1",
+          bloodGroup: "B+",
+          city: "ERODE",
+          pincode: "638001",
           neededAtISO: new Date(now + 30 * 60 * 1000).toISOString(), // within 1 hour
-          notes: 'ICU - immediate',
-          requesterAccountId: '2',
-          requesterName: 'CITY HOSPITAL',
+          notes: "ICU - immediate",
+          requesterAccountId: "2",
+          requesterName: "CITY HOSPITAL",
           createdAt: now - 5 * 60 * 1000,
         },
         {
-          id: 'N2',
-          bloodGroup: 'O+',
-          city: 'CHENNAI',
-          pincode: '600001',
+          id: "N2",
+          bloodGroup: "O+",
+          city: "CHENNAI",
+          pincode: "600001",
           neededAtISO: new Date(now + 3 * 60 * 60 * 1000).toISOString(), // urgent (3 hours)
-          notes: 'Ward 4B - surgery scheduled',
-          requesterAccountId: '2',
-          requesterName: 'CITY HOSPITAL',
+          notes: "Ward 4B - surgery scheduled",
+          requesterAccountId: "2",
+          requesterName: "CITY HOSPITAL",
           createdAt: now - 30 * 60 * 1000,
         },
         {
-          id: 'N3',
-          bloodGroup: 'A+',
-          city: 'COIMBATORE',
-          pincode: '641001',
+          id: "N3",
+          bloodGroup: "A+",
+          city: "COIMBATORE",
+          pincode: "641001",
           neededAtISO: new Date(now + 8 * 60 * 60 * 1000).toISOString(), // later today
-          notes: 'Family request, urgent but later today',
-          requesterAccountId: '1',
-          requesterName: 'ALICE',
+          notes: "Family request, urgent but later today",
+          requesterAccountId: "1",
+          requesterName: "ALICE",
           createdAt: now - 60 * 60 * 1000,
         },
         {
-          id: 'N4',
-          bloodGroup: 'AB-',
-          city: 'MADURAI',
-          pincode: '625001',
+          id: "N4",
+          bloodGroup: "AB-",
+          city: "MADURAI",
+          pincode: "625001",
           neededAtISO: new Date(now + 2 * 24 * 60 * 60 * 1000).toISOString(), // upcoming in 2 days
-          notes: 'Planned transfusion',
-          requesterAccountId: '1',
-          requesterName: 'ALICE',
+          notes: "Planned transfusion",
+          requesterAccountId: "1",
+          requesterName: "ALICE",
           createdAt: now - 2 * 60 * 60 * 1000,
-        }
+        },
       );
     }
     res.json({ ok: true });

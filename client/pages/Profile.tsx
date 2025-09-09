@@ -45,9 +45,12 @@ export default class Profile extends React.Component<{}, State> {
   async fetchMe() {
     try {
       const token = localStorage.getItem("sevagan_token");
-      const res = await fetch(new URL("/api/me", window.location.href).toString(), {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      });
+      const res = await fetch(
+        new URL("/api/me", window.location.href).toString(),
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        },
+      );
       if (!res.ok) {
         if (res.status === 401) {
           try {
@@ -61,16 +64,19 @@ export default class Profile extends React.Component<{}, State> {
         throw new Error(txt || `Failed to fetch /api/me (${res.status})`);
       }
       const data = await res.json();
-      this.setState({ account: data.account, donor: data.donor || null, loading: false }, () => {
-        if (data.account) {
-          this.setState({
-            nameInput: data.account.name || "",
-            avatar: data.account.avatarBase64 || null,
-            mobileInput: data.account.mobile || "",
-            emailInput: data.account.email || "",
-          });
-        }
-      });
+      this.setState(
+        { account: data.account, donor: data.donor || null, loading: false },
+        () => {
+          if (data.account) {
+            this.setState({
+              nameInput: data.account.name || "",
+              avatar: data.account.avatarBase64 || null,
+              mobileInput: data.account.mobile || "",
+              emailInput: data.account.email || "",
+            });
+          }
+        },
+      );
     } catch (err) {
       console.error(err);
       this.setState({ loading: false });
@@ -89,7 +95,10 @@ export default class Profile extends React.Component<{}, State> {
       const token = localStorage.getItem("sevagan_token");
       const res = await fetch("/api/me", {
         method: "POST",
-        headers: Object.assign({ "Content-Type": "application/json" }, token ? { Authorization: `Bearer ${token}` } : {}),
+        headers: Object.assign(
+          { "Content-Type": "application/json" },
+          token ? { Authorization: `Bearer ${token}` } : {},
+        ),
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -105,11 +114,17 @@ export default class Profile extends React.Component<{}, State> {
       }
       const data = await res.json();
       this.setState({ account: data.account } as any);
-      if (data.account.avatarBase64) this.setState({ avatar: data.account.avatarBase64 } as any);
+      if (data.account.avatarBase64)
+        this.setState({ avatar: data.account.avatarBase64 } as any);
     } catch (err) {
       console.error(err);
     } finally {
-      this.setState({ saving: false, editingName: false, editMobile: false, editEmail: false } as any);
+      this.setState({
+        saving: false,
+        editingName: false,
+        editMobile: false,
+        editEmail: false,
+      } as any);
     }
   };
 
@@ -146,10 +161,16 @@ export default class Profile extends React.Component<{}, State> {
         <div className="rounded-lg border bg-card p-6 flex items-center gap-6">
           <div className="flex-shrink-0">
             {s.avatar ? (
-              <img src={s.avatar} alt="avatar" className="w-20 h-20 rounded-full object-cover" />
+              <img
+                src={s.avatar}
+                alt="avatar"
+                className="w-20 h-20 rounded-full object-cover"
+              />
             ) : (
               <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold">
-                {s.account.name ? s.account.name.trim().charAt(0).toUpperCase() : "U"}
+                {s.account.name
+                  ? s.account.name.trim().charAt(0).toUpperCase()
+                  : "U"}
               </div>
             )}
           </div>
@@ -157,43 +178,87 @@ export default class Profile extends React.Component<{}, State> {
             <div className="flex items-center gap-3">
               {s.editingName ? (
                 <>
-                  <input className="border rounded px-2 py-1" value={s.nameInput} onChange={(e) => this.setState({ nameInput: e.target.value } as any)} />
-                  <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => this.saveProfile({ name: s.nameInput })} disabled={s.saving}>
+                  <input
+                    className="border rounded px-2 py-1"
+                    value={s.nameInput}
+                    onChange={(e) =>
+                      this.setState({ nameInput: e.target.value } as any)
+                    }
+                  />
+                  <button
+                    className="px-3 py-1 bg-primary text-white rounded"
+                    onClick={() => this.saveProfile({ name: s.nameInput })}
+                    disabled={s.saving}
+                  >
                     Save
                   </button>
-                  <button className="px-3 py-1 border rounded" onClick={() => this.setState({ editingName: false, nameInput: s.account.name } as any)}>
+                  <button
+                    className="px-3 py-1 border rounded"
+                    onClick={() =>
+                      this.setState({
+                        editingName: false,
+                        nameInput: s.account.name,
+                      } as any)
+                    }
+                  >
                     Cancel
                   </button>
                 </>
               ) : (
                 <>
                   <div className="text-lg font-semibold">{s.account.name}</div>
-                  <button className="text-sm text-muted-foreground ml-2" onClick={() => this.setState({ editingName: true } as any)}>
+                  <button
+                    className="text-sm text-muted-foreground ml-2"
+                    onClick={() => this.setState({ editingName: true } as any)}
+                  >
                     ✎ Edit
                   </button>
                 </>
               )}
             </div>
 
-            <div className="mt-2 text-sm text-muted-foreground">Account: {s.account.type}</div>
+            <div className="mt-2 text-sm text-muted-foreground">
+              Account: {s.account.type}
+            </div>
 
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
                 <div className="text-xs text-muted-foreground">Email</div>
                 {s.editEmail ? (
                   <div className="flex gap-2 mt-1">
-                    <input className="border rounded px-2 py-1 w-full" value={s.emailInput} onChange={(e) => this.setState({ emailInput: e.target.value } as any)} />
-                    <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => this.saveProfile({ email: s.emailInput })} disabled={s.saving}>
+                    <input
+                      className="border rounded px-2 py-1 w-full"
+                      value={s.emailInput}
+                      onChange={(e) =>
+                        this.setState({ emailInput: e.target.value } as any)
+                      }
+                    />
+                    <button
+                      className="px-3 py-1 bg-primary text-white rounded"
+                      onClick={() => this.saveProfile({ email: s.emailInput })}
+                      disabled={s.saving}
+                    >
                       Save
                     </button>
-                    <button className="px-3 py-1 border rounded" onClick={() => this.setState({ editEmail: false, emailInput: s.account.email || "" } as any)}>
+                    <button
+                      className="px-3 py-1 border rounded"
+                      onClick={() =>
+                        this.setState({
+                          editEmail: false,
+                          emailInput: s.account.email || "",
+                        } as any)
+                      }
+                    >
                       Cancel
                     </button>
                   </div>
                 ) : (
                   <div className="flex items-center justify-between mt-1">
                     <div>{s.account.email || "—"}</div>
-                    <button className="text-sm text-muted-foreground" onClick={() => this.setState({ editEmail: true } as any)}>
+                    <button
+                      className="text-sm text-muted-foreground"
+                      onClick={() => this.setState({ editEmail: true } as any)}
+                    >
                       Edit
                     </button>
                   </div>
@@ -204,18 +269,45 @@ export default class Profile extends React.Component<{}, State> {
                 <div className="text-xs text-muted-foreground">Mobile</div>
                 {s.editMobile ? (
                   <div className="flex gap-2 mt-1">
-                    <input className="border rounded px-2 py-1 w-full" value={s.mobileInput} onChange={(e) => this.setState({ mobileInput: e.target.value.replace(/[^0-9]/g, "").slice(0, 10) } as any)} />
-                    <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => this.saveProfile({ mobile: s.mobileInput })} disabled={s.saving}>
+                    <input
+                      className="border rounded px-2 py-1 w-full"
+                      value={s.mobileInput}
+                      onChange={(e) =>
+                        this.setState({
+                          mobileInput: e.target.value
+                            .replace(/[^0-9]/g, "")
+                            .slice(0, 10),
+                        } as any)
+                      }
+                    />
+                    <button
+                      className="px-3 py-1 bg-primary text-white rounded"
+                      onClick={() =>
+                        this.saveProfile({ mobile: s.mobileInput })
+                      }
+                      disabled={s.saving}
+                    >
                       Save
                     </button>
-                    <button className="px-3 py-1 border rounded" onClick={() => this.setState({ editMobile: false, mobileInput: s.account.mobile || "" } as any)}>
+                    <button
+                      className="px-3 py-1 border rounded"
+                      onClick={() =>
+                        this.setState({
+                          editMobile: false,
+                          mobileInput: s.account.mobile || "",
+                        } as any)
+                      }
+                    >
                       Cancel
                     </button>
                   </div>
                 ) : (
                   <div className="flex items-center justify-between mt-1">
                     <div>{s.account.mobile || "—"}</div>
-                    <button className="text-sm text-muted-foreground" onClick={() => this.setState({ editMobile: true } as any)}>
+                    <button
+                      className="text-sm text-muted-foreground"
+                      onClick={() => this.setState({ editMobile: true } as any)}
+                    >
                       Edit
                     </button>
                   </div>
@@ -225,8 +317,18 @@ export default class Profile extends React.Component<{}, State> {
 
             <div className="mt-4">
               <label className="inline-flex items-center gap-2">
-                <input type="file" accept="image/*" onChange={(e) => this.onAvatarChange(e.target.files ? e.target.files[0] : null)} />
-                <span className="text-sm text-muted-foreground">Upload/Change photo (optional)</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    this.onAvatarChange(
+                      e.target.files ? e.target.files[0] : null,
+                    )
+                  }
+                />
+                <span className="text-sm text-muted-foreground">
+                  Upload/Change photo (optional)
+                </span>
               </label>
             </div>
           </div>
