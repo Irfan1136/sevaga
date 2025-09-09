@@ -173,14 +173,38 @@ export default function Index() {
             <path
               d="M160 40c0 12-10 22-22 22s-22-10-22-22 10-22 22-22 22 10 22 22z"
               opacity="0.06"
+              fill="rgb(207, 23, 29)"
             />
           </g>
         </svg>
       </div>
 
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 md:grid-cols-2 items-center relative z-10">
+      <section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 md:grid-cols-2 items-center relative z-10"
+        style={{
+          backgroundImage:
+            "url(https://cdn.builder.io/api/v1/image/assets%2F042de231e8f8466b9b0bfad5daf79bff%2F4e51967181744d949b8b6f0ff907a67e)",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          margin: "0 auto",
+          padding: "64px 32px",
+        }}
+      >
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs text-secondary-foreground mb-4">
+          <div style={{
+            display: "inline-flex",
+            alignItems: "center",
+            backgroundColor: "rgb(255, 235, 235)",
+            borderRadius: 9999,
+            color: "rgb(110, 18, 18)",
+            fontSize: 12,
+            fontWeight: 400,
+            gap: 8,
+            lineHeight: "16px",
+            marginBottom: 16,
+            padding: "4px 12px",
+          }}>
             <HeartPulse className="text-primary" size={16} />
             Real-time donor search across Tamil Nadu
           </div>
