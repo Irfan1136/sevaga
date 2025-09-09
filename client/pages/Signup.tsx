@@ -28,6 +28,7 @@ const BLOOD_GROUPS: BloodGroup[] = [
   "AB-",
   "O+",
   "O-",
+  "Other",
 ];
 
 export default function Signup() {
