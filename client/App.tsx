@@ -43,14 +43,7 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/verify" element={<Verify />} />
-              <Route
-                path="/profile"
-                element={
-                  <Profile
-                    key={String(localStorage.getItem("sevagan_token") || "")}
-                  />
-                }
-              />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/admin" element={<Admin />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
