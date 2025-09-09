@@ -231,8 +231,15 @@ export default function RequestPage() {
             const now = Date.now();
             const needed = new Date(r.neededAtISO).getTime();
             const diffSec = (needed - now) / 1000;
-            let tag = "";
-            if (diffSec <= 3600) tag = "Within 1 hour";
+            const optionMap: Record<string,string> = {
+              emergency: 'Emergency',
+              within_1_hour: 'Within 1 hour',
+              within_5_hours: 'Within 5 hours',
+              today: 'Today',
+            };
+            let tag = '';
+            if (r.timeOption && optionMap[r.timeOption]) tag = optionMap[r.timeOption];
+            else if (diffSec <= 3600) tag = "Within 1 hour";
             else if (diffSec <= 2 * 3600) tag = "Urgent";
             else {
               const nd = new Date(needed);
