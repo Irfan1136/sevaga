@@ -92,6 +92,7 @@ export default function RequestPage() {
         city: form.city,
         pincode: form.pincode,
         neededAtISO,
+        timeOption: form.timeOption,
         notes: form.notes,
       };
 
