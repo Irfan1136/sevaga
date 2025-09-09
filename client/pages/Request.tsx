@@ -187,10 +187,24 @@ export default function RequestPage() {
             />
           </div>
           <Input
-            type="datetime-local"
-            value={form.neededAtISO}
-            onChange={(e) => setForm({ ...form, neededAtISO: e.target.value })}
+            type="date"
+            value={(form as any).date}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
           />
+          <Select
+            onValueChange={(v) => setForm({ ...form, timeOption: v })}
+            defaultValue={(form as any).timeOption}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="When needed" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="emergency">Emergency (ASAP)</SelectItem>
+              <SelectItem value="within_1_hour">Within 1 hour</SelectItem>
+              <SelectItem value="within_5_hours">Within 5 hours</SelectItem>
+              <SelectItem value="today">Today</SelectItem>
+            </SelectContent>
+          </Select>
           <Textarea
             placeholder="Notes (hospital, ward, urgency, etc.)"
             value={form.notes}
