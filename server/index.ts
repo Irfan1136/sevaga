@@ -105,12 +105,17 @@ export function createServer() {
 
   // needs
   app.post("/api/needs", (req, res) => {
-    const body = req.body;
+    const body = req.body as any;
     const need = {
       id: String(Date.now()) + Math.random().toString(36).slice(2, 8),
       createdAt: Date.now(),
       ...body,
-    };
+    } as any;
+    // attach requesterName if requesterAccountId provided
+    if (body.requesterAccountId && !need.requesterName) {
+      const acc = accounts.find((a) => a.id === body.requesterAccountId);
+      if (acc) need.requesterName = acc.name;
+    }
     needs.push(need);
     // notify via SSE clients
     sseClients.forEach((s) => s.sendEvent(JSON.stringify(need)));
@@ -455,6 +460,57 @@ export function createServer() {
         { id: "D8", name: "HARI", age: 29, gender: "male", bloodGroup: "B-", city: "ERODE", pincode: "638001", mobile: "2220008888", createdAt: Date.now() },
         { id: "D9", name: "INDIRA", age: 38, gender: "female", bloodGroup: "A+", city: "VELLORE", pincode: "632001", mobile: "1110009999", createdAt: Date.now() },
         { id: "D10", name: "JAYA", age: 33, gender: "female", bloodGroup: "O+", city: "THOOTHUKUDI", pincode: "628001", mobile: "0001112223", createdAt: Date.now() }
+      );
+    }
+
+    // seed some sample needs if empty
+    if (needs.length === 0) {
+      const now = Date.now();
+      needs.push(
+        {
+          id: 'N1',
+          bloodGroup: 'B+',
+          city: 'ERODE',
+          pincode: '638001',
+          neededAtISO: new Date(now + 30 * 60 * 1000).toISOString(), // within 1 hour
+          notes: 'ICU - immediate',
+          requesterAccountId: '2',
+          requesterName: 'CITY HOSPITAL',
+          createdAt: now - 5 * 60 * 1000,
+        },
+        {
+          id: 'N2',
+          bloodGroup: 'O+',
+          city: 'CHENNAI',
+          pincode: '600001',
+          neededAtISO: new Date(now + 3 * 60 * 60 * 1000).toISOString(), // urgent (3 hours)
+          notes: 'Ward 4B - surgery scheduled',
+          requesterAccountId: '2',
+          requesterName: 'CITY HOSPITAL',
+          createdAt: now - 30 * 60 * 1000,
+        },
+        {
+          id: 'N3',
+          bloodGroup: 'A+',
+          city: 'COIMBATORE',
+          pincode: '641001',
+          neededAtISO: new Date(now + 8 * 60 * 60 * 1000).toISOString(), // later today
+          notes: 'Family request, urgent but later today',
+          requesterAccountId: '1',
+          requesterName: 'ALICE',
+          createdAt: now - 60 * 60 * 1000,
+        },
+        {
+          id: 'N4',
+          bloodGroup: 'AB-',
+          city: 'MADURAI',
+          pincode: '625001',
+          neededAtISO: new Date(now + 2 * 24 * 60 * 60 * 1000).toISOString(), // upcoming in 2 days
+          notes: 'Planned transfusion',
+          requesterAccountId: '1',
+          requesterName: 'ALICE',
+          createdAt: now - 2 * 60 * 60 * 1000,
+        }
       );
     }
     res.json({ ok: true });
