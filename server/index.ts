@@ -45,8 +45,12 @@ export function createServer() {
     let results = donors.slice().reverse();
     if (bloodGroup)
       results = results.filter((d) => d.bloodGroup === bloodGroup);
-    if (city) results = results.filter((d) => d.city === city);
-    if (pincode) results = results.filter((d) => d.pincode === pincode);
+    if (city)
+      results = results.filter(
+        (d) => (d.city || "").toLowerCase() === String(city).toLowerCase(),
+      );
+    if (pincode)
+      results = results.filter((d) => String(d.pincode || "").trim() === String(pincode).trim());
     res.json({ results, total: results.length });
   });
 
