@@ -1,25 +1,37 @@
-import { useEffect, useState } from "react";
-import { Api } from "@/lib/api";
+import React from "react";
 
 import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
 
-export default function Profile() {
-  const [account, setAccount] = useState<any | null>(null);
-  const [donor, setDonor] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
+type State = {
+  account: any | null;
+  donor: any | null;
+  loading: boolean;
+  editingName: boolean;
+  nameInput: string;
+  avatar: string | null;
+  saving: boolean;
+  editMobile: boolean;
+  mobileInput: string;
+  editEmail: boolean;
+  emailInput: string;
+};
 
-  // UI state hooks must be declared unconditionally at top to follow Rules of Hooks
-  const [editingName, setEditingName] = useState(false);
-  const [nameInput, setNameInput] = useState<string>("");
-  const [avatar, setAvatar] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [editMobile, setEditMobile] = useState(false);
-  const [mobileInput, setMobileInput] = useState<string>("");
-  const [editEmail, setEditEmail] = useState(false);
-  const [emailInput, setEmailInput] = useState<string>("");
+export default class Profile extends React.Component<{}, State> {
+  state: State = {
+    account: null,
+    donor: null,
+    loading: true,
+    editingName: false,
+    nameInput: "",
+    avatar: null,
+    saving: false,
+    editMobile: false,
+    mobileInput: "",
+    editEmail: false,
+    emailInput: "",
+  };
 
-  useEffect(() => {
-    // If token provided via ?token=..., save to localStorage for preview screenshots
+  componentDidMount() {
     try {
       const qp = new URLSearchParams(window.location.search);
       const t = qp.get("token");
@@ -27,86 +39,57 @@ export default function Profile() {
         localStorage.setItem("sevagan_token", t);
       }
     } catch {}
-
-    const fetchMe = async () => {
-      try {
-        const token = localStorage.getItem("sevagan_token");
-        const res = await fetch(
-          new URL("/api/me", window.location.href).toString(),
-          {
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
-          },
-        );
-        if (!res.ok) {
-          // Clear invalid token and redirect to login
-          if (res.status === 401) {
-            try {
-              localStorage.removeItem("sevagan_token");
-            } catch {}
-            console.warn("Not authorized — redirecting to login");
-            setAccount(null);
-            setDonor(null);
-            return;
-          }
-          const txt = await res.text().catch(() => "");
-          throw new Error(txt || `Failed to fetch /api/me (${res.status})`);
-        }
-        const data = await res.json();
-        setAccount(data.account);
-        setDonor(data.donor || null);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMe();
-  }, []);
-
-  useEffect(() => {
-    if (!loading && !account) {
-      // redirect to login if not authenticated
-      window.location.href = "/login";
-    }
-  }, [loading, account]);
-
-  if (loading)
-    return (
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10 relative">
-        <DecorativeSVG className="absolute left-4 top-4 opacity-30" />
-        <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
-        <p className="text-muted-foreground">Loading profile…</p>
-      </div>
-    );
-
-  // If not loading and no account, navigate away and avoid rendering to prevent runtime errors
-  if (!loading && !account) {
-    if (typeof window !== "undefined") {
-      window.location.href = "/login";
-    }
-    return null;
+    this.fetchMe();
   }
 
-  // initialize form fields when account changes
-  useEffect(() => {
-    if (account) {
-      setNameInput(account.name || "");
-      setAvatar(account.avatarBase64 || null);
-      setMobileInput(account.mobile || "");
-      setEmailInput(account.email || "");
+  async fetchMe() {
+    try {
+      const token = localStorage.getItem("sevagan_token");
+      const res = await fetch(new URL("/api/me", window.location.href).toString(), {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!res.ok) {
+        if (res.status === 401) {
+          try {
+            localStorage.removeItem("sevagan_token");
+          } catch {}
+          console.warn("Not authorized — redirecting to login");
+          this.setState({ account: null, donor: null, loading: false });
+          return;
+        }
+        const txt = await res.text().catch(() => "");
+        throw new Error(txt || `Failed to fetch /api/me (${res.status})`);
+      }
+      const data = await res.json();
+      this.setState({ account: data.account, donor: data.donor || null, loading: false }, () => {
+        if (data.account) {
+          this.setState({
+            nameInput: data.account.name || "",
+            avatar: data.account.avatarBase64 || null,
+            mobileInput: data.account.mobile || "",
+            emailInput: data.account.email || "",
+          });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      this.setState({ loading: false });
     }
-  }, [account]);
+  }
 
-  const saveProfile = async (payload: any) => {
-    setSaving(true);
+  componentDidUpdate(_prevProps: {}, prevState: State) {
+    if (!this.state.loading && !this.state.account) {
+      window.location.href = "/login";
+    }
+  }
+
+  saveProfile = async (payload: any) => {
+    this.setState({ saving: true });
     try {
       const token = localStorage.getItem("sevagan_token");
       const res = await fetch("/api/me", {
         method: "POST",
-        headers: Object.assign(
-          { "Content-Type": "application/json" },
-          token ? { Authorization: `Bearer ${token}` } : {},
-        ),
+        headers: Object.assign({ "Content-Type": "application/json" }, token ? { Authorization: `Bearer ${token}` } : {}),
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -115,216 +98,160 @@ export default function Profile() {
             localStorage.removeItem("sevagan_token");
           } catch {}
           console.warn("Not authorized when saving profile");
+          this.setState({ saving: false });
           return;
         }
         throw new Error(await res.text());
       }
       const data = await res.json();
-      setAccount(data.account);
-      if (data.account.avatarBase64) setAvatar(data.account.avatarBase64);
+      this.setState({ account: data.account } as any);
+      if (data.account.avatarBase64) this.setState({ avatar: data.account.avatarBase64 } as any);
     } catch (err) {
       console.error(err);
     } finally {
-      setSaving(false);
-      setEditingName(false);
-      setEditMobile(false);
-      setEditEmail(false);
+      this.setState({ saving: false, editingName: false, editMobile: false, editEmail: false } as any);
     }
   };
 
-  const onAvatarChange = (file: File | null) => {
+  onAvatarChange = (file: File | null) => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = async () => {
       const b64 = String(reader.result || "");
-      setAvatar(b64);
-      await saveProfile({ avatarBase64: b64 });
+      this.setState({ avatar: b64 } as any);
+      await this.saveProfile({ avatarBase64: b64 });
     };
     reader.readAsDataURL(file);
   };
 
-  return (
-    <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10 relative">
-      <DecorativeSVG className="absolute left-4 top-4 opacity-30" />
-      <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
-
-      <div className="rounded-lg border bg-card p-6 flex items-center gap-6">
-        <div className="flex-shrink-0">
-          {avatar ? (
-            <img
-              src={avatar}
-              alt="avatar"
-              className="w-20 h-20 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold">
-              {account.name ? account.name.trim().charAt(0).toUpperCase() : "U"}
-            </div>
-          )}
+  render() {
+    const s = this.state;
+    if (s.loading) {
+      return (
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10 relative">
+          <DecorativeSVG className="absolute left-4 top-4 opacity-30" />
+          <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
+          <p className="text-muted-foreground">Loading profile…</p>
         </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-3">
-            {editingName ? (
-              <>
-                <input
-                  className="border rounded px-2 py-1"
-                  value={nameInput}
-                  onChange={(e) => setNameInput(e.target.value)}
-                />
-                <button
-                  className="px-3 py-1 bg-primary text-white rounded"
-                  onClick={() => saveProfile({ name: nameInput })}
-                  disabled={saving}
-                >
-                  Save
-                </button>
-                <button
-                  className="px-3 py-1 border rounded"
-                  onClick={() => {
-                    setEditingName(false);
-                    setNameInput(account.name);
-                  }}
-                >
-                  Cancel
-                </button>
-              </>
+      );
+    }
+
+    if (!s.account) return null;
+
+    return (
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10 relative">
+        <DecorativeSVG className="absolute left-4 top-4 opacity-30" />
+        <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
+
+        <div className="rounded-lg border bg-card p-6 flex items-center gap-6">
+          <div className="flex-shrink-0">
+            {s.avatar ? (
+              <img src={s.avatar} alt="avatar" className="w-20 h-20 rounded-full object-cover" />
             ) : (
-              <>
-                <div className="text-lg font-semibold">{account.name}</div>
-                <button
-                  className="text-sm text-muted-foreground ml-2"
-                  onClick={() => setEditingName(true)}
-                >
-                  ✎ Edit
-                </button>
-              </>
+              <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold">
+                {s.account.name ? s.account.name.trim().charAt(0).toUpperCase() : "U"}
+              </div>
             )}
           </div>
-
-          <div className="mt-2 text-sm text-muted-foreground">
-            Account: {account.type}
-          </div>
-
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div>
-              <div className="text-xs text-muted-foreground">Email</div>
-              {editEmail ? (
-                <div className="flex gap-2 mt-1">
-                  <input
-                    className="border rounded px-2 py-1 w-full"
-                    value={emailInput}
-                    onChange={(e) => setEmailInput(e.target.value)}
-                  />
-                  <button
-                    className="px-3 py-1 bg-primary text-white rounded"
-                    onClick={() => saveProfile({ email: emailInput })}
-                    disabled={saving}
-                  >
+          <div className="flex-1">
+            <div className="flex items-center gap-3">
+              {s.editingName ? (
+                <>
+                  <input className="border rounded px-2 py-1" value={s.nameInput} onChange={(e) => this.setState({ nameInput: e.target.value } as any)} />
+                  <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => this.saveProfile({ name: s.nameInput })} disabled={s.saving}>
                     Save
                   </button>
-                  <button
-                    className="px-3 py-1 border rounded"
-                    onClick={() => {
-                      setEditEmail(false);
-                      setEmailInput(account.email || "");
-                    }}
-                  >
+                  <button className="px-3 py-1 border rounded" onClick={() => this.setState({ editingName: false, nameInput: s.account.name } as any)}>
                     Cancel
                   </button>
-                </div>
+                </>
               ) : (
-                <div className="flex items-center justify-between mt-1">
-                  <div>{account.email || "—"}</div>
-                  <button
-                    className="text-sm text-muted-foreground"
-                    onClick={() => setEditEmail(true)}
-                  >
-                    Edit
+                <>
+                  <div className="text-lg font-semibold">{s.account.name}</div>
+                  <button className="text-sm text-muted-foreground ml-2" onClick={() => this.setState({ editingName: true } as any)}>
+                    ✎ Edit
                   </button>
-                </div>
+                </>
               )}
             </div>
 
-            <div>
-              <div className="text-xs text-muted-foreground">Mobile</div>
-              {editMobile ? (
-                <div className="flex gap-2 mt-1">
-                  <input
-                    className="border rounded px-2 py-1 w-full"
-                    value={mobileInput}
-                    onChange={(e) =>
-                      setMobileInput(
-                        e.target.value.replace(/[^0-9]/g, "").slice(0, 10),
-                      )
-                    }
-                  />
-                  <button
-                    className="px-3 py-1 bg-primary text-white rounded"
-                    onClick={() => saveProfile({ mobile: mobileInput })}
-                    disabled={saving}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="px-3 py-1 border rounded"
-                    onClick={() => {
-                      setEditMobile(false);
-                      setMobileInput(account.mobile || "");
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center justify-between mt-1">
-                  <div>{account.mobile || "—"}</div>
-                  <button
-                    className="text-sm text-muted-foreground"
-                    onClick={() => setEditMobile(true)}
-                  >
-                    Edit
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+            <div className="mt-2 text-sm text-muted-foreground">Account: {s.account.type}</div>
 
-          <div className="mt-4">
-            <label className="inline-flex items-center gap-2">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  onAvatarChange(e.target.files ? e.target.files[0] : null)
-                }
-              />
-              <span className="text-sm text-muted-foreground">
-                Upload/Change photo (optional)
-              </span>
-            </label>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <div className="text-xs text-muted-foreground">Email</div>
+                {s.editEmail ? (
+                  <div className="flex gap-2 mt-1">
+                    <input className="border rounded px-2 py-1 w-full" value={s.emailInput} onChange={(e) => this.setState({ emailInput: e.target.value } as any)} />
+                    <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => this.saveProfile({ email: s.emailInput })} disabled={s.saving}>
+                      Save
+                    </button>
+                    <button className="px-3 py-1 border rounded" onClick={() => this.setState({ editEmail: false, emailInput: s.account.email || "" } as any)}>
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-between mt-1">
+                    <div>{s.account.email || "—"}</div>
+                    <button className="text-sm text-muted-foreground" onClick={() => this.setState({ editEmail: true } as any)}>
+                      Edit
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <div className="text-xs text-muted-foreground">Mobile</div>
+                {s.editMobile ? (
+                  <div className="flex gap-2 mt-1">
+                    <input className="border rounded px-2 py-1 w-full" value={s.mobileInput} onChange={(e) => this.setState({ mobileInput: e.target.value.replace(/[^0-9]/g, "").slice(0, 10) } as any)} />
+                    <button className="px-3 py-1 bg-primary text-white rounded" onClick={() => this.saveProfile({ mobile: s.mobileInput })} disabled={s.saving}>
+                      Save
+                    </button>
+                    <button className="px-3 py-1 border rounded" onClick={() => this.setState({ editMobile: false, mobileInput: s.account.mobile || "" } as any)}>
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-between mt-1">
+                    <div>{s.account.mobile || "—"}</div>
+                    <button className="text-sm text-muted-foreground" onClick={() => this.setState({ editMobile: true } as any)}>
+                      Edit
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <label className="inline-flex items-center gap-2">
+                <input type="file" accept="image/*" onChange={(e) => this.onAvatarChange(e.target.files ? e.target.files[0] : null)} />
+                <span className="text-sm text-muted-foreground">Upload/Change photo (optional)</span>
+              </label>
+            </div>
           </div>
         </div>
+
+        {s.donor && (
+          <div className="mt-6 rounded-lg border bg-card p-6">
+            <h2 className="font-semibold mb-2">Donor Details</h2>
+            <div className="grid gap-2">
+              <div>
+                <strong>Blood Group:</strong> {s.donor.bloodGroup}
+              </div>
+              <div>
+                <strong>City:</strong> {s.donor.city}
+              </div>
+              <div>
+                <strong>Pincode:</strong> {s.donor.pincode}
+              </div>
+              <div>
+                <strong>Mobile:</strong> {s.donor.mobile}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-
-      {donor && (
-        <div className="mt-6 rounded-lg border bg-card p-6">
-          <h2 className="font-semibold mb-2">Donor Details</h2>
-          <div className="grid gap-2">
-            <div>
-              <strong>Blood Group:</strong> {donor.bloodGroup}
-            </div>
-            <div>
-              <strong>City:</strong> {donor.city}
-            </div>
-            <div>
-              <strong>Pincode:</strong> {donor.pincode}
-            </div>
-            <div>
-              <strong>Mobile:</strong> {donor.mobile}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+    );
+  }
 }
