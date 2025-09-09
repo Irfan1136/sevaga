@@ -104,7 +104,16 @@ export default function Profile() {
         ),
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error(await res.text());
+      if (!res.ok) {
+        if (res.status === 401) {
+          try {
+            localStorage.removeItem("sevagan_token");
+          } catch {}
+          console.warn("Not authorized when saving profile");
+          return;
+        }
+        throw new Error(await res.text());
+      }
       const data = await res.json();
       setAccount(data.account);
       if (data.account.avatarBase64) setAvatar(data.account.avatarBase64);
