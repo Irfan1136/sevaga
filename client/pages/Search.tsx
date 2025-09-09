@@ -47,6 +47,23 @@ export default function SearchPage() {
   // load all donors on first render
   useEffect(() => {
     submit({ all: true });
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "sevagan_refresh") {
+        // refresh results (show all to include newly registered donors)
+        (async () => {
+          try {
+            const data = await Api.donors.search({});
+            setResults(data.results);
+          } catch (err) {
+            console.error(err);
+          }
+        })();
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   return (
