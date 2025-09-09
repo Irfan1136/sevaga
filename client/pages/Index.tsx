@@ -354,7 +354,8 @@ export default function Index() {
             </h3>
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
               {featuredDonors.map((d: any) => (
-                <div key={d.id} className="rounded-lg border p-4 bg-card">
+                <div key={d.id} className="rounded-lg border p-4 bg-card relative overflow-hidden">
+                  <div className="absolute right-3 top-3 text-xs px-2 py-1 rounded bg-primary text-primary-foreground font-semibold">{d.bloodGroup}</div>
                   <div className="font-semibold">{d.name}</div>
                   <div className="text-sm text-muted-foreground">
                     {d.city} • {d.pincode}
@@ -362,6 +363,9 @@ export default function Index() {
                   <div className="mt-2 text-sm">
                     Mobile: <span className="font-medium">{d.mobile}</span>
                   </div>
+                  <svg className="recent-card-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                    <path fill="hsl(var(--primary))" d="M12 21s-7-4.35-9-7.2C0.5 10.8 3 6 7 6c2 0 3 1.4 5 3.5C13 7.4 14 6 16 6c4 0 6.5 4.8 4 7.8-2 2.85-9 7.2-9 7.2z" opacity="0.06" />
+                  </svg>
                 </div>
               ))}
             </div>
