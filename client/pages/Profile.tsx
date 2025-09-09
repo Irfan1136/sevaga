@@ -65,15 +65,17 @@ export default class Profile extends React.Component<{}, State> {
         throw new Error(txt || `Failed to fetch /api/me (${res.status})`);
       }
       const data = await res.json();
+      // normalize name to uppercase for display/editing
+      const acct = data.account ? { ...data.account, name: (data.account.name || "").toUpperCase() } : data.account;
       this.setState(
-        { account: data.account, donor: data.donor || null, loading: false },
+        { account: acct, donor: data.donor || null, loading: false },
         () => {
-          if (data.account) {
+          if (acct) {
             this.setState({
-              nameInput: data.account.name || "",
-              avatar: data.account.avatarBase64 || null,
-              mobileInput: data.account.mobile || "",
-              emailInput: data.account.email || "",
+              nameInput: acct.name || "",
+              avatar: acct.avatarBase64 || null,
+              mobileInput: acct.mobile || "",
+              emailInput: acct.email || "",
             });
           }
         },
