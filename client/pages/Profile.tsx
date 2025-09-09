@@ -87,6 +87,7 @@ export default function Profile() {
     return null;
   }
 
+  // initialize form fields when account changes
   useEffect(() => {
     if (account) {
       setNameInput(account.name || "");
