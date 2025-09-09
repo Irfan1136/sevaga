@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Droplets, Heart, Menu, X } from "lucide-react";
-import { isDark, setDark, isBlood, setBlood } from "@/lib/theme";
+import { Moon, Sun, Droplets, Menu, X } from "lucide-react";
+import { isDark, setDark } from "@/lib/theme";
 import { useEffect, useState } from "react";
 
 export default function Header() {
