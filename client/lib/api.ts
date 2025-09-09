@@ -40,6 +40,13 @@ export const Api = {
         method: "POST",
         body: JSON.stringify(input),
       }),
+    list: () => http<BloodNeedRequest[]>('/api/needs'),
+    get: (id: string) => http<BloodNeedRequest>(`/api/needs/${id}`),
+    respond: (body: { needId: string; contact?: string; message?: string; donorName?: string }) =>
+      http<any>('/api/needs/respond', {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
     streamUrl: "/api/needs/stream",
   },
   auth: {
