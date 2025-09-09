@@ -233,12 +233,12 @@ export default class Profile extends React.Component<{}, State> {
                     className="border rounded px-2 py-1"
                     value={s.nameInput}
                     onChange={(e) =>
-                      this.setState({ nameInput: e.target.value } as any)
+                      this.setState({ nameInput: e.target.value.toUpperCase() } as any)
                     }
                   />
                   <button
                     className="px-3 py-1 bg-primary text-white rounded"
-                    onClick={() => this.saveProfile({ name: s.nameInput })}
+                    onClick={() => this.saveProfile({ name: s.nameInput.toUpperCase() })}
                     disabled={s.saving}
                   >
                     Save
@@ -257,7 +257,7 @@ export default class Profile extends React.Component<{}, State> {
                 </>
               ) : (
                 <>
-                  <div className="text-lg font-semibold">{s.account.name}</div>
+                  <div className="text-lg font-semibold">{(s.account.name || '').toUpperCase()}</div>
                   <button
                     className="text-sm text-muted-foreground ml-2"
                     onClick={() => this.setState({ editingName: true } as any)}
@@ -268,103 +268,7 @@ export default class Profile extends React.Component<{}, State> {
               )}
             </div>
 
-            <div className="mt-2 text-sm text-muted-foreground">
-              Account: {s.account.type}
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <div className="text-xs text-muted-foreground">Email</div>
-                {s.editEmail ? (
-                  <div className="flex gap-2 mt-1">
-                    <input
-                      className="border rounded px-2 py-1 w-full"
-                      value={s.emailInput}
-                      onChange={(e) =>
-                        this.setState({ emailInput: e.target.value } as any)
-                      }
-                    />
-                    <button
-                      className="px-3 py-1 bg-primary text-white rounded"
-                      onClick={() => this.saveProfile({ email: s.emailInput })}
-                      disabled={s.saving}
-                    >
-                      Save
-                    </button>
-                    <button
-                      className="px-3 py-1 border rounded"
-                      onClick={() =>
-                        this.setState({
-                          editEmail: false,
-                          emailInput: s.account.email || "",
-                        } as any)
-                      }
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-between mt-1">
-                    <div>{s.account.email || "—"}</div>
-                    <button
-                      className="text-sm text-muted-foreground"
-                      onClick={() => this.setState({ editEmail: true } as any)}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <div className="text-xs text-muted-foreground">Mobile</div>
-                {s.editMobile ? (
-                  <div className="flex gap-2 mt-1">
-                    <input
-                      className="border rounded px-2 py-1 w-full"
-                      value={s.mobileInput}
-                      onChange={(e) =>
-                        this.setState({
-                          mobileInput: e.target.value
-                            .replace(/[^0-9]/g, "")
-                            .slice(0, 10),
-                        } as any)
-                      }
-                    />
-                    <button
-                      className="px-3 py-1 bg-primary text-white rounded"
-                      onClick={() =>
-                        this.saveProfile({ mobile: s.mobileInput })
-                      }
-                      disabled={s.saving}
-                    >
-                      Save
-                    </button>
-                    <button
-                      className="px-3 py-1 border rounded"
-                      onClick={() =>
-                        this.setState({
-                          editMobile: false,
-                          mobileInput: s.account.mobile || "",
-                        } as any)
-                      }
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-between mt-1">
-                    <div>{s.account.mobile || "—"}</div>
-                    <button
-                      className="text-sm text-muted-foreground"
-                      onClick={() => this.setState({ editMobile: true } as any)}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
+            {/* Removed extra account details and donor details as requested */}
 
             <div className="mt-4">
               <label className="inline-flex items-center gap-2">
@@ -385,25 +289,7 @@ export default class Profile extends React.Component<{}, State> {
           </div>
         </div>
 
-        {s.donor && (
-          <div className="mt-6 rounded-lg border bg-card p-6">
-            <h2 className="font-semibold mb-2">Donor Details</h2>
-            <div className="grid gap-2">
-              <div>
-                <strong>Blood Group:</strong> {s.donor.bloodGroup}
-              </div>
-              <div>
-                <strong>City:</strong> {s.donor.city}
-              </div>
-              <div>
-                <strong>Pincode:</strong> {s.donor.pincode}
-              </div>
-              <div>
-                <strong>Mobile:</strong> {s.donor.mobile}
-              </div>
-            </div>
-          </div>
-        )}
+        {/* donor details removed */}
       </div>
     );
   }
