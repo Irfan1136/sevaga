@@ -100,10 +100,21 @@ export default function SearchPage() {
           onChange={(e) => setPincode(e.target.value)}
           className="md:col-span-1"
         />
-        <Button onClick={() => submit()} className="md:col-span-1 bg-primary text-primary-foreground">
+        <Button
+          onClick={() => submit()}
+          className="md:col-span-1 bg-primary text-primary-foreground"
+        >
           <Search className="mr-2" /> {loading ? "Searching..." : "Search"}
         </Button>
-        <Button onClick={() => { setBg(undefined); setCity(""); setPincode(""); submit({ all: true }); }} className="md:col-span-1 bg-primary text-primary-foreground">
+        <Button
+          onClick={() => {
+            setBg(undefined);
+            setCity("");
+            setPincode("");
+            submit({ all: true });
+          }}
+          className="md:col-span-1 bg-primary text-primary-foreground"
+        >
           Show All
         </Button>
       </div>
@@ -113,11 +124,20 @@ export default function SearchPage() {
           <div className="text-muted-foreground">No donors found.</div>
         ) : (
           results.map((d: any) => (
-            <div key={d.id} className="rounded-lg border p-4 bg-card relative overflow-hidden">
-              <div className="absolute right-3 top-3 text-xs px-2 py-1 rounded bg-primary text-primary-foreground font-semibold">{d.bloodGroup}</div>
+            <div
+              key={d.id}
+              className="rounded-lg border p-4 bg-card relative overflow-hidden"
+            >
+              <div className="absolute right-3 top-3 text-xs px-2 py-1 rounded bg-primary text-primary-foreground font-semibold">
+                {d.bloodGroup}
+              </div>
               <div className="font-semibold">{d.name}</div>
-              <div className="text-xs text-muted-foreground">{d.city} • {d.pincode}</div>
-              <div className="mt-2 text-sm">Mobile: <span className="font-medium">{d.mobile}</span></div>
+              <div className="text-xs text-muted-foreground">
+                {d.city} • {d.pincode}
+              </div>
+              <div className="mt-2 text-sm">
+                Mobile: <span className="font-medium">{d.mobile}</span>
+              </div>
             </div>
           ))
         )}
