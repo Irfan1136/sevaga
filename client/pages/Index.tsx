@@ -53,7 +53,9 @@ export default function Index() {
       });
       // exclude recently featured donors from quick search on home
       const featuredIds = new Set(featuredDonors.map((d) => d.id));
-      const filtered = (data.results || []).filter((r: any) => !featuredIds.has(r.id));
+      const filtered = (data.results || []).filter(
+        (r: any) => !featuredIds.has(r.id),
+      );
       setResults(filtered);
     } catch (e) {
       console.error(e);

@@ -8,7 +8,9 @@ export default function About() {
         <div className="bg-gradient-to-r from-primary to-[#b21a1a] text-white py-12 px-6">
           <h1 className="text-3xl font-extrabold">About SEVAGAN</h1>
           <p className="mt-2 max-w-2xl">
-            SEVAGAN connects voluntary blood donors to people in urgent need — faster, safer, and completely free. We currently cover 38 districts and focus on rapid, local response.
+            SEVAGAN connects voluntary blood donors to people in urgent need —
+            faster, safer, and completely free. We currently cover 38 districts
+            and focus on rapid, local response.
           </p>
         </div>
         <div className="-mt-6 px-4">
