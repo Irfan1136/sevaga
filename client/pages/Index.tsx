@@ -167,7 +167,10 @@ export default function Index() {
     window.addEventListener("sevagan_refresh", refreshHandler as EventListener);
     return () => {
       window.removeEventListener("storage", onStorage);
-      window.removeEventListener("sevagan_refresh", refreshHandler as EventListener);
+      window.removeEventListener(
+        "sevagan_refresh",
+        refreshHandler as EventListener,
+      );
     };
   }, [registeredCount]);
 
@@ -210,19 +213,21 @@ export default function Index() {
         }}
       >
         <div>
-          <div style={{
-            display: "inline-flex",
-            alignItems: "center",
-            backgroundColor: "rgb(255, 235, 235)",
-            borderRadius: 9999,
-            color: "rgb(110, 18, 18)",
-            fontSize: 12,
-            fontWeight: 400,
-            gap: 8,
-            lineHeight: "16px",
-            marginBottom: 16,
-            padding: "4px 12px",
-          }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              backgroundColor: "rgb(255, 235, 235)",
+              borderRadius: 9999,
+              color: "rgb(110, 18, 18)",
+              fontSize: 12,
+              fontWeight: 400,
+              gap: 8,
+              lineHeight: "16px",
+              marginBottom: 16,
+              padding: "4px 12px",
+            }}
+          >
             <HeartPulse className="text-primary" size={16} />
             Real-time donor search across Tamil Nadu
           </div>
