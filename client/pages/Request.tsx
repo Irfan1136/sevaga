@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Api } from "@/lib/api";
+import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { BloodGroup, TAMIL_NADU_CITIES } from "@shared/api";
 import { toast } from "sonner";
 
@@ -65,6 +67,11 @@ export default function RequestPage() {
   const [feed, setFeed] = useState<any[]>([]);
   const [responded, setResponded] = useState<string[]>([]);
   const esRef = useRef<EventSource | null>(null);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedNeed, setSelectedNeed] = useState<any | null>(null);
+  const [contactInput, setContactInput] = useState("");
+  const [dialogMode, setDialogMode] = useState<'donate' | 'share' | null>(null);
   useEffect(() => {
     // load existing needs
     let mounted = true;
@@ -205,6 +212,51 @@ export default function RequestPage() {
           )}
         </div>
       </div>
+
+      <Dialog open={dialogOpen} onOpenChange={(v) => setDialogOpen(v)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{dialogMode === 'donate' ? 'Share contact to requestor' : 'Contact'}</DialogTitle>
+            <DialogDescription>
+              Enter a mobile number or email so the requester can contact you about donating.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4">
+            <Input value={contactInput} onChange={(e) => setContactInput(e.target.value)} placeholder="Mobile number or email" />
+          </div>
+          <DialogFooter>
+            <div className="flex space-x-2">
+              <button
+                className="px-3 py-1 bg-red-600 text-white rounded"
+                onClick={async () => {
+                  if (!selectedNeed) return;
+                  if (!contactInput) {
+                    toast.error('Contact required');
+                    return;
+                  }
+                  try {
+                    await Api.needs.respond({ needId: selectedNeed.id, contact: contactInput, message: 'I can donate' });
+                    setResponded((s) => (selectedNeed ? [...s, selectedNeed.id] : s));
+                    toast.success('Response sent. Requester will be notified.');
+                    setDialogOpen(false);
+                  } catch (err) {
+                    toast.error('Failed to send response');
+                  }
+                }}
+              >
+                Send
+              </button>
+              <button
+                className="px-3 py-1 rounded border"
+                onClick={() => setDialogOpen(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </DialogFooter>
+          <DialogClose />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
