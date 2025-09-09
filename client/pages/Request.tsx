@@ -260,9 +260,6 @@ export default function RequestPage() {
                         {tag}
                       </div>
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      Need time: {new Date(r.neededAtISO).toLocaleString()}
-                    </div>
                     <div className="text-xs text-muted-foreground mt-1">
                       Requested by:{" "}
                       <span className="font-medium">
