@@ -140,11 +140,25 @@ export default class Profile extends React.Component<{}, State> {
 
   onAvatarChange = (file: File | null) => {
     if (!file) return;
+    // limit to 2MB
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Image too large (max 2MB)');
+      return;
+    }
     const reader = new FileReader();
     reader.onload = async () => {
-      const b64 = String(reader.result || "");
-      this.setState({ avatar: b64 } as any);
-      await this.saveProfile({ avatarBase64: b64 });
+      try {
+        const b64 = String(reader.result || "");
+        this.setState({ avatar: b64 } as any);
+        await this.saveProfile({ avatarBase64: b64 });
+      } catch (err) {
+        console.error('Failed to process avatar', err);
+        toast.error('Failed to upload image');
+      }
+    };
+    reader.onerror = (e) => {
+      console.error('FileReader error', e);
+      toast.error('Failed to read file');
     };
     reader.readAsDataURL(file);
   };
