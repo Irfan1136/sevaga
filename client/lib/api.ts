@@ -66,6 +66,10 @@ export const Api = {
         body: JSON.stringify(body),
       }),
     me: () => http<{ account: any; donor?: any }>("/api/me"),
+    checkExists: (q: { mobile?: string; email?: string }) =>
+      http<{ exists: boolean; type?: string }>(
+        `/api/auth/exists?${new URLSearchParams(q as Record<string, string>).toString()}`,
+      ),
   },
 };
 
