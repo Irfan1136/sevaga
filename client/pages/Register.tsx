@@ -55,6 +55,10 @@ export default function Register() {
       // notify other tabs/pages to refresh stats
       try {
         localStorage.setItem("sevagan_refresh", String(Date.now()));
+        // also dispatch a custom event so same-tab listeners can react
+        try {
+          window.dispatchEvent(new Event("sevagan_refresh"));
+        } catch (err) {}
       } catch (e) {}
       setForm({
         name: "",
