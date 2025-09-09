@@ -1,6 +1,18 @@
 import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
 
+import { useEffect, useState } from 'react';
+
 export default function About() {
+  const [stats, setStats] = useState<{ donors?: number; requestsToday?: number } | null>(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        const s = await fetch('/api/stats').then((r) => r.json());
+        setStats(s);
+      } catch (e) {}
+    })();
+  }, []);
+
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 space-y-8 relative">
       <DecorativeSVG className="absolute right-8 top-6 opacity-40" />
