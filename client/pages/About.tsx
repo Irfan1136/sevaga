@@ -103,7 +103,7 @@ export default function About() {
           <h3 className="font-semibold">Stats (Demo)</h3>
           <div className="mt-4 grid grid-cols-3 gap-4 text-center">
             <div>
-              <div className="text-2xl font-extrabold text-primary">—</div>
+              <div className="text-2xl font-extrabold text-primary">{stats?.donors ?? '—'}</div>
               <div className="text-sm text-muted-foreground">Donors</div>
             </div>
             <div>
