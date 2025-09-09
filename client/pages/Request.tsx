@@ -63,6 +63,7 @@ export default function RequestPage() {
 
   // SSE feed of new requests
   const [feed, setFeed] = useState<any[]>([]);
+  const [responded, setResponded] = useState<string[]>([]);
   const esRef = useRef<EventSource | null>(null);
   useEffect(() => {
     // load existing needs
