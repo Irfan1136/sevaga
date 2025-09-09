@@ -27,6 +27,7 @@ const BLOOD_GROUPS: BloodGroup[] = [
   "AB-",
   "O+",
   "O-",
+  "Other",
 ];
 
 export default function Index() {
@@ -315,6 +316,7 @@ export default function Index() {
                     {g}
                   </SelectItem>
                 ))}
+                <SelectItem key="any" value="">Any</SelectItem>
               </SelectContent>
             </Select>
             <Select onValueChange={setCity}>
