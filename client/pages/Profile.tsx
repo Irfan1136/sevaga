@@ -108,17 +108,26 @@ export default class Profile extends React.Component<{}, State> {
             localStorage.removeItem("sevagan_token");
           } catch {}
           console.warn("Not authorized when saving profile");
+          toast.error('Not authorized');
           this.setState({ saving: false });
           return;
         }
-        throw new Error(await res.text());
+        const txt = await res.text().catch(() => 'Failed');
+        toast.error(txt || 'Failed to save profile');
+        throw new Error(txt || 'Failed to save profile');
       }
       const data = await res.json();
-      this.setState({ account: data.account } as any);
-      if (data.account.avatarBase64)
-        this.setState({ avatar: data.account.avatarBase64 } as any);
-    } catch (err) {
+      if (data.account) {
+        this.setState({ account: data.account } as any);
+        if (data.account.avatarBase64) this.setState({ avatar: data.account.avatarBase64 } as any);
+        toast.success('Profile updated');
+      }
+      if (data.donor) {
+        this.setState({ donor: data.donor } as any);
+      }
+    } catch (err: any) {
       console.error(err);
+      if (!err?.message) toast.error('Failed to save profile');
     } finally {
       this.setState({
         saving: false,
