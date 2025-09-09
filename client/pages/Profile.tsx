@@ -108,26 +108,27 @@ export default class Profile extends React.Component<{}, State> {
             localStorage.removeItem("sevagan_token");
           } catch {}
           console.warn("Not authorized when saving profile");
-          toast.error('Not authorized');
+          toast.error("Not authorized");
           this.setState({ saving: false });
           return;
         }
-        const txt = await res.text().catch(() => 'Failed');
-        toast.error(txt || 'Failed to save profile');
-        throw new Error(txt || 'Failed to save profile');
+        const txt = await res.text().catch(() => "Failed");
+        toast.error(txt || "Failed to save profile");
+        throw new Error(txt || "Failed to save profile");
       }
       const data = await res.json();
       if (data.account) {
         this.setState({ account: data.account } as any);
-        if (data.account.avatarBase64) this.setState({ avatar: data.account.avatarBase64 } as any);
-        toast.success('Profile updated');
+        if (data.account.avatarBase64)
+          this.setState({ avatar: data.account.avatarBase64 } as any);
+        toast.success("Profile updated");
       }
       if (data.donor) {
         this.setState({ donor: data.donor } as any);
       }
     } catch (err: any) {
       console.error(err);
-      if (!err?.message) toast.error('Failed to save profile');
+      if (!err?.message) toast.error("Failed to save profile");
     } finally {
       this.setState({
         saving: false,
@@ -142,7 +143,7 @@ export default class Profile extends React.Component<{}, State> {
     if (!file) return;
     // limit to 2MB
     if (file.size > 2 * 1024 * 1024) {
-      toast.error('Image too large (max 2MB)');
+      toast.error("Image too large (max 2MB)");
       return;
     }
     const reader = new FileReader();
@@ -152,13 +153,13 @@ export default class Profile extends React.Component<{}, State> {
         this.setState({ avatar: b64 } as any);
         await this.saveProfile({ avatarBase64: b64 });
       } catch (err) {
-        console.error('Failed to process avatar', err);
-        toast.error('Failed to upload image');
+        console.error("Failed to process avatar", err);
+        toast.error("Failed to upload image");
       }
     };
     reader.onerror = (e) => {
-      console.error('FileReader error', e);
-      toast.error('Failed to read file');
+      console.error("FileReader error", e);
+      toast.error("Failed to read file");
     };
     reader.readAsDataURL(file);
   };
@@ -181,10 +182,20 @@ export default class Profile extends React.Component<{}, State> {
           <DecorativeSVG className="absolute left-4 top-4 opacity-30" />
           <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
           <div role="alert" className="rounded border bg-card p-6">
-            <p className="mb-4">You are not logged in. Please log in to view and edit your profile.</p>
+            <p className="mb-4">
+              You are not logged in. Please log in to view and edit your
+              profile.
+            </p>
             <div className="flex gap-2">
-              <a href="/login" className="px-3 py-1 bg-primary text-white rounded">Login</a>
-              <a href="/" className="px-3 py-1 border rounded">Go Home</a>
+              <a
+                href="/login"
+                className="px-3 py-1 bg-primary text-white rounded"
+              >
+                Login
+              </a>
+              <a href="/" className="px-3 py-1 border rounded">
+                Go Home
+              </a>
             </div>
           </div>
         </div>
