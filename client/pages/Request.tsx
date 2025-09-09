@@ -152,58 +152,74 @@ export default function RequestPage() {
       <div>
         <h2 className="text-xl font-semibold mb-4">Live Requests</h2>
         <div className="space-y-3 max-h-[600px] overflow-auto pr-2">
-          {feed.map((r, i) => (
-            <div key={r.id || i} className="rounded-lg border p-4 bg-card">
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="font-semibold">
-                    <span className="text-primary">{r.bloodGroup}</span> needed in {r.city} ({r.pincode || "—"})
+          {feed.map((r, i) => {
+            const now = Date.now();
+            const needed = new Date(r.neededAtISO).getTime();
+            const diffSec = (needed - now) / 1000;
+            let tag = '';
+            if (diffSec <= 3600) tag = 'Within 1 hour';
+            else if (diffSec <= 2 * 3600) tag = 'Urgent';
+            else {
+              const nd = new Date(needed);
+              const today = new Date();
+              if (nd.getFullYear() === today.getFullYear() && nd.getMonth() === today.getMonth() && nd.getDate() === today.getDate()) tag = 'Today';
+              else tag = nd.toLocaleString();
+            }
+            const s = Math.floor((Date.now() - (r.createdAt || Date.now())) / 1000);
+            const timeAgo = s < 60 ? `${s}s ago` : s < 3600 ? `${Math.floor(s/60)}m ago` : s < 86400 ? `${Math.floor(s/3600)}h ago` : new Date(r.createdAt).toLocaleString();
+            return (
+              <div key={r.id || i} className="rounded-lg border p-4 bg-card">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <div className="font-semibold"><span className="text-primary">{r.bloodGroup}</span> needed in {r.city} ({r.pincode || '—'})</div>
+                      <div className="text-xs px-2 py-0.5 rounded bg-red-100 text-red-700">{tag}</div>
+                    </div>
+                    <div className="text-xs text-muted-foreground">Need time: {new Date(r.neededAtISO).toLocaleString()}</div>
+                    <div className="text-xs text-muted-foreground mt-1">Requested by: <span className="font-medium">{r.requesterName || r.requesterAccountId || '—'}</span> · <span className="text-[11px]">{timeAgo}</span></div>
                   </div>
-                  <div className="text-xs text-muted-foreground">
-                    Need time: {new Date(r.neededAtISO).toLocaleString()}
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <button
-                    className="text-sm px-3 py-1 rounded bg-red-600 text-white"
-                    onClick={async () => {
-                      const url = `${location.origin}/requests/${r.id}`;
-                      if ((navigator as any).share) {
-                        try {
-                          await (navigator as any).share({ title: 'Blood request', text: `${r.bloodGroup} needed in ${r.city}`, url });
-                          toast.success('Request shared');
-                          return;
-                        } catch (e) {
-                          // fallthrough to copy
+                  <div className="flex items-center space-x-2">
+                    <button
+                      className="text-sm px-3 py-1 rounded bg-red-600 text-white"
+                      onClick={async () => {
+                        const url = `${location.origin}/requests/${r.id}`;
+                        if ((navigator as any).share) {
+                          try {
+                            await (navigator as any).share({ title: 'Blood request', text: `${r.bloodGroup} needed in ${r.city}`, url });
+                            toast.success('Request shared');
+                            return;
+                          } catch (e) {
+                            // fallthrough to copy
+                          }
                         }
-                      }
-                      try {
-                        await navigator.clipboard.writeText(url);
-                        toast.success('Request link copied');
-                      } catch (e) {
-                        toast.error('Failed to copy link');
-                      }
-                    }}
-                  >
-                    Share
-                  </button>
-                  <button
-                    className="text-sm px-3 py-1 rounded border"
-                    disabled={responded.includes(r.id)}
-                    onClick={() => {
-                      setSelectedNeed(r);
-                      setContactInput('');
-                      setDialogMode('donate');
-                      setDialogOpen(true);
-                    }}
-                  >
-                    {responded.includes(r.id) ? 'Responded' : 'Donate'}
-                  </button>
+                        try {
+                          await navigator.clipboard.writeText(url);
+                          toast.success('Request link copied');
+                        } catch (e) {
+                          toast.error('Failed to copy link');
+                        }
+                      }}
+                    >
+                      Share
+                    </button>
+                    <button
+                      className="text-sm px-3 py-1 rounded border"
+                      disabled={responded.includes(r.id)}
+                      onClick={() => {
+                        setSelectedNeed(r);
+                        setContactInput('');
+                        setDialogMode('donate');
+                        setDialogOpen(true);
+                      }}
+                    >
+                      {responded.includes(r.id) ? 'Responded' : 'Donate'}
+                    </button>
+                  </div>
                 </div>
+                {r.notes && <div className="mt-2 text-sm">{r.notes}</div>}
               </div>
-              {r.notes && <div className="mt-2 text-sm">{r.notes}</div>}
-            </div>
-          ))}
+            );
+          })}
           {feed.length === 0 && (
             <div className="text-sm text-muted-foreground">
               Waiting for requests...
