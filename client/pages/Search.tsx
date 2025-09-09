@@ -83,8 +83,11 @@ export default function SearchPage() {
           onChange={(e) => setPincode(e.target.value)}
           className="md:col-span-1"
         />
-        <Button onClick={submit} className="md:col-span-1">
+        <Button onClick={() => submit()} className="md:col-span-1 bg-primary text-primary-foreground">
           <Search className="mr-2" /> {loading ? "Searching..." : "Search"}
+        </Button>
+        <Button onClick={() => { setBg(undefined); setCity(""); setPincode(""); submit({ all: true }); }} className="md:col-span-1 bg-primary text-primary-foreground">
+          Show All
         </Button>
       </div>
 
