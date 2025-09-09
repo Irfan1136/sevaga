@@ -135,4 +135,10 @@ export const TAMIL_NADU_CITIES: string[] = [
   "Ariyalur",
   "Krishnagiri",
   "Ramanathapuram",
+  "Theni",
+  "Mayiladuthurai",
+  "Thiruvarur",
+  "Viluppuram",
+  "Nilgiris",
+  "Kanyakumari",
 ];
