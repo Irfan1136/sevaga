@@ -183,25 +183,24 @@ export default function RequestPage() {
                   </button>
                   <button
                     className="text-sm px-3 py-1 rounded border"
+                    disabled={responded.includes(r.id)}
                     onClick={async () => {
                       // ask user for a contact number or email to share with requester
                       const contact = window.prompt('Enter your mobile number or email to share with requester so they can contact you');
                       if (!contact) {
-                        // eslint-disable-next-line no-void
-                        void Promise.resolve();
+                        toast.error('Contact required to share');
                         return;
                       }
                       try {
                         await Api.needs.respond({ needId: r.id, contact, message: 'I can donate' });
-                        // eslint-disable-next-line no-void
-                        void Promise.resolve();
+                        setResponded((s) => [...s, r.id]);
+                        toast.success('Response sent. Requester will be notified.');
                       } catch (err) {
-                        // eslint-disable-next-line no-void
-                        void Promise.resolve();
+                        toast.error('Failed to send response');
                       }
                     }}
                   >
-                    Donate
+                    {responded.includes(r.id) ? 'Responded' : 'Donate'}
                   </button>
                 </div>
               </div>
