@@ -21,10 +21,23 @@ export default function Profile() {
     const fetchMe = async () => {
       try {
         const token = localStorage.getItem("sevagan_token");
-        const res = await fetch("/api/me", {
+        const res = await fetch(new URL("/api/me", window.location.href).toString(), {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
-        if (!res.ok) throw new Error("Not authorized");
+        if (!res.ok) {
+          // Clear invalid token and redirect to login
+          if (res.status === 401) {
+            try {
+              localStorage.removeItem("sevagan_token");
+            } catch {}
+            console.warn("Not authorized — redirecting to login");
+            setAccount(null);
+            setDonor(null);
+            return;
+          }
+          const txt = await res.text().catch(() => "");
+          throw new Error(txt || `Failed to fetch /api/me (${res.status})`);
+        }
         const data = await res.json();
         setAccount(data.account);
         setDonor(data.donor || null);
