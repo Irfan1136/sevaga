@@ -46,6 +46,14 @@ export default function RequestPage() {
     if (!form.bloodGroup || !form.city || !form.neededAtISO) return;
     setLoading(true);
     try {
+      // attach requester info if available
+      try {
+        const me = await Api.auth.me();
+        if (me && me.account) {
+          (form as any).requesterAccountId = me.account.id;
+          (form as any).requesterName = me.account.name;
+        }
+      } catch {}
       await Api.needs.create(form as any);
       toast.success("Request posted. Donors will be notified.");
       setForm({
