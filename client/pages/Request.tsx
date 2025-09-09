@@ -65,6 +65,14 @@ export default function RequestPage() {
   const [feed, setFeed] = useState<any[]>([]);
   const esRef = useRef<EventSource | null>(null);
   useEffect(() => {
+    // load existing needs
+    let mounted = true;
+    Api.needs.list()
+      .then((list) => {
+        if (!mounted) return;
+        setFeed(list.slice(0, 20));
+      })
+      .catch(() => {});
     const es = new EventSource(Api.needs.streamUrl);
     esRef.current = es;
     es.onmessage = (ev) => {
@@ -73,7 +81,10 @@ export default function RequestPage() {
         setFeed((f) => [data, ...f].slice(0, 20));
       } catch {}
     };
-    return () => es.close();
+    return () => {
+      mounted = false;
+      es.close();
+    };
   }, []);
 
   return (
