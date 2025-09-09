@@ -44,31 +44,66 @@ export default function RequestPage() {
     bloodGroup: undefined as BloodGroup | undefined,
     city: "",
     pincode: "",
-    neededAtISO: "",
+    date: "",
+    timeOption: "within_1_hour",
     notes: "",
   });
   const [loading, setLoading] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.bloodGroup || !form.city || !form.neededAtISO) return;
+    if (!form.bloodGroup || !form.city || !form.date) return;
     setLoading(true);
     try {
+      // compute neededAtISO based on date and timeOption
+      const selectedDate = new Date(form.date + "T00:00:00");
+      const today = new Date();
+      let baseTime = selectedDate;
+      // if date is today, baseTime = now
+      if (
+        selectedDate.getFullYear() === today.getFullYear() &&
+        selectedDate.getMonth() === today.getMonth() &&
+        selectedDate.getDate() === today.getDate()
+      ) {
+        baseTime = new Date();
+      } else {
+        // set to 9 AM of selected date
+        baseTime = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 9, 0, 0);
+      }
+      const opt = form.timeOption;
+      let offsetMs = 0;
+      if (opt === 'emergency') offsetMs = 15 * 60 * 1000; // 15 min
+      else if (opt === 'within_1_hour') offsetMs = 60 * 60 * 1000;
+      else if (opt === 'within_5_hours') offsetMs = 5 * 60 * 60 * 1000;
+      else if (opt === 'today') offsetMs = 12 * 60 * 60 * 1000; // midday
+
+      const neededAtISO = new Date(baseTime.getTime() + offsetMs).toISOString();
+
+      const payload: any = {
+        bloodGroup: form.bloodGroup,
+        city: form.city,
+        pincode: form.pincode,
+        neededAtISO,
+        notes: form.notes,
+      };
+
       // attach requester info if available
       try {
         const me = await Api.auth.me();
         if (me && me.account) {
-          (form as any).requesterAccountId = me.account.id;
-          (form as any).requesterName = me.account.name;
+          payload.requesterAccountId = me.account.id;
+          payload.requesterName = me.account.name;
         }
       } catch {}
-      await Api.needs.create(form as any);
+
+      await Api.needs.create(payload as any);
       toast.success("Request posted. Donors will be notified.");
       setForm({
         bloodGroup: undefined,
         city: "",
         pincode: "",
-        neededAtISO: "",
+        date: "",
+        timeOption: 'within_1_hour',
         notes: "",
       });
     } catch (e: any) {
