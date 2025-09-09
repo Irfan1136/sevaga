@@ -107,7 +107,7 @@ export default function About() {
               <div className="text-sm text-muted-foreground">Donors</div>
             </div>
             <div>
-              <div className="text-2xl font-extrabold text-primary">—</div>
+              <div className="text-2xl font-extrabold text-primary">{stats?.requestsToday ?? '—'}</div>
               <div className="text-sm text-muted-foreground">Requests</div>
             </div>
             <div>
