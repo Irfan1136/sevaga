@@ -8,6 +8,16 @@ export default function Profile() {
   const [donor, setDonor] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // UI state hooks must be declared unconditionally at top to follow Rules of Hooks
+  const [editingName, setEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState<string>("");
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [editMobile, setEditMobile] = useState(false);
+  const [mobileInput, setMobileInput] = useState<string>("");
+  const [editEmail, setEditEmail] = useState(false);
+  const [emailInput, setEmailInput] = useState<string>("");
+
   useEffect(() => {
     // If token provided via ?token=..., save to localStorage for preview screenshots
     try {
