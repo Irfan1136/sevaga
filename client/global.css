@@ -162,6 +162,16 @@
     opacity: 0.08;
   }
 
+  .recent-card-heart {
+    position: absolute;
+    right: -20px;
+    bottom: -10px;
+    width: 120px;
+    height: 80px;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+
   /* Make primary buttons more prominent */
   .btn-raise,
   .bg-primary {
