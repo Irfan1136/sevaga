@@ -17,6 +17,7 @@ import About from "./pages/About";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Verify from "./pages/Verify";
 import Admin from "./pages/Admin";
 import { initTheme } from "@/lib/theme";
