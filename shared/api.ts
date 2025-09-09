@@ -10,7 +10,8 @@ export type BloodGroup =
   | "AB+"
   | "AB-"
   | "O+"
-  | "O-";
+  | "O-"
+  | "Other";
 
 export type Gender = "male" | "female" | "other";
 export type AccountType = "individual" | "hospital" | "ngo";
