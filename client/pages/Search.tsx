@@ -30,19 +30,24 @@ export default function SearchPage() {
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const submit = async () => {
+  const submit = async (opts?: { all?: boolean }) => {
     setLoading(true);
     try {
       const data = await Api.donors.search({
-        bloodGroup: bg,
-        city: city || undefined,
-        pincode: pincode || undefined,
+        bloodGroup: opts?.all ? undefined : bg,
+        city: opts?.all ? undefined : city || undefined,
+        pincode: opts?.all ? undefined : pincode || undefined,
       });
       setResults(data.results);
     } finally {
       setLoading(false);
     }
   };
+
+  // load all donors on first render
+  useEffect(() => {
+    submit({ all: true });
+  }, []);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
