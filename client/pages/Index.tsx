@@ -60,8 +60,12 @@ export default function Index() {
   };
 
   const notifyDonor = async (d: any) => {
+    // robust notify with timeout and clear errors
+    const url = new URL("/api/notify", window.location.href).toString();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
     try {
-      await fetch("/api/notify", {
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -69,11 +73,25 @@ export default function Index() {
           donorId: d.id,
           message: `There is a blood request matching your profile. Please check SEVAGAN.`,
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        console.error("Notify failed:", res.status, txt);
+        toast.error(`Failed to send notification (${res.status})`);
+        return;
+      }
       toast.success("Notification sent (dev)");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to send notification");
+    } catch (err: any) {
+      clearTimeout(timeout);
+      if (err && err.name === "AbortError") {
+        toast.error("Notification timed out");
+      } else {
+        console.error("Notify error:", err);
+        // Surface user-friendly message without throwing
+        toast.error(err?.message || "Failed to send notification");
+      }
     }
   };
 
