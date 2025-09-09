@@ -59,6 +59,7 @@ export interface BloodNeedRequest {
   neededAtISO: string; // ISO timestamp when blood is needed
   notes?: string;
   requesterAccountId?: string;
+  requesterName?: string;
   createdAt: number;
 }
 
