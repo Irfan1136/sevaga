@@ -51,12 +51,8 @@ export default function Index() {
         city: city || undefined,
         pincode: pincode || undefined,
       });
-      // exclude recently featured donors from quick search on home
-      const featuredIds = new Set(featuredDonors.map((d) => d.id));
-      const filtered = (data.results || []).filter(
-        (r: any) => !featuredIds.has(r.id),
-      );
-      setResults(filtered);
+      // show all matching donors (including recently registered)
+      setResults(data.results || []);
     } catch (e) {
       console.error(e);
     } finally {
