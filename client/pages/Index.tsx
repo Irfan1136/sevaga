@@ -175,7 +175,7 @@ export default function Index() {
         refreshHandler as EventListener,
       );
     };
-  }, [registeredCount]);
+  }, []);
 
   return (
     <div className="bg-gradient-to-b from-secondary to-background relative overflow-hidden">
