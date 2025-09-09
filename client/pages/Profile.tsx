@@ -152,7 +152,21 @@ export default class Profile extends React.Component<{}, State> {
       );
     }
 
-    if (!s.account) return null;
+    if (!s.account) {
+      return (
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10 relative">
+          <DecorativeSVG className="absolute left-4 top-4 opacity-30" />
+          <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
+          <div role="alert" className="rounded border bg-card p-6">
+            <p className="mb-4">You are not logged in. Please log in to view and edit your profile.</p>
+            <div className="flex gap-2">
+              <a href="/login" className="px-3 py-1 bg-primary text-white rounded">Login</a>
+              <a href="/" className="px-3 py-1 border rounded">Go Home</a>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10 relative">
