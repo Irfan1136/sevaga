@@ -25,6 +25,7 @@ export function createServer() {
   const donors: any[] = [];
   const needs: any[] = [];
   const otps: Record<string, { code: string; expiresAt: number }> = {};
+  const pendingProfiles: Record<string, any> = {};
   const accounts: any[] = []; // persisted in-memory accounts for dev
   const notifications: any[] = [];
 
@@ -227,6 +228,9 @@ export function createServer() {
     // If profile data provided, save to CSV file (dev / zero-cost persistence)
     try {
       if (profile) {
+        // persist for later retrieval during verify
+        pendingProfiles[key] = profile;
+
         const outDir = path.join(process.cwd(), "data");
         if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
         const identifier = profile.email || profile.mobile || key || "user";
@@ -373,6 +377,16 @@ export function createServer() {
       createdAt: Date.now(),
       verifiedAt: Date.now(),
     };
+    // if a pending profile exists for this key, use its name/email/mobile to populate account
+    const pending = pendingProfiles[key];
+    if (pending) {
+      if (pending.name) account.name = pending.name;
+      if (pending.mobile) account.mobile = pending.mobile;
+      if (pending.email) account.email = pending.email;
+      // once consumed, remove it
+      delete pendingProfiles[key];
+    }
+
     accounts.push(account);
     const token = "dev-token-" + account.id;
     res.json({ token, account });
