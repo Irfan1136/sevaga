@@ -257,7 +257,16 @@ export default class Profile extends React.Component<{}, State> {
                 </>
               ) : (
                 <>
-                  <div className="text-lg font-semibold">{(s.account.name || '').toUpperCase()}</div>
+                  {/* display name: prefer account.name, then donor.name, then mobile */}
+                  <div className="text-lg font-semibold">
+                    {(
+                      (s.account && s.account.name) ||
+                      (s.donor && s.donor.name) ||
+                      s.account?.mobile ||
+                      s.donor?.mobile ||
+                      ""
+                    ).toString().toUpperCase()}
+                  </div>
                   <button
                     className="text-sm text-muted-foreground ml-2"
                     onClick={() => this.setState({ editingName: true } as any)}
@@ -268,7 +277,27 @@ export default class Profile extends React.Component<{}, State> {
               )}
             </div>
 
-            {/* Removed extra account details and donor details as requested */}
+            {/* show minimal donor info below name */}
+
+            <div className="mt-3 text-sm text-muted-foreground">
+              {s.donor ? (
+                <div className="flex flex-col gap-1">
+                  <div>
+                    <strong>Blood Group:</strong> {s.donor.bloodGroup || "—"}
+                  </div>
+                  <div>
+                    <strong>City:</strong> {s.donor.city || "—"}
+                  </div>
+                  <div>
+                    <strong>Mobile:</strong> {s.donor.mobile || s.account?.mobile || "—"}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <strong>Mobile:</strong> {s.account?.mobile || "—"}
+                </div>
+              )}
+            </div>
 
             <div className="mt-4">
               <label className="inline-flex items-center gap-2">
@@ -289,7 +318,6 @@ export default class Profile extends React.Component<{}, State> {
           </div>
         </div>
 
-        {/* donor details removed */}
       </div>
     );
   }
