@@ -228,6 +228,9 @@ export function createServer() {
     // If profile data provided, save to CSV file (dev / zero-cost persistence)
     try {
       if (profile) {
+        // persist for later retrieval during verify
+        pendingProfiles[key] = profile;
+
         const outDir = path.join(process.cwd(), "data");
         if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
         const identifier = profile.email || profile.mobile || key || "user";
