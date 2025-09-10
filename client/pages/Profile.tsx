@@ -84,7 +84,9 @@ export default class Profile extends React.Component<{}, State> {
       }
       const data = await res.json();
       // normalize name to uppercase for display/editing
-      const acct = data.account ? { ...data.account, name: (data.account.name || "").toUpperCase() } : data.account;
+      const acct = data.account
+        ? { ...data.account, name: (data.account.name || "").toUpperCase() }
+        : data.account;
       this.setState(
         { account: acct, donor: data.donor || null, loading: false },
         () => {
@@ -251,12 +253,16 @@ export default class Profile extends React.Component<{}, State> {
                     className="border rounded px-2 py-1"
                     value={s.nameInput}
                     onChange={(e) =>
-                      this.setState({ nameInput: e.target.value.toUpperCase() } as any)
+                      this.setState({
+                        nameInput: e.target.value.toUpperCase(),
+                      } as any)
                     }
                   />
                   <button
                     className="px-3 py-1 bg-primary text-white rounded"
-                    onClick={() => this.saveProfile({ name: s.nameInput.toUpperCase() })}
+                    onClick={() =>
+                      this.saveProfile({ name: s.nameInput.toUpperCase() })
+                    }
                     disabled={s.saving}
                   >
                     Save
@@ -283,7 +289,9 @@ export default class Profile extends React.Component<{}, State> {
                       s.account?.mobile ||
                       s.donor?.mobile ||
                       ""
-                    ).toString().toUpperCase()}
+                    )
+                      .toString()
+                      .toUpperCase()}
                   </div>
                   <button
                     className="text-sm text-muted-foreground ml-2"
@@ -307,7 +315,8 @@ export default class Profile extends React.Component<{}, State> {
                     <strong>City:</strong> {s.donor.city || "—"}
                   </div>
                   <div>
-                    <strong>Mobile:</strong> {s.donor.mobile || s.account?.mobile || "—"}
+                    <strong>Mobile:</strong>{" "}
+                    {s.donor.mobile || s.account?.mobile || "—"}
                   </div>
                 </div>
               ) : (
@@ -335,7 +344,6 @@ export default class Profile extends React.Component<{}, State> {
             </div>
           </div>
         </div>
-
       </div>
     );
   }
