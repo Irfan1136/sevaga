@@ -1,6 +1,7 @@
 import DecorativeSVG from "@/components/sevagan/DecorativeSVG";
 
 import { useEffect, useState } from "react";
+import { TAMIL_NADU_CITIES } from "@shared/api";
 
 export default function About() {
   const [stats, setStats] = useState<{
