@@ -138,16 +138,16 @@ export default function Signup() {
       localStorage.setItem("sevagan_token", res.token);
       // update account name on server so profile shows correct name
       try {
-        await fetch('/api/me', {
-          method: 'POST',
+        await fetch("/api/me", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${res.token}`,
           },
           body: JSON.stringify({ name: profile.name }),
         });
       } catch (err) {
-        console.warn('Failed to update account name:', err);
+        console.warn("Failed to update account name:", err);
       }
 
       // create donor for individual

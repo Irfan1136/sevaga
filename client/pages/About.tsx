@@ -119,7 +119,9 @@ export default function About() {
               <div className="text-sm text-muted-foreground">Requests</div>
             </div>
             <div>
-              <div className="text-2xl font-extrabold text-primary">{TAMIL_NADU_CITIES.length}</div>
+              <div className="text-2xl font-extrabold text-primary">
+                {TAMIL_NADU_CITIES.length}
+              </div>
               <div className="text-sm text-muted-foreground">Cities</div>
             </div>
           </div>

@@ -232,14 +232,15 @@ export default function RequestPage() {
             const now = Date.now();
             const needed = new Date(r.neededAtISO).getTime();
             const diffSec = (needed - now) / 1000;
-            const optionMap: Record<string,string> = {
-              emergency: 'Emergency',
-              within_1_hour: 'Within 1 hour',
-              within_5_hours: 'Within 5 hours',
-              today: 'Today',
+            const optionMap: Record<string, string> = {
+              emergency: "Emergency",
+              within_1_hour: "Within 1 hour",
+              within_5_hours: "Within 5 hours",
+              today: "Today",
             };
-            let tag = '';
-            if (r.timeOption && optionMap[r.timeOption]) tag = optionMap[r.timeOption];
+            let tag = "";
+            if (r.timeOption && optionMap[r.timeOption])
+              tag = optionMap[r.timeOption];
             else if (diffSec <= 3600) tag = "Within 1 hour";
             else if (diffSec <= 2 * 3600) tag = "Urgent";
             else {
@@ -354,11 +355,22 @@ export default function RequestPage() {
           </DialogHeader>
           <div className="mt-4">
             <div className="rounded-md bg-yellow-50 border p-3 text-sm text-muted-foreground mb-3">
-              <strong className="block text-sm text-foreground mb-1">Before you share contact</strong>
+              <strong className="block text-sm text-foreground mb-1">
+                Before you share contact
+              </strong>
               <ul className="list-disc pl-5">
-                <li>Ensure you are eligible to donate and have not consumed alcohol recently.</li>
-                <li>If you are on medications or have medical conditions, consult a doctor first.</li>
-                <li>Bring ID and be ready to confirm your blood group at the donation site.</li>
+                <li>
+                  Ensure you are eligible to donate and have not consumed
+                  alcohol recently.
+                </li>
+                <li>
+                  If you are on medications or have medical conditions, consult
+                  a doctor first.
+                </li>
+                <li>
+                  Bring ID and be ready to confirm your blood group at the
+                  donation site.
+                </li>
               </ul>
             </div>
             <Input
