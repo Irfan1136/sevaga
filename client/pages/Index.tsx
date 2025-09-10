@@ -426,7 +426,7 @@ export default function Index() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-6 md:grid-cols-3">
           <Stat
             label="Registered Donors"
-            value={registeredCount ? String(registeredCount) : "—"}
+            value={registeredCount != null ? String(registeredCount) : "—"}
           />
           <Stat
             label="Requests Today"
