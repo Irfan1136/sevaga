@@ -377,6 +377,16 @@ export function createServer() {
       createdAt: Date.now(),
       verifiedAt: Date.now(),
     };
+    // if a pending profile exists for this key, use its name/email/mobile to populate account
+    const pending = pendingProfiles[key];
+    if (pending) {
+      if (pending.name) account.name = pending.name;
+      if (pending.mobile) account.mobile = pending.mobile;
+      if (pending.email) account.email = pending.email;
+      // once consumed, remove it
+      delete pendingProfiles[key];
+    }
+
     accounts.push(account);
     const token = "dev-token-" + account.id;
     res.json({ token, account });
