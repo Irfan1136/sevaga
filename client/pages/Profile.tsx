@@ -74,9 +74,21 @@ export default class Profile extends React.Component<{}, State> {
 
               // Build donor-like object when signup contained donor/profile fields
               let donor: any = null;
-              const hasDonorFields = p && (p.bloodGroup || p.city || p.pincode || p.gender || p.dob || p.mobile);
+              const hasDonorFields =
+                p &&
+                (p.bloodGroup ||
+                  p.city ||
+                  p.pincode ||
+                  p.gender ||
+                  p.dob ||
+                  p.mobile);
               if (hasDonorFields) {
-                const age = p.dob ? Math.max(0, new Date().getFullYear() - new Date(p.dob).getFullYear()) : undefined;
+                const age = p.dob
+                  ? Math.max(
+                      0,
+                      new Date().getFullYear() - new Date(p.dob).getFullYear(),
+                    )
+                  : undefined;
                 donor = {
                   id: "pending-donor",
                   name: (p.name || "").toUpperCase(),
