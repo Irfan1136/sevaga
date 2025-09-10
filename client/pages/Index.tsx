@@ -47,8 +47,9 @@ export default function Index() {
     if (!canSearch) return;
     setLoading(true);
     try {
+      const bgParam = (bg as unknown as string) === 'ANY' ? undefined : (bg as any);
       const data = await Api.donors.search({
-        bloodGroup: bg,
+        bloodGroup: bgParam,
         city: city || undefined,
         pincode: pincode || undefined,
       });
