@@ -62,12 +62,34 @@ export default class Profile extends React.Component<{}, State> {
             const pending = localStorage.getItem("sevagan_signup_pending");
             if (pending) {
               const p = JSON.parse(pending || "{}");
+              // Build a temporary account object from pending signup so profile shows full details
               const acct: any = {
+                id: "pending",
+                type: p.type || "individual",
                 name: (p.name || p.mobile || p.email || "").toUpperCase(),
                 mobile: p.mobile,
                 email: p.email,
+                avatarBase64: p.avatarBase64 || null,
               };
-              const donor: any = p && p.bloodGroup ? { ...p } : null;
+
+              // Build donor-like object when signup contained donor/profile fields
+              let donor: any = null;
+              const hasDonorFields = p && (p.bloodGroup || p.city || p.pincode || p.gender || p.dob || p.mobile);
+              if (hasDonorFields) {
+                const age = p.dob ? Math.max(0, new Date().getFullYear() - new Date(p.dob).getFullYear()) : undefined;
+                donor = {
+                  id: "pending-donor",
+                  name: (p.name || "").toUpperCase(),
+                  age,
+                  gender: p.gender || undefined,
+                  bloodGroup: p.bloodGroup || undefined,
+                  city: p.city ? String(p.city).toUpperCase() : undefined,
+                  pincode: p.pincode || undefined,
+                  mobile: p.mobile || undefined,
+                  accountId: acct.id,
+                };
+              }
+
               this.setState({ account: acct, donor, loading: false });
               return;
             }
