@@ -25,6 +25,7 @@ export function createServer() {
   const donors: any[] = [];
   const needs: any[] = [];
   const otps: Record<string, { code: string; expiresAt: number }> = {};
+  const pendingProfiles: Record<string, any> = {};
   const accounts: any[] = []; // persisted in-memory accounts for dev
   const notifications: any[] = [];
 
