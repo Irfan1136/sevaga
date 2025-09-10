@@ -394,6 +394,23 @@ export default function Index() {
 
       {/* Removed About SEVAGAN section as requested */}
 
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <div className="rounded-lg border bg-card p-6">
+          <h3 className="text-lg font-semibold mb-2">Before You Donate — Things to Avoid</h3>
+          <p className="text-sm text-muted-foreground mb-3">
+            To ensure your safety and the safety of the recipient, please avoid the following before donating blood:
+          </p>
+          <ul className="list-disc pl-5 text-sm space-y-1">
+            <li>Avoid alcohol for 24 hours before donation.</li>
+            <li>Do not smoke at least 1 hour before donating.</li>
+            <li>Avoid heavy exercise on the day of donation.</li>
+            <li>Do not donate if you have a fever, infection, or recent vaccination (ask your doctor).</li>
+            <li>Avoid aspirin or NSAIDs within 48 hours if possible (ask a clinician).</li>
+            <li>Don't skip meals — eat a balanced meal and stay hydrated.</li>
+          </ul>
+        </div>
+      </section>
+
       <section className="bg-secondary/50 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-6 md:grid-cols-3">
           <Stat
