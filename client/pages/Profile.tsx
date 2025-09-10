@@ -57,6 +57,24 @@ export default class Profile extends React.Component<{}, State> {
           try {
             localStorage.removeItem("sevagan_token");
           } catch {}
+          // If we have a pending signup stored locally, show it immediately
+          try {
+            const pending = localStorage.getItem("sevagan_signup_pending");
+            if (pending) {
+              const p = JSON.parse(pending || "{}");
+              const acct: any = {
+                name: (p.name || p.mobile || p.email || "").toUpperCase(),
+                mobile: p.mobile,
+                email: p.email,
+              };
+              const donor: any = p && p.bloodGroup ? { ...p } : null;
+              this.setState({ account: acct, donor, loading: false });
+              return;
+            }
+          } catch (err) {
+            console.warn("Failed to parse pending signup", err);
+          }
+
           console.warn("Not authorized — redirecting to login");
           this.setState({ account: null, donor: null, loading: false });
           return;
