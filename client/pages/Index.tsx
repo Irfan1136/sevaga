@@ -398,25 +398,24 @@ export default function Index() {
       {/* Removed About SEVAGAN section as requested */}
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div className="rounded-lg border bg-card p-6">
-          <h3 className="text-lg font-semibold mb-2">
-            Before You Donate — Things to Avoid
-          </h3>
-          <p className="text-sm text-muted-foreground mb-3">
-            To ensure your safety and the safety of the recipient, please avoid
-            the following before donating blood:
-          </p>
-          <ul className="list-disc pl-5 text-sm space-y-1">
+        <div style={{ backgroundColor: "rgb(23, 23, 23)", borderColor: "rgb(46, 46, 46)", borderRadius: "8px", borderWidth: "0.8px", fontWeight: "400", padding: "24px" }}>
+          <div style={{ fontSize: "18px", fontWeight: "600", lineHeight: "28px", marginBottom: "8px" }}>
+            <span style={{ color: "rgb(200, 22, 67)" }}>
+              Before You Donate — Things to Avoid
+            </span>
+          </div>
+          <div style={{ color: "rgb(179, 179, 179)", fontSize: "14px", fontWeight: "400", lineHeight: "20px", marginBottom: "12px" }}>
+            To ensure your safety and the safety of the recipient, please avoid the following before donating blood:
+          </div>
+          <ul style={{ fontSize: "14px", fontWeight: "400", lineHeight: "20px", paddingLeft: "20px" }}>
             <li>Avoid alcohol for 24 hours before donation.</li>
             <li>Do not smoke at least 1 hour before donating.</li>
             <li>Avoid heavy exercise on the day of donation.</li>
             <li>
-              Do not donate if you have a fever, infection, or recent
-              vaccination (ask your doctor).
+              Do not donate if you have a fever, infection, or recent vaccination (ask your doctor).
             </li>
             <li>
-              Avoid aspirin or NSAIDs within 48 hours if possible (ask a
-              clinician).
+              Avoid aspirin or NSAIDs within 48 hours if possible (ask a clinician).
             </li>
             <li>Don't skip meals — eat a balanced meal and stay hydrated.</li>
           </ul>
