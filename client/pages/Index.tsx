@@ -316,7 +316,7 @@ export default function Index() {
                     {g}
                   </SelectItem>
                 ))}
-                <SelectItem key="any" value="">Any</SelectItem>
+                <SelectItem key="any" value="any">Any</SelectItem>
               </SelectContent>
             </Select>
             <Select onValueChange={setCity}>
