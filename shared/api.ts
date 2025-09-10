@@ -141,4 +141,6 @@ export const TAMIL_NADU_CITIES: string[] = [
   "Viluppuram",
   "Nilgiris",
   "Kanyakumari",
+  "Kallakurichi",
+  "Tenkasi",
 ];
